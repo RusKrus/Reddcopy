@@ -1,0 +1,119 @@
+.loadingPostContainer{
+    width: 100%;
+    height: 20rem;
+    margin: .5rem auto;
+    border: 1px solid rgb(150, 147, 147);
+    display: flex;
+    border-radius:  8px;
+    align-content: first baseline;
+    flex-wrap: wrap;
+    background-color:white;
+}
+
+.loadingPostDataContainer{
+    width: 92%;
+    height:100%;
+    padding: 1rem 0.5rem;
+    box-sizing: border-box;
+    
+}
+
+
+
+.loadingPostInfoContainer{
+    display: flex;
+    flex-wrap: wrap;
+    height:45%;
+    
+}
+
+
+.skeletonContainerAbout{
+    width:100%;
+    display: flex;
+    align-items:center;
+
+}
+
+.skeletonContainerPhoto{
+    flex:.8
+}
+
+.skeletonContainerName{
+    flex:7.5;
+}
+
+.skeletonContainerTime{
+    flex:1.5;
+    text-align:right;
+}
+
+.hr{
+    width:100%;
+    border: 1px solid rgb(221, 218, 218);
+    margin:.5rem 0;
+    height:0;
+    
+}
+
+.skeletonContainerTitle{
+    flex:.5;
+    margin: 1rem 0;
+    
+}
+
+.skeletonContainerMedia{
+    flex:1;
+}
+
+
+
+.loadingActionContainer{
+    display: flex;
+    box-sizing: border-box;
+    height:100%;
+    flex-wrap:wrap;
+    align-content: space-between;
+    width:8%;
+    padding: 1rem 0;
+    box-shadow: inset -6px 0px 4px -5px rgb(145, 143, 143);
+    justify-content: center;
+}
+
+.likesContainer{
+    width:60%;
+}
+
+.likeBtn{
+    width:100%;
+    height:auto;
+    
+}
+
+.likeBtn:hover{
+    cursor: pointer;
+    color: green;
+    background-color: rgb(235, 234, 234);
+}
+
+
+.dislikeBtn{
+    width:100%;
+    height:auto;
+}
+
+
+.dislikeBtn:hover{
+    cursor: pointer;
+    color: red;
+    background-color: rgb(235, 234, 234);
+}
+
+.commentsContainer{
+    width:60%;
+}
+
+.commentsButton{
+    width:100%;
+    
+}

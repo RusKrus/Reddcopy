@@ -1,0 +1,263 @@
+
+
+/*container's style*/
+
+
+.postContainer{
+    width: 100%;
+    background-color:white;
+    margin: .5rem auto;
+    border: 1px solid rgb(150, 147, 147); 
+    display: flex;
+    border-radius: 8px;
+    align-content:first baseline;
+    flex-wrap: wrap;
+}
+
+.postContainer:hover{
+    cursor: pointer;
+    border: 1px solid black;
+}
+
+.check{
+    color: green;
+}
+
+
+
+.postDataContainer{
+    display: flex;
+    width:92%;
+    padding: 1rem 0 1rem 0;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-content:first baseline;
+    
+}
+
+
+
+
+
+
+
+
+/*action container*/
+
+
+.actionContainer{
+    display: flex;
+    flex-wrap:wrap;
+    align-content: space-between;
+    width:8%;
+    
+    padding: 1rem 0;
+    box-shadow: inset -6px 0px 4px -5px rgb(145, 143, 143);
+    justify-content: center;
+  
+}
+
+.likeBtn{
+    width:100%;
+    height:auto;
+    
+}
+
+.likeBtn:hover{
+    cursor: pointer;
+    color: green;
+    background-color: rgb(235, 234, 234);
+}
+
+.clickedLikeBtn{
+    width:100%;
+    height:auto;
+    color:green;
+    
+    
+}
+
+.clickedLikeBtn:hover{
+    cursor: pointer;
+}
+
+.dislikeBtn{
+    width:100%;
+    height:auto;
+}
+
+.clickedDislikeBtn{
+    width:100%;
+    height:auto;
+    color:red;
+}
+
+.clickedDislikeBtn:hover{
+    cursor: pointer;
+}
+
+.dislikeBtn:hover{
+    cursor: pointer;
+    color: red;
+    background-color: rgb(235, 234, 234);
+}
+
+.likesCounter{
+    display: inline-block;
+    font-weight: 700;
+    margin: 0.3rem 0 0.3rem 0;
+    width:100%;
+    font-size: .75rem;
+}
+
+.likesContainer{
+    width:60%;
+    text-align: center;
+}
+
+.commentsContainer{
+    width:60%;
+    text-align: center;
+}
+
+.commentsButton{
+    width:100%;
+    
+}
+
+.commentsCounter{
+    display: inline-block;
+    font-weight: 600;
+    width:100%;
+    font-size: .75rem;
+    color:rgb(58, 57, 57)
+}
+
+
+/*about post data*/
+.postInfoContainer{
+    display:flex;
+    flex-wrap:wrap;
+    padding: 0 .5rem 0 .5rem;
+    width: 100%;
+}
+
+
+
+.subredditPhoto{
+    width:8%;
+    height:auto;
+    border-radius: 50%;
+    margin-right: 0.3rem;
+    cursor: pointer;
+    
+}
+
+
+.postData{
+    display: flex;
+    width:100%;
+    margin: 0;
+    align-items: center;
+    
+}
+
+.postCredits{
+    vertical-align:middle;
+    text-align: left;
+    font-style: italic;
+    font-size: 0.8rem;
+    width:77%;
+    margin: 0;
+}
+
+.subredditName{
+    font-weight:bold;
+    font-size:.9rem;
+    font-style: normal;
+
+}
+
+.subredditName:hover{
+    text-decoration:underline;
+    cursor: pointer;
+}
+
+.userName:hover{
+    text-decoration:underline;
+    cursor: pointer;
+}
+
+
+.timeAgo{
+    width:15%;
+    text-align: right;
+    margin: 0;
+    font-size: 0.8rem;
+    vertical-align:middle;
+}
+
+
+.hr{
+    width:100%;
+    border: 1px solid rgb(221, 218, 218);
+    margin: 0.5rem 0 0 0;
+}
+
+.title{
+    width: 100%;
+    font-size: 1.3rem;
+    text-align:left;
+}
+
+.postMedia{
+    max-height:512px;
+    max-width:100%;
+    margin: 0 auto;
+    
+}
+
+
+
+/*different media containers*/
+.mediaContainer{
+    width:100%;
+    text-align: center;
+    padding:0 .5rem;
+    box-sizing: border-box;
+}
+
+.mediaContainerForGallery{
+    display:flex;
+    width:100%;
+    padding: .5rem .5rem 0;
+    box-sizing: border-box;
+}
+
+.linkIcon{
+    height: auto;
+    width: 4%;
+}
+
+.selfText{
+    margin: 0;
+    text-align:left;
+
+}
+
+.postLink{
+    color:blue; 
+    font-weight:600;
+    text-decoration: none;
+}
+
+.link{
+    display: inline-block;
+    width:100%;
+    text-align: left;
+    text-decoration: none;
+}
+
+a:hover{
+    text-decoration:underline;
+}

@@ -1,5 +1,61 @@
-.feedContainer{
+
+.feedArea{
+    display:flex;
+    width:35%;
+    flex-wrap:wrap;
+}
+
+.contentFilter{
+    display: flex;
+    width: 100%;
+    justify-content: flex-start;
     background-color: white;
-    width: 38%;
-    height:85%;
+    border-radius: 2px;
+    margin: 1rem 0;
+    height: 3rem;
+    align-items:center;
+    border: 1px solid rgb(150, 147, 147); 
+    
+}
+
+.paramButton{
+    display:flex;
+    font-weight: bold;
+    background-color: white;
+    border: none;
+    cursor: pointer;
+    font-size:1.05rem;
+    width:12%;
+    height:90%;
+    align-items:center;
+    justify-content: center;
+    margin:.5rem;
+}
+
+.paramButton:hover{
+    cursor:pointer;
+    color:blue;
+    background-color:hsla(210, 50%, 50%, .5);
+    border-radius: 20px;
+}
+
+.paramButton:focus{
+    color:blue;
+    background-color:hsla(210, 50%, 50%, .7);
+    border-radius: 20px;
+}
+
+
+.filterIcon{
+    width:35%;
+    min-width:35%;
+    height:auto;
+}
+
+.filterText{    
+    display: inline-block;
+}
+
+.filterTextLarge{
+    font-size:.95rem;
 }

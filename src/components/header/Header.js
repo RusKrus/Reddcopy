@@ -13,7 +13,7 @@ function Header(){
     return (
         <section className={styles.header}>
             <div className={styles.logoContainer}>
-                <img className={styles.logo }src="redditIcon.png"/>
+                <img className={styles.logo} src="redditIcon.png" alt="Site logo"/>
                 <span className={styles.siteName}>Reddcopy</span>
             </div>
             
