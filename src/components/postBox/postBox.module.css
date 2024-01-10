@@ -120,9 +120,19 @@
     text-align: center;
 }
 
+.commentsLink{
+    color: black;
+}
+
 .commentsButton{
     width:100%;
-    
+}
+
+.commentsButton:hover{
+    color: blue;
+    cursor: pointer;
+    background-color: rgb(235, 234, 234);
+
 }
 
 .commentsCounter{

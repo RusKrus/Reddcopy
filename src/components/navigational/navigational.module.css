@@ -1,6 +1,6 @@
 .blank{
     display:flex;
-    background: lightgrey;
+    background: white;
     width:100%;
     flex-wrap:wrap;
     justify-content:center;

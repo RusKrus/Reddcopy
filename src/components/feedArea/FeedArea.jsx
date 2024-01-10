@@ -1,59 +1,58 @@
 import React, {useEffect, useState} from "react";
 import styles from "./feedArea.module.css";
-import PostBox from "../postBox/PostBox.js";
-import LoadingBox from "../postBox/LoadingBox.js";
+import PostBox from "../postBox/PostBox";
+import LoadingBox from "../postBox/LoadingBox";
 import { useSelector, useDispatch } from 'react-redux';
 import {fetchingData, clearPosts} from "../feedArea/feedAreaSlice.js"
-
+import {serverRequests} from "../../redditData/data.js";
 
 
 function FeedArea(){
+
+
 
     const [searchParam, setSearchParam] = useState("top")
     const postsInfo = useSelector(state=>state.feedArea);
     const dispatch = useDispatch();
 
-    const handleHotClick = (event) =>{
+    useEffect(()=>{
+        dispatch(fetchingData(searchParam));
+    }, [dispatch, searchParam])  
+
+    const handleHotClick = () =>{
         const param = "hot"
         if(param!==searchParam){
-            console.log(param)
             dispatch(clearPosts());
             setSearchParam(param);
         }
     } 
 
-    const handleTopClick = (event) =>{
+    const handleTopClick = () =>{
         const param = "top"
         if(param!==searchParam){
-            console.log(param)
             dispatch(clearPosts());
             setSearchParam(param);
         }
     } 
 
-    const handleRisingClick = (event) =>{
+    const handleRisingClick = () =>{
         const param = "rising"
         if(param!==searchParam){
-            console.log(param)
             dispatch(clearPosts());
             setSearchParam(param);
         }
     } 
 
-    const handleNewClick = (event) =>{
+    const handleNewClick = () =>{
         const param = "new"
         if(param!==searchParam){
-            console.log(param)
             dispatch(clearPosts());
             setSearchParam(param);
         }
     } 
     
 
-    useEffect(()=>{
-        
-        dispatch(fetchingData(searchParam));
-    }, [dispatch, searchParam])  
+
    
     
     return (
@@ -105,6 +104,7 @@ function FeedArea(){
                                 isGallery={postInfo.data.is_gallery}
                                 thumbnail={postInfo.data.thumbnail}
                                 galleryInfo={postInfo.data.media_metadata}
+                                id={postInfo.data.id}
                                 key={num}/>
                                 
             })}

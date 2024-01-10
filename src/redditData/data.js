@@ -45,7 +45,6 @@ export const serverRequests={
     },
     
         popularPosts: async function (searchParam="top", after){
-        console.log(searchParam)
         
         try{
             let response;
@@ -71,6 +70,23 @@ export const serverRequests={
         }
     
     },
+    getPostInfo: async function(postId){
+        const url = `https://www.reddit.com/comments/${postId}.json`;
+        try{
+            const response = await fetch(url);
+            if(response.ok){
+                const responseJson = await response.json();
+                return responseJson;
+            }
+            else{
+                console.log("Error occured");
+            }
+        }
+        catch(e){
+            console.log(e)
+        }
+
+    }
 
 
 

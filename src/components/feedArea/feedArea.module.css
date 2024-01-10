@@ -1,7 +1,7 @@
 
 .feedArea{
     display:flex;
-    width:35%;
+    width:45rem;
     flex-wrap:wrap;
 }
 

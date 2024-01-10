@@ -23,7 +23,7 @@ const feedAreaSlice = createSlice({
 
     },
     reducers: {
-        clearPosts(state,value){
+        clearPosts(state, action){
             state.posts = [];
         }
     },
