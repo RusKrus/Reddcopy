@@ -88,23 +88,24 @@ function FeedArea(){
 
             {postsInfo.isLoading&&Array(Math.floor(Math.random()*5+3)).fill(0).map((ceil,num)=><LoadingBox key={num}/>)}
             {postsInfo.posts.map((postInfo, num)=>{
-                return <PostBox subredditName={postInfo.data.subreddit_name_prefixed}
-                                author={postInfo.data.author}
-                                title={postInfo.data.title}
-                                score={postInfo.data.score}
-                                media={postInfo.data.url}
-                                time={postInfo.data.created_utc}
-                                video={postInfo.data.media?.reddit_video?.dash_url}
-                                mediaType={postInfo.data.post_hint}
-                                iconUrlWithSearchParam={postInfo.data.sr_detail.community_icon}
-                                reserverIconUrl={postInfo.data.sr_detail.icon_img}
-                                selfText={postInfo.data.selftext}
-                                numComments={postInfo.data.num_comments}
-                                forbidden={postInfo.data.link_flair_css_class}
-                                isGallery={postInfo.data.is_gallery}
-                                thumbnail={postInfo.data.thumbnail}
-                                galleryInfo={postInfo.data.media_metadata}
-                                id={postInfo.data.id}
+                const postData =  postInfo.data;
+                return <PostBox subredditName={postData.subreddit_name_prefixed}
+                                author={postData.author}
+                                title={postData.title}
+                                score={postData.score}
+                                media={postData.url}
+                                time={postData.created_utc}
+                                video={postData.media?.reddit_video?.dash_url}
+                                mediaType={postData.post_hint}
+                                iconUrlWithSearchParam={postData.sr_detail.community_icon}
+                                reserverIconUrl={postData.sr_detail.icon_img}
+                                selfText={postData.selftext}
+                                numComments={postData.num_comments}
+                                forbidden={postData.link_flair_css_class}
+                                isGallery={postData.is_gallery}
+                                thumbnail={postData.thumbnail}
+                                galleryInfo={postData.media_metadata}
+                                id={postData.id}
                                 key={num}/>
                                 
             })}

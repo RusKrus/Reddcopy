@@ -71,7 +71,7 @@ export const serverRequests={
     
     },
     getPostInfo: async function(postId){
-        const url = `https://www.reddit.com/comments/${postId}.json`;
+        const url = `https://www.reddit.com/comments/${postId}.json?sr_detail=true`;
         try{
             const response = await fetch(url);
             if(response.ok){

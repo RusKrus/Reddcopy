@@ -1,0 +1,9 @@
+.commentBox{
+    text-align:left;
+    border-left:1px solid black;
+    padding:.5rem;
+}
+
+.reply{
+    margin-left:1rem;
+}

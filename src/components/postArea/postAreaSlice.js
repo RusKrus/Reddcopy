@@ -16,32 +16,34 @@ const postAreaSlice = createSlice({
     initialState:{
         postInfo:[],
         postComments:[],
-        isLoading: false,
-        failedToLoad: false
+        isLoaded: false,
+        failedToLoad: false,
+        
     },
     reducers:{
-        clearComments(state, action){
-        state.comments = [];
+        clearPostData(state, action){
+            state.postInfo = [];
+            state.postComments = [];
     }},
     extraReducers: (builder) =>{
         builder
             .addCase(fetchingPostData.pending, (state, action)=>{
-                state.isLoading = true;
+                state.isLoaded = false;
                 state.failedToLoad = false;
             })
             .addCase(fetchingPostData.fulfilled,(state, action)=>{
-                state.isLoading = false;
+                state.isLoaded = true;
                 state.failedToLoad = false;
                 state.postInfo.push(...action.payload[0].data.children)
                 state.postComments.push(...action.payload[1].data.children)
             })
             .addCase(fetchingPostData.rejected, (state, action)=>{
-                state.isLoading = false;
+                state.isLoaded = false;
                 state.failedToLoad = true;
             }) 
     }
 })
 
-export const {clearComments} = postAreaSlice.actions;
+export const {clearPostData} = postAreaSlice.actions;
 
 export default postAreaSlice.reducer;

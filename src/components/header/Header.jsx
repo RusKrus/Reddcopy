@@ -16,7 +16,6 @@ function Header(){
                 <img className={styles.logo} src="redditIcon.png" alt="Site logo"/>
                 <span className={styles.siteName}>Reddcopy</span>
             </div>
-            
             <form className={styles.form}>
                 <input className={styles.input} type="text" name="find" value={userInut} onChange={handleChange} placeholder="Type to search..."></input>
                 <button type="sumbit" className={styles.submitButton} >
