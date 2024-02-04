@@ -1,23 +1,56 @@
-import React, {useEffect, useState} from "react";
+import React, {useEffect, useState, useRef} from "react";
 import styles from "./feedArea.module.css";
 import PostBox from "../postBox/PostBox";
 import LoadingBox from "../postBox/LoadingBox";
+import UpBtn from "../upBtn/UpButton.jsx";
 import { useSelector, useDispatch } from 'react-redux';
 import {fetchingData, clearPosts} from "../feedArea/feedAreaSlice.js"
-import {serverRequests} from "../../redditData/data.js";
+import { v4 as uuidv4 } from 'uuid';
 
 
 function FeedArea(){
 
 
-
-    const [searchParam, setSearchParam] = useState("top")
+    
+    const itemToLoadContent = useRef();
+    //const observerLoader = useRef();
+    const [searchParam, setSearchParam] = useState("top");
     const postsInfo = useSelector(state=>state.feedArea);
     const dispatch = useDispatch();
+    //const after = postsInfo.after;
+    const isLoading = postsInfo.isLoading;
+
 
     useEffect(()=>{
-        dispatch(fetchingData(searchParam));
-    }, [dispatch, searchParam])  
+        if(postsInfo.posts.length===0){
+            dispatch(fetchingData({searchParam:searchParam}));
+        }
+        // eslint-disable-next-line
+    }, [searchParam])  
+
+    
+
+
+    //-----------------------------------------------------------------------
+    /*infinity scroll, not ended (eats a lot of memory)
+
+    const newPostsLoader=(entries)=>{
+        if (entries[0].isIntersecting){
+            dispatch(fetchingData({searchParam: searchParam, after}));
+        };
+    }
+    useEffect(()=>{
+        if(observerLoader.current){
+            observerLoader.current.disconnect();
+        }
+        observerLoader.current = new IntersectionObserver(newPostsLoader);
+        if(itemToLoadContent.current){
+            observerLoader.current.observe(itemToLoadContent.current);
+        }
+    }, [after])*/
+
+    //--------------------------------------------------------------------------
+
 
     const handleHotClick = () =>{
         const param = "hot"
@@ -56,7 +89,7 @@ function FeedArea(){
    
     
     return (
-        <div className={styles.feedArea}>
+        <main className={styles.feedArea}>
             <div className={styles.contentFilter}>
                 <button className={styles.paramButton} onClick={handleTopClick}  >
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className={styles.filterIcon}>
@@ -86,7 +119,7 @@ function FeedArea(){
                 </button>
             </div>
 
-            {postsInfo.isLoading&&Array(Math.floor(Math.random()*5+3)).fill(0).map((ceil,num)=><LoadingBox key={num}/>)}
+            {isLoading&&Array(Math.floor(Math.random()*5+3)).fill(0).map((ceil,num)=><LoadingBox key={num}/>)}
             {postsInfo.posts.map((postInfo, num)=>{
                 const postData =  postInfo.data;
                 return <PostBox subredditName={postData.subreddit_name_prefixed}
@@ -106,11 +139,13 @@ function FeedArea(){
                                 thumbnail={postData.thumbnail}
                                 galleryInfo={postData.media_metadata}
                                 id={postData.id}
-                                key={num}/>
+                                ref={num+3===postsInfo.posts.length?itemToLoadContent:null}
+                                key={uuidv4()}/>
                                 
             })}
+            <UpBtn />
             
-        </div>
+        </main >
     )
 }
 

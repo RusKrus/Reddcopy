@@ -1,7 +1,8 @@
 .blank{
     display:flex;
-    background: white;
+    background-color: hsl(0, 0%, 96%);
     width:100%;
+    min-height:100vh;
     flex-wrap:wrap;
     justify-content:center;
 

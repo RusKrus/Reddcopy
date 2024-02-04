@@ -1,0 +1,24 @@
+.upBtn{
+    position: fixed;
+    right:2rem;
+    top:5rem;
+    display:flex;
+    flex-direction: column;
+    cursor: pointer;
+    color: hsl(230, 50%, 50%);
+    transition:0.2s;
+}
+
+.upBtn:hover{
+    color: orange;
+}
+
+.upSign{
+    height: 3rem;
+}
+
+.upWord{
+    font-weight: bold;
+    font-size:1.2rem;
+    text-align:center;
+}

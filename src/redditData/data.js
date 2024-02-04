@@ -44,21 +44,24 @@ export const serverRequests={
         
     },
     
-        popularPosts: async function (searchParam="top", after){
+        getPosts: async function (searchParam="top", after){
         
         try{
             let response;
             if (!after){
-                response = await fetch(`https://www.reddit.com/${searchParam}.json?sr_detail=true`);
-                
+                const URL = `https://www.reddit.com/${searchParam}.json?sr_detail=true`;
+                response = await fetch(URL);
+                console.log("No after: "+ URL)
             }
             else{
-                response = await fetch(`https://www.reddit.com/${searchParam}.json?after=${after}?sr_detail=true`)
+                const URL = `https://www.reddit.com/${searchParam}.json?after=${after}&sr_detail=true`;
+                response = await fetch(URL);
+                console.log("after is used: " + URL)
             }
             
             if (response.ok){
                 const posts = await response.json();
-                return(posts)
+                return(posts);
             }
             
             console.log("Error occured")

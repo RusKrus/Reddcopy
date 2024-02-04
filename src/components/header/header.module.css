@@ -4,7 +4,10 @@
     width: 100%;
     height: 4rem;
     background-color:hsl(230, 50%, 50%);
-    position: relative;
+    position: sticky;
+    box-shadow: 0 0 10px hsl(230, 50%, 50%);
+    top:0;
+    z-index:10;
 
 }
 
@@ -18,23 +21,29 @@
 
 .logoContainer{
     display: flex;
-    height: 100%;
-    width: 10%;
+    height: 2.5rem;
     justify-content: center;
     align-items: center;
     position: absolute;
     left: 3rem;
+    top:0.75rem;    
+    text-decoration: none;
+    
+}
+
+.logoContainer:hover{
+    text-decoration: none;
 }
 
 .logo{
-    height: 95%;
+    height: 100%;
     width:auto;
 }
 
 .siteName{
-    font-size: 1.4rem;
+    font-size: 1.2rem;
     width:100%;
-    font-weight: 800;
+    font-weight: 700;
     color: orange;
     text-align: center;
     margin-left: 0.5rem;
@@ -56,8 +65,8 @@
 }
 
 .submitButton{
-    width:7%;
-    height: 2rem;
+    width:6%;
+    font-weight:bold;
     background-color:transparent;
     border: 0px;
     cursor: pointer;

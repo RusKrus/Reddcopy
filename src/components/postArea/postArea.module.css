@@ -1,46 +1,61 @@
 .postArea{
     display:grid;
     width:100%;
-    grid-template-columns: 1fr 45rem 1fr;
+    grid-template-columns: 1fr 50rem 1fr;
     padding-top:1rem;
+    background-color: hsl(0, 0%, 96%);
+
     
 }
 /*button styles*/
 .backButton{
-    display: flex;
-    align-self: start;
-    color: hsl(230, 50%, 40%);
-    padding-left:3rem;
-    height:2rem;
-    width:5rem;
-    text-decoration: none;
+    width:30%;
+    background-color:transparent ;
+    position:relative;
+    margin-top: -1rem;
+    cursor: pointer;
 
 }
 
 .backButton:hover{
-    color: orange;
+    transition: 0.2s;
+    background-color: hsla(220, 70%, 50%, 0.45);
     text-decoration: none;
+    box-shadow: 0 0 20px 10px hsla(220, 70%, 50%, 0.5);
+    position: relative;
 }
 
-.backArrow{
-    height:100%;
+.backSign{
+    position: fixed;
+    top:50%;
+    left:2.5%;
+    color:transparent;
+    font-weight:bold;
+    height:4rem;
 }
 
-.backButtonText{
-    margin:auto .2rem;
+.backButton:hover .backSign{
+    color:hsl(30,90%,50%);
 }
 
-/*post box styles*/
-.postBox{
-    margin-top:1.5rem;
+/*post+comments boxes*/
+.postAndCommentsBox{
+    grid-column: 2/2;
+    padding:0 1rem;
+    width:100%;
     box-sizing: border-box;
+    box-shadow: 0 0 10px black;
+    background-color: white;
+    margin-top:1.5rem;
+    border-radius:7px;
+}
+/*post box styles*/
+
+.postBox{
     display:flex;
     flex-wrap:wrap;
-    border: 1px solid black;
-    border-radius: 8px;
-    width:45rem;
-    padding:0 0.5rem;
-    grid-column: 2/2;
+    
+    
 }
 
 .mediaContainer{
@@ -64,9 +79,6 @@
 }
 
 .activeOverlay{
-    display:flex;
-    justify-content: center;
-    align-items: center;
     width:100%;
     height:100%;
     position: fixed;
@@ -86,26 +98,26 @@
     transition: 0.4s;
 }
 
-
-
 .postMedia{
     max-height:600px;
     max-width:100%;
     margin: 0 auto;
-    cursor: zoom-in;
 }
 
-
-.hrPostBox{
-    width:100%;
-    margin: .5rem 0;
-    border-top-color:black;
+.link{
+    display:block;
+    text-align:left;
 }
+
+.linkIcon{
+    width: 1rem;
+}
+
 
 .postInfoContainer{
     display: flex;
     width:100%;
-    padding:0.5rem;
+    margin-top: 2rem;
     box-sizing:border-box;
     height: 3rem;
 }
@@ -186,16 +198,30 @@
     background-color: rgb(235, 234, 234);
 }
 
+/*comments styles*/
+
+.commentsArea{
+    width:100%;
+    padding-top: 2rem;
+    text-align:center;
+ }
+
+.hrComments{
+    background-color:white;
+    border-color: black;
+    margin-bottom: 2rem; 
+}
+
+
 /*subreddit info box styles*/
 .subredditInfoBox{
     grid-column: 3/3;
     align-self: start;
-    background-color: rgb(236, 236, 236);;
     background-color:hsla(230, 50%, 70%, .3);
     width: 60%;
     justify-self: center;
     padding:.5rem;
-    border-radius: 15px;
+    border-radius: 7px;
     margin-top:1.5rem;
 }
 
@@ -233,12 +259,26 @@
     border-top:1px solid hsl(220, 50%, 30%);
 }
 
-.commentsArea{
-   grid-column: 2/2; 
-   width:100%;
-   padding-top: 2rem;
-   text-align:center;
+/*for skeleton containers*/
+
+.skeletonPostInfo{
+    flex:1;
+    padding-left:20%;
 }
+
+/*for skeletons themselvs*/
+
+.skeletonLikesContainer{
+    flex:1;
+
+}
+
+.srNameSkeleton{
+    display:flex;
+    align-items:center;
+}
+
+
 
 
 

@@ -1,5 +1,7 @@
 import React, {useState} from "react"
 import styles from "./header.module.css"
+import { Link } from "react-router-dom"; 
+
 
 
 
@@ -12,10 +14,10 @@ function Header(){
     }
     return (
         <section className={styles.header}>
-            <div className={styles.logoContainer}>
+            <Link to="/" className={styles.logoContainer}>
                 <img className={styles.logo} src="redditIcon.png" alt="Site logo"/>
                 <span className={styles.siteName}>Reddcopy</span>
-            </div>
+            </Link>
             <form className={styles.form}>
                 <input className={styles.input} type="text" name="find" value={userInut} onChange={handleChange} placeholder="Type to search..."></input>
                 <button type="sumbit" className={styles.submitButton} >

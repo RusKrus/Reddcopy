@@ -5,11 +5,13 @@ import { createAsyncThunk, createSlice }  from "@reduxjs/toolkit";
 
 export const fetchingData = createAsyncThunk(
     'homeThreads/fetchData',
-    async (searchParam, thunkAPI) => {
-        const data = await serverRequests.popularPosts(searchParam);
+    async (searchParamsObject, thunkAPI) => {
+        const {searchParam, after} = searchParamsObject;
+        const data = await serverRequests.getPosts(searchParam, after);
         return data;
     }
 )
+
 
 
 
@@ -37,7 +39,7 @@ const feedAreaSlice = createSlice({
                     state.isLoading = false;
                     state.failedToLoad = false;
                     state.after = action.payload.data.after;
-                    state.posts.push(...state.posts, ...action.payload.data.children);
+                    state.posts.push(...action.payload.data.children);
 
                 })
                 .addCase(fetchingData.rejected, (state, action) => {

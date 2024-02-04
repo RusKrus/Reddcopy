@@ -6,7 +6,7 @@ export const fetchingPostData = createAsyncThunk(
     'post/fetchingData',
     async (postId, thunkAPI) =>{
         const data = await serverRequests.getPostInfo(postId);
-        return data;
+        return {postId:postId, answer:data};
     }
 )
 
@@ -14,8 +14,7 @@ export const fetchingPostData = createAsyncThunk(
 const postAreaSlice = createSlice({
     name:"post",
     initialState:{
-        postInfo:[],
-        postComments:[],
+        postData:{},
         isLoaded: false,
         failedToLoad: false,
         
@@ -23,7 +22,7 @@ const postAreaSlice = createSlice({
     reducers:{
         clearPostData(state, action){
             state.postInfo = [];
-            state.postComments = [];
+            state.postComments = [];    
     }},
     extraReducers: (builder) =>{
         builder
@@ -34,8 +33,12 @@ const postAreaSlice = createSlice({
             .addCase(fetchingPostData.fulfilled,(state, action)=>{
                 state.isLoaded = true;
                 state.failedToLoad = false;
-                state.postInfo.push(...action.payload[0].data.children)
-                state.postComments.push(...action.payload[1].data.children)
+                if (!state.postData[action.payload.postId]){
+                    state.postData[action.payload.postId]={}
+                    state.postData[action.payload.postId].postInfo=action.payload.answer[0].data.children;
+                    state.postData[action.payload.postId].postComments=action.payload.answer[1].data.children;
+                }
+                
             })
             .addCase(fetchingPostData.rejected, (state, action)=>{
                 state.isLoaded = false;
