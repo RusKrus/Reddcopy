@@ -1,0 +1,20 @@
+.notFounded{
+    width:50%;
+    margin: 0 auto;
+}
+
+
+.goBackBtn{
+    width:100%;
+    height:4rem;
+    background-color: hsl(230, 50%, 50%);
+    border:none;
+    color:white;
+    font-size:1.5rem;
+    border-radius: 1rem;
+    transition: 0.2s;
+}
+
+.goBackBtn:hover{
+    background-color: orange;
+}

@@ -11,13 +11,7 @@
 
 }
 
-.submitButton{
-    height: 2rem;
-}
 
-.find{
-    color: white;
-}
 
 .logoContainer{
     display: flex;
@@ -49,26 +43,70 @@
     margin-left: 0.5rem;
 }
 
+
+
 .form{
     display: flex;
+    box-sizing: border-box;
     align-items:center;
     width: 45rem;
     height:100%;
     margin: 0 auto;
+    position:relative;
+    
 }
 
 .input{
     width:93%;
     height: 2rem;
-    border: 2px solid black;
-    border-radius: 40px;
+    border: 1px solid black;
+    border-radius: .7rem;
+    padding-right:2rem;
+    padding-left:.5rem;
+    
+}
+
+.input:focus-visible, input:focus{
+    outline: 3px ridge orange;
+    border: none;
+}
+
+.clearButton{
+    background-color:transparent;
+    color:black;
+    border:none;
+    position:absolute;
+    right: 3rem;
+    display: none;
+    cursor: pointer;
+    font-size:1rem;
+    font-weight:bold;
+}
+
+.input:focus + .clearButton, .input:hover + .clearButton{
+    display: inline-block;
+
+}
+
+.clearButton:hover{
+    color:red;
+    display: inline-block;
 }
 
 .submitButton{
     width:6%;
-    font-weight:bold;
     background-color:transparent;
     border: 0px;
     cursor: pointer;
 }
+
+.findIcon{
+    color: white;
+}
+
+.findIcon:hover{
+    color:orange;
+}
+
+
 

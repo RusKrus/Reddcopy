@@ -20,7 +20,7 @@ const feedAreaSlice = createSlice({
     initialState: {
         after: "",
         posts: [],
-        isLoading: false,
+        isLoaded: false,
         failedToLoad: false
 
     },
@@ -32,18 +32,18 @@ const feedAreaSlice = createSlice({
     extraReducers: (builder)=>{
             builder
                 .addCase(fetchingData.pending, (state, action) =>{
-                    state.isLoading = true;
+                    state.isLoaded = false;
                     state.failedToLoad = false;
                 })
                 .addCase(fetchingData.fulfilled, (state, action) => {
-                    state.isLoading = false;
+                    state.isLoaded = true;
                     state.failedToLoad = false;
                     state.after = action.payload.data.after;
                     state.posts.push(...action.payload.data.children);
 
                 })
                 .addCase(fetchingData.rejected, (state, action) => {
-                    state.isLoading = false;
+                    state.isLoaded= false;
                     state.failedToLoad = true;
                 })
         }

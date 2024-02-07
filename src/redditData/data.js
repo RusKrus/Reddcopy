@@ -49,7 +49,7 @@ export const serverRequests={
         try{
             let response;
             if (!after){
-                const URL = `https://www.reddit.com/${searchParam}.json?sr_detail=true`;
+                const URL = `https://www.reddit.com/${searchParam}?sr_detail=true`;
                 response = await fetch(URL);
                 console.log("No after: "+ URL)
             }
