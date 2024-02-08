@@ -1,7 +1,4 @@
-const clientId = "MjqQYi3e216qkBZjvkp_cA";
-const secret = "HSlJzMl6eOo28fO1dRMrAjd3clwOcw";
-const userName = "Inside-Importance370";
-const password = "rust1999081155555";
+
 
 
 export const serverRequests={
