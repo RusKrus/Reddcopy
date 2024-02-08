@@ -8,6 +8,7 @@ import dashjs from 'dashjs';
 import CommentsArea from "../commentsArea/CommentsArea.jsx";
 import LoadingCommentsArea from "../commentsArea/LoadingCommentsArea.jsx";
 import UpBtn from "../upBtn/UpButton.jsx"
+import FailedToLoad from "../failedToLoad/FailedToLoad.jsx";
 import { v4 as uuidv4 } from 'uuid';
 import Skeleton from 'react-loading-skeleton'
 import 'react-loading-skeleton/dist/skeleton.css'

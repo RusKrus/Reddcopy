@@ -1,13 +1,21 @@
 import React from "react";
 import styles from "./failedToLoad.module.css";
+import { useDispatch } from "react-redux";
 
 
 
-function FailedToLoad(){
+function FailedToLoad({reloadAction, actionParam}){
+    const dispatch = useDispatch();
+    const handleClick = () =>{
+        dispatch(reloadAction(actionParam));
+    }
+
     return (
         <div className={styles.failedDiv}>
             <h1 className={styles.goneWrongText}>Something gone wrong 😔</h1>
-            <button className={styles.reTryButton}>Try again</button>
+            <button className={styles.reTryBtn} onClick={handleClick}>Try again</button>
         </div>
     )
 }
+
+export default FailedToLoad;

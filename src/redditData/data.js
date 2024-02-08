@@ -5,7 +5,7 @@ const password = "rust1999081155555";
 
 
 export const serverRequests={
-        api: async function (){
+    api: async function (){
         const url = 'https://www.reddit.com/api/v1/access_token';
         
         const requestBody = new URLSearchParams({
@@ -44,51 +44,27 @@ export const serverRequests={
         
     },
     
-        getPosts: async function (searchParam="top", after){
-        
-        try{
-            let response;
-            if (!after){
-                const URL = `https://www.reddit.com/${searchParam}?sr_detail=true`;
-                response = await fetch(URL);
-                console.log("No after: "+ URL)
-            }
-            else{
-                const URL = `https://www.reddit.com/${searchParam}.json?after=${after}&sr_detail=true`;
-                response = await fetch(URL);
-                console.log("after is used: " + URL)
-            }
-            
-            if (response.ok){
-                const posts = await response.json();
-                return(posts);
-            }
-            
-            console.log("Error occured")
-            
-            
+    getPosts: async function (searchParam="top", after){
+        let response;
+        if (!after){
+            const URL = `https://www.reddit.com/${searchParam}?sr_detail=true`;
+            response = await fetch(URL);
+            console.log("No after: "+ URL)
         }
-        catch(e){
-            console.log(e)
+        else{
+            const URL = `https://www.reddit.com/${searchParam}.json?after=${after}&sr_detail=true`;
+            response = await fetch(URL);
+            console.log("after is used: " + URL)
         }
-    
+        const posts = await response.json();
+        return(posts);
     },
+
     getPostInfo: async function(postId){
         const url = `https://www.reddit.com/comments/${postId}.json?sr_detail=true`;
-        try{
-            const response = await fetch(url);
-            if(response.ok){
-                const responseJson = await response.json();
-                return responseJson;
-            }
-            else{
-                console.log("Error occured");
-            }
-        }
-        catch(e){
-            console.log(e)
-        }
-
+        const response = await fetch(url);
+        const responseJson = await response.json();
+        return responseJson;
     }
 
 
