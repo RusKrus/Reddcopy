@@ -73,7 +73,7 @@ const PostBox = forwardRef((props, ref) => {
 
 
     //media container definer
-    const mediaContainer = mediaContainerDefiner(styles, mediaType, media, forbidden, videoRef, video, isGallery, thumbnail, selfText);
+    const mediaContainer = mediaContainerDefiner(styles, mediaType, media, forbidden, videoRef, isGallery, thumbnail, selfText);
 
 
     return (

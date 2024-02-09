@@ -73,7 +73,7 @@ export const searchFilter = (searchValue, postInfo) => {
 }
 
 
-export const mediaContainerDefiner = (styles, mediaType, media, isZoomed, handlePhotoClick, forbidden, videoRef, video, isGallery, thumbnail, selfText) => {
+export const mediaContainerDefiner = (styles, mediaType, media, isZoomed, handlePhotoClick, forbidden, videoRef, isGallery, thumbnail, selfText) => {
     let mediaContainer;
     switch (mediaType) {
         case "link":
@@ -86,7 +86,7 @@ export const mediaContainerDefiner = (styles, mediaType, media, isZoomed, handle
                 </a>;
             break;
         case "image":
-            if (isZoomed !== undefined) {
+            if (isZoomed===true || isZoomed===false) {
                 mediaContainer =
                     <>
                         {isZoomed && <div onClick={handlePhotoClick} className={styles.activeOverlay}></div>}
@@ -112,10 +112,10 @@ export const mediaContainerDefiner = (styles, mediaType, media, isZoomed, handle
             mediaContainer = <p><strong>I dont know how to handle rich:media yet...</strong></p>;
             break;
         case "rich:video":
-            mediaContainer = <video ref={videoRef} controls className={styles.postMedia}><source src={video} alt="Post media" /> Video is not avaliable</video>;
+            mediaContainer = <video ref={videoRef} controls className={styles.postMedia} alt="Post video"> Video is not avaliable</video>;
             break;
         case "hosted:video":
-            mediaContainer = <video ref={videoRef} controls className={styles.postMedia}><source src={video} alt="Post media" /> Video is not avaliable</video>;
+            mediaContainer = <video ref={videoRef} controls className={styles.postMedia} alt="Post video">  Video is not avaliable</video>;
             break;
 
         default:

@@ -22,7 +22,6 @@ function FeedArea(){
     const dispatch = useDispatch();
     //const after = postsInfo.after;
     const status = postsInfo.status;
-    console.log(status);
 
 
     useEffect(()=>{
@@ -56,6 +55,9 @@ function FeedArea(){
     }, [after])*/
 
     //--------------------------------------------------------------------------
+
+
+
     const filteredPosts = postsInfo.posts.filter(postInfo=>searchFilter(filterValue,postInfo))
     if (status==="loading"){
         return (
