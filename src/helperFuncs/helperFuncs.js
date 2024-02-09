@@ -73,7 +73,7 @@ export const searchFilter = (searchValue, postInfo) => {
 }
 
 
-export const mediaContainerDefiner = (styles, mediaType, media, isZoomed, handlePhotoClick, forbidden, videoRef, isGallery, thumbnail, selfText) => {
+export const mediaContainerDefiner = (styles, mediaType, media, forbidden, videoRef, isGallery, thumbnail, selfText, isZoomed, handlePhotoClick,) => {
     let mediaContainer;
     switch (mediaType) {
         case "link":
