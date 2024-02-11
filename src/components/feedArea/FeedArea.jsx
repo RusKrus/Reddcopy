@@ -59,55 +59,40 @@ function FeedArea() {
 
 
     const filteredPosts = postsInfo.posts.filter(postInfo => searchFilter(filterValue, postInfo))
-    if (status === "loading") {
-        return (
-            <main className={styles.feedArea}>
-                {Array(Math.floor(Math.random() * 5 + 3)).fill(0).map((ceil, num) => <LoadingBox key={num} />)}
-            </main>
-
-        )
-    }
-    else if (status === "loaded") {
-        return (
-            <main className={styles.feedArea}>
-                {filteredPosts.length > 0 ?
-                    <>
-                        <ContentFilter searchParam={searchParam} setSearchParam={setSearchParam} />
-                        {filteredPosts.map((postInfo, num) => {
-                            const postData = postInfo.data;
-                            return <PostBox subredditName={postData.subreddit_name_prefixed}
-                                author={postData.author}
-                                title={postData.title}
-                                score={postData.score}
-                                media={postData.url}
-                                time={postData.created_utc}
-                                video={postData.media?.reddit_video?.dash_url}
-                                mediaType={postData.post_hint}
-                                iconUrlWithSearchParam={postData.sr_detail.community_icon}
-                                reserverIconUrl={postData.sr_detail.icon_img}
-                                selfText={postData.selftext}
-                                numComments={postData.num_comments}
-                                forbidden={postData.link_flair_css_class}
-                                isGallery={postData.is_gallery}
-                                thumbnail={postData.thumbnail}
-                                galleryInfo={postData.media_metadata}
-                                id={postData.id}
-                                ref={num + 3 === postsInfo.posts.length ? itemToLoadContent : null}
-                                key={uuidv4()} />
-
-                        })}
-                        <UpBtn />
-                    </> :
-                    <NotFound text={"Sorry, no posts found"} />}
-            </main>
-        )
-    }
-    else if (status === "rejected") {
-        return (
-            <FailedToLoad reloadAction={fetchingData} actionParam={searchParam} />
-        )
-    }
-
+    return (
+        <main className={styles.feedArea}>
+            <ContentFilter searchParam={searchParam} setSearchParam={setSearchParam} />
+            {status === "loading" && Array(Math.floor(Math.random() * 5 + 3)).fill(0).map((ceil, num) => <LoadingBox key={num} />)}
+            {status === "loaded" && filteredPosts.length > 0 ?
+                <>
+                    {filteredPosts.map((postInfo, num) => {
+                        const postData = postInfo.data;
+                        return <PostBox subredditName={postData.subreddit_name_prefixed}
+                            author={postData.author}
+                            title={postData.title}
+                            score={postData.score}
+                            media={postData.url}
+                            time={postData.created_utc}
+                            video={postData.media?.reddit_video?.dash_url}
+                            mediaType={postData.post_hint}
+                            iconUrlWithSearchParam={postData.sr_detail.community_icon}
+                            reserverIconUrl={postData.sr_detail.icon_img}
+                            selfText={postData.selftext}
+                            numComments={postData.num_comments}
+                            forbidden={postData.link_flair_css_class}
+                            isGallery={postData.is_gallery}
+                            thumbnail={postData.thumbnail}
+                            galleryInfo={postData.media_metadata}
+                            id={postData.id}
+                            ref={num + 3 === postsInfo.posts.length ? itemToLoadContent : null}
+                            key={uuidv4()} />
+                    })}
+                    <UpBtn />
+                </> :
+                <NotFound text={"Sorry, no posts found"} />}
+            {status === "rejected" && <FailedToLoad reloadAction={fetchingData} actionParam={searchParam} />}
+        </main>
+    )
 }
 
 export default FeedArea; 

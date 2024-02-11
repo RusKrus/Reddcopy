@@ -6,7 +6,7 @@ import styles from "./postArea.module.css"
 import { timeDecoder, mediaContainerDefiner } from "../../helperFuncs/helperFuncs";
 import dashjs from 'dashjs';
 import CommentsArea from "../commentsArea/CommentsArea.jsx";
-import LoadingCommentsArea from "../commentsArea/LoadingCommentsArea.jsx";
+
 import PostAreaLoading from "./PostAreaLoading.jsx";
 import UpBtn from "../upBtn/UpButton.jsx";
 import FailedToLoad from "../failedToLoad/FailedToLoad.jsx";
@@ -28,10 +28,9 @@ function PostArea() {
 
 
     useEffect(() => {
-        if (!postData) {
+        if (!postData){
             dispatch(fetchingPostData(postId));
         }
-
     }, [])
 
 
@@ -145,12 +144,15 @@ function PostArea() {
     const timeAgo = timeDecoder(time);
 
     if (status === "loading") {
-        return
+        return (
+            <div className={styles.postArea}>
+                <PostAreaLoading />
+            </div>
+        )
     }
     else if (status === "loaded") {
         return (
             <div className={styles.postArea}>
-                <PostAreaLoading />
                 <div onClick={handleBacklick} className={styles.backButton}>
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className={styles.backSign}>
                         <path strokeLinecap="round" strokeLinejoin="round" d="m18.75 4.5-7.5 7.5 7.5 7.5m-6-15L5.25 12l7.5 7.5" />

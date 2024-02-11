@@ -1,3 +1,53 @@
-.loadingAreaSkeleton{
-   
+.loadingAreaSkeleton {
+   grid-column: 2/2;
+   padding: 0 1rem;
+   width: 100%;
+   box-sizing: border-box;
+   box-shadow: 0 0 10px black;
+   background-color: white;
+   margin-top: 1.5rem;
+   border-radius: 7px;
 }
+
+.titleSkeleton {
+   width: 50%;
+   margin: 1rem 0;
+   height: 1.3rem;
+}
+
+.mediaSkeleton {
+   height: 25rem;
+   margin-bottom: 2rem;
+}
+
+.postInfoSkeletonBox {
+   display: flex;
+   justify-content: space-between;
+}
+
+.likeSleketonBox {
+   width: 20%;
+}
+
+.postInfoSkeleton {
+   width: 35%;
+}
+
+.commentsAreaSkeletonBox {
+   width: 100%;
+   padding-top: 2rem;
+   text-align: center;
+}
+
+.commentsCounter {
+   margin: 1rem 0;
+   width: 20%;
+   height: 1.3rem;
+}
+
+.hrCommentsSkeleton{
+   background-color:white;
+   border-color: black;
+   margin-bottom: 2rem; 
+}
+
