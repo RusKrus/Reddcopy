@@ -55,6 +55,7 @@ export const serverRequests = {
             const URL = `https://www.reddit.com/${searchParam}.json?after=${after}&sr_detail=true`;
             response = await fetch(URL);
             console.log("after is used: " + URL)
+            
         }
         const posts = await response.json();
         return (posts);

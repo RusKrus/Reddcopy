@@ -12,8 +12,8 @@ function App() {
   const router = createBrowserRouter(createRoutesFromElements(
     <Route path="/" element={<Navigational />}>
       <Route index element={<FeedArea />} />
-      <Route path=":postFilterParam" element={<FeedArea />} />
-      <Route path=":postId" element={<PostArea />} />
+      <Route path="r/:subreddit/:postId" element={<PostArea />} />
+      <Route path=":postFilterParam" element={<FeedArea />}/>
     </Route>
   ))
   return (

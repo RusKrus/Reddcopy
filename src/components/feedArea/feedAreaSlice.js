@@ -8,7 +8,8 @@ export const fetchingData = createAsyncThunk(
     async (searchParamsObject, thunkAPI) => {
         const {searchParam, after} = searchParamsObject;
         const data = await serverRequests.getPosts(searchParam, after);
-        return data;
+        
+        return {data, searchParam};
     }
 )
 
@@ -19,7 +20,13 @@ const feedAreaSlice = createSlice({
     name: "homeThreads",
     initialState: {
         after: "",
-        posts: []
+        status:"",
+        posts: {
+            top:[],
+            hot:[],
+            new:[],
+            rising: []
+        }
 
     },
     reducers: {
@@ -33,10 +40,26 @@ const feedAreaSlice = createSlice({
                     state.status="loading";
                 })
                 .addCase(fetchingData.fulfilled, (state, action) => {
-                    state.status="loaded";
-                    state.after = action.payload.data.after;
-                    state.posts.push(...action.payload.data.children);
-
+                    if (action.payload.searchParam==="top"){
+                        state.status="loaded";
+                        state.after = action.payload.data.after;
+                        state.posts[action.payload.searchParam].push(...action.payload.data.data.children);
+                    }
+                    else if (action.payload.searchParam==="hot"){
+                        state.status="loaded";
+                        state.after = action.payload.data.after;
+                        state.posts[action.payload.searchParam].push(...action.payload.data.data.children);
+                    }
+                    else if (action.payload.searchParam==="new"){
+                        state.status="loaded";
+                        state.after = action.payload.data.after;
+                        state.posts[action.payload.searchParam].push(...action.payload.data.data.children);
+                    }
+                    else if (action.payload.searchParam==="rising"){
+                        state.status="loaded";
+                        state.after = action.payload.data.after;
+                        state.posts[action.payload.searchParam].push(...action.payload.data.data.children);
+                    }
                 })
                 .addCase(fetchingData.rejected, (state, action) => {
                     state.status="rejected";

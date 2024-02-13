@@ -68,7 +68,7 @@ const PostBox = forwardRef((props, ref) => {
     }, [dashUrl, video])
 
     const handlePostBoxClick = () => {
-        navigate(id);
+        navigate("/"+subredditName+"/"+id);
     }
 
 
