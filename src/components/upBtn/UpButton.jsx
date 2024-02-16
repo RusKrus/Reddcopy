@@ -25,12 +25,7 @@ function UpBtn(){
 
     return (
         <div  onClick={handleClick} className={styles.upBtn} style={{display:isScrolledEnough?"flex":"none"}}>
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className={styles.upSign}>
-                <path strokeLinecap="round" strokeLinejoin="round" d="m4.5 18.75 7.5-7.5 7.5 7.5" />
-                <path strokeLinecap="round" strokeLinejoin="round" d="m4.5 12.75 7.5-7.5 7.5 7.5" />
-            </svg>
-            <span className={styles.upWord}>Up</span>
-
+            <span className={styles.upWord}>Go to the top</span>
         </div>
     )
 }

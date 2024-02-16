@@ -19,19 +19,20 @@ function FeedArea() {
     const itemToLoadContent = useRef();
     //const observerLoader = useRef();
     const {postFilterParam} = useParams();
+    const activeParam = postFilterParam||"top";
     const postsInfo = useSelector(state => state.feedArea);
     const dispatch = useDispatch();
     //const after = postsInfo.after;
-    const status = useSelector(state=>state.feedArea.status);
+    const status = postsInfo.status;
 
 
     useEffect(() => {
-        if(postsInfo.posts[postFilterParam].length===0){
-            dispatch(fetchingData({ searchParam: postFilterParam }));
+        if(postsInfo.posts[activeParam].length===0){
+            dispatch(fetchingData({ searchParam: activeParam }));
         }
         
         // eslint-disable-next-line
-    }, [postFilterParam])
+    }, [activeParam])
 
 
 
@@ -60,7 +61,7 @@ function FeedArea() {
 
 
 
-    const filteredPosts = postsInfo.posts[postFilterParam].filter(postInfo => searchFilter(filterValue, postInfo))
+    const filteredPosts = postsInfo.posts[activeParam].filter(postInfo => searchFilter(filterValue, postInfo))
     return (
         <main className={styles.feedArea}>
             <ContentFilter />
@@ -87,6 +88,7 @@ function FeedArea() {
                                 isGallery={postData.is_gallery}
                                 thumbnail={postData.thumbnail}
                                 galleryInfo={postData.media_metadata}
+                                htmlStringIframe = {postData?.media?.oembed?.html}
                                 id={postData.id}
                                 ref={num + 3 === postsInfo.posts.length ? itemToLoadContent : null}
                                 key={uuidv4()} />
@@ -96,7 +98,7 @@ function FeedArea() {
                     <NotFound text={"Sorry, no posts found"} />}
                 </>
             }
-            {status === "rejected" && <FailedToLoad reloadAction={fetchingData} actionParam={postFilterParam} />}
+            {status === "rejected" && <FailedToLoad reloadAction={fetchingData} actionParam={activeParam} />}
         </main>
     )
 }

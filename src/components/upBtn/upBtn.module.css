@@ -1,24 +1,27 @@
 .upBtn{
     position: fixed;
-    right:2rem;
-    top:5rem;
+    right: 20%;
+    bottom:3rem;
     display:flex;
     flex-direction: column;
     cursor: pointer;
-    color: hsl(230, 50%, 50%);
-    transition:0.2s;
+   
 }
 
-.upBtn:hover{
-    color: orange;
-}
 
-.upSign{
-    height: 3rem;
-}
 
 .upWord{
     font-weight: bold;
-    font-size:1.2rem;
+    font-size:1rem;
     text-align:center;
+    color:white;
+    background-color: hsl(230, 50%, 50%);
+    padding: .5rem;
+    border-radius:5px;
+    transition:0.2s;
+}
+
+.upWord:hover{
+    color:orange;
+
 }

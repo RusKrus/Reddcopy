@@ -93,9 +93,12 @@
 .zoomedPostMediaPhoto{
     max-height:600px;
     max-width:100%;
-    transform: scale(1.5);
+    transform: scale(1.4);
     cursor: zoom-out;
-    transition: 0.4s;
+    transition: 0.2s;
+    position:relative;
+    top:2rem;
+
 }
 
 .postMedia{

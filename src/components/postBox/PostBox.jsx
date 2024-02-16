@@ -7,9 +7,9 @@ import dashjs from 'dashjs';
 
 const PostBox = forwardRef((props, ref) => {
     //getting props
-    const { subredditName, author, title, score, media, time, video, mediaType, iconUrlWithSearchParam, reserverIconUrl, selfText, numComments, forbidden, isGallery, thumbnail, galleryInfo, id } = props;
+    const { subredditName, author, title, score, media, time, video, mediaType, iconUrlWithSearchParam, reserverIconUrl, selfText, numComments, forbidden, isGallery, thumbnail, galleryInfo, htmlStringIframe, id } = props;
     //forbidden is data about post type which I can't show in my app
-
+    
     //getting time posted ago
     const timeAgo = timeDecoder(time);
 
@@ -17,7 +17,7 @@ const PostBox = forwardRef((props, ref) => {
     const searchParamStart = iconUrlWithSearchParam ? iconUrlWithSearchParam.indexOf("?") : null;
     const iconUrl = searchParamStart ? iconUrlWithSearchParam.slice(0, searchParamStart) : iconUrlWithSearchParam;
 
-
+    const iframeRef = useRef(null);
 
     const [changedScore, setChangedScore] = useState(score);
     const [isLikeClicked, setIsLikeClicked] = useState(false);
@@ -68,12 +68,12 @@ const PostBox = forwardRef((props, ref) => {
     }, [dashUrl, video])
 
     const handlePostBoxClick = () => {
-        navigate("/"+subredditName+"/"+id);
+        navigate("/"+subredditName+"/"+id, {state: true});
     }
 
 
     //media container definer
-    const mediaContainer = mediaContainerDefiner(styles, mediaType, media, forbidden, videoRef, isGallery, thumbnail, selfText);
+    const mediaContainer = mediaContainerDefiner(styles, mediaType, media, forbidden, videoRef, isGallery, thumbnail, selfText, {htmlStringIframe, iframeRef});
 
 
     return (

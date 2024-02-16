@@ -1,3 +1,23 @@
+import he from 'he';
+
+export const domElementObtainer = (htmlString) =>{
+    const decodedHtml = he.decode(htmlString);
+    const parser = new DOMParser();
+    const doc = parser.parseFromString(decodedHtml, "text/html");
+    const domElement = doc.body.firstChild; 
+    return domElement;
+}
+
+const iframeElementObtainer = (htmlString, iframeRef) =>{
+    const iframe = domElementObtainer(htmlString);
+    iframe.width="100%";
+    iframe.height="500px"
+    if(iframeRef.current&&iframeRef.current.children.length<1){
+            iframeRef.current.appendChild(iframe);
+    }
+}
+
+
 export const timeDecoder = time => {
     const timePostedUtcUnix = new Date(time * 1000);
     const timeNowUtc = new Date();
@@ -73,12 +93,17 @@ export const searchFilter = (searchValue, postInfo) => {
 }
 
 
-export const mediaContainerDefiner = (styles, mediaType, media, forbidden, videoRef, isGallery, thumbnail, selfText, isZoomed, handlePhotoClick,) => {
+export const mediaContainerDefiner = (styles, mediaType, media, forbidden, videoRef, isGallery, thumbnail, selfText, dataForParse, dataFromPostArea ) => {
+    
+
+    const {isZoomed, handlePhotoClick} = dataFromPostArea?dataFromPostArea:{};
+    const {htmlStringIframe, iframeRef}= dataForParse;
+    htmlStringIframe&&iframeElementObtainer(htmlStringIframe, iframeRef);
+    
     let mediaContainer;
     switch (mediaType) {
         case "link":
             mediaContainer =
-
                 <a href={media} className={styles.link}>{media.substring(0, 18)}...
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className={styles.linkIcon}>
                         <path strokeLinecap="round" strokeLinejoin="round" d="M13.19 8.688a4.5 4.5 0 0 1 1.242 7.244l-4.5 4.5a4.5 4.5 0 0 1-6.364-6.364l1.757-1.757m13.35-.622 1.757-1.757a4.5 4.5 0 0 0-6.364-6.364l-4.5 4.5a4.5 4.5 0 0 0 1.242 7.244" />
@@ -112,7 +137,7 @@ export const mediaContainerDefiner = (styles, mediaType, media, forbidden, video
             mediaContainer = <p><strong>I dont know how to handle rich:media yet...</strong></p>;
             break;
         case "rich:video":
-            mediaContainer = <video ref={videoRef} controls className={styles.postMedia} alt="Post video"> Video is not avaliable</video>;
+            mediaContainer = <div  ref={iframeRef}></div>
             break;
         case "hosted:video":
             mediaContainer = <video ref={videoRef} controls className={styles.postMedia} alt="Post video">  Video is not avaliable</video>;
@@ -140,6 +165,7 @@ export const mediaContainerDefiner = (styles, mediaType, media, forbidden, video
     }
     return mediaContainer;
 }
+
 
 
 

@@ -1,9 +1,9 @@
 import React, { useEffect, useRef, useState } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams, useNavigate, useLocation } from "react-router-dom";
 import { useSelector, useDispatch } from 'react-redux';
 import { fetchingPostData } from "./postAreaSlice";
 import styles from "./postArea.module.css"
-import { timeDecoder, mediaContainerDefiner } from "../../helperFuncs/helperFuncs";
+import { timeDecoder, mediaContainerDefiner, domElementObtainer } from "../../helperFuncs/helperFuncs";
 import dashjs from 'dashjs';
 import CommentsArea from "../commentsArea/CommentsArea.jsx";
 
@@ -24,14 +24,19 @@ function PostArea() {
     const postDetails = postData?.postInfo[0].data;
     const postComments = postData?.postComments;
     const status = useSelector(state => state.postArea.status);
-    console.log(status);
-
+    const location = useLocation();
+    const [galleryImages, setGalleryImages] = useState([])
+    const iframeRef = useRef(null);
 
     useEffect(() => {
+
         if (!postData){
             dispatch(fetchingPostData(postId));
         }
+        
     }, [])
+
+
 
 
     //defining all required data for post
@@ -55,11 +60,18 @@ function PostArea() {
     const galleryInfo = postDetails?.media_metadata;
     const subredditDescription = postDetails?.sr_detail.public_description;
     const followers = postDetails?.sr_detail.subscribers;
+    const htmlStringIframe = postDetails?.media?.oembed?.html;
 
+
+
+    
+
+    
     //getting alternative subreddit icon url
     const searchParamStart = iconUrlWithSearchParam ? iconUrlWithSearchParam.indexOf("?") : null;
     const iconUrl = searchParamStart ? iconUrlWithSearchParam.slice(0, searchParamStart) : iconUrlWithSearchParam;
-
+    
+    
 
     //working with dash video type. It was only one way to create video with sound in the app
     const videoRef = useRef(null);
@@ -85,7 +97,7 @@ function PostArea() {
     //to ensure that incase second load of the page scrol bar will be on the top
     useEffect(() => {
         window.scrollTo({ top: 0 });
-    })
+    }, [])
 
     const onLikeClick = () => {
 
@@ -136,8 +148,10 @@ function PostArea() {
         navigate(-1);
     }
 
+    
+
     //defining container type;
-    const mediaContainer = status === "loaded" ? mediaContainerDefiner(styles, mediaType, media, forbidden, videoRef, isGallery, thumbnail, selfText, isZoomed, handlePhotoClick) : null;
+    const mediaContainer = status === "loaded" ? mediaContainerDefiner(styles, mediaType, media, forbidden, videoRef, isGallery, thumbnail, selfText,{htmlStringIframe, iframeRef}, {isZoomed, handlePhotoClick}) : null;
 
 
     //getting time posted ago
@@ -153,12 +167,12 @@ function PostArea() {
     else if (status === "loaded") {
         return (
             <div className={styles.postArea}>
-                <div onClick={handleBacklick} className={styles.backButton}>
+
+                {location.state?<div onClick={handleBacklick} className={styles.backButton}>
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className={styles.backSign}>
                         <path strokeLinecap="round" strokeLinejoin="round" d="m18.75 4.5-7.5 7.5 7.5 7.5m-6-15L5.25 12l7.5 7.5" />
                     </svg>
-
-                </div>
+                </div>:null}
                 <div className={styles.postAndCommentsBox}>
                     <div className={styles.postBox}>
                         <div className={styles.mediaContainer}>
@@ -186,15 +200,18 @@ function PostArea() {
                     </div>
                 </div>
 
-                <div className={styles.subredditInfoBox}>
+                <div className={styles.subredditInfoBox} >
                     <p className={styles.subredditMainInfo}><img className={styles.subredditAvatar} src={iconUrl ? iconUrl : reserveIconUrl} alt="Subreddit avatar" />{subredditName}</p>
                     <hr className={styles.hrSrInfo}></hr>
                     <p className={styles.subredditDescription}>{subredditDescription || <span style={{ fontStyle: 'italic' }}>No info avaliable yet</span>}</p>
                     <hr className={styles.hrSrInfo}></hr>
                     <p className={styles.followersNumber}>{followers} followers</p>
+                    
                 </div>
-
+               {/*When I put src attribute using url with "" 0 image works. When I pass url as variable - it doesn't work. I cant solve this problem
+               <div>{Object.keys(galleryInfo).length>0?Object.keys(galleryInfo).map(photoInfo=><img onError={(e)=>console.error(e)} src={galleryInfo[photoInfo].p[4].u}/>):<>не работает</>}</div>*/}
                 <UpBtn />
+                
             </div>
         )
     }
