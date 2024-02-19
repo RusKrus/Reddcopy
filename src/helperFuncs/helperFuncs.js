@@ -13,8 +13,27 @@ const iframeElementObtainer = (htmlString, iframeRef) =>{
     iframe.width="100%";
     iframe.height="500px"
     if(iframeRef.current&&iframeRef.current.children.length<1){
-            iframeRef.current.appendChild(iframe);
+        iframeRef.current.appendChild(iframe);
     }
+}
+
+const selfTextElementObtainer = (htmlString, styles, selfTextRef, mediaBoxType) =>{
+    const selfText = domElementObtainer(htmlString);
+    if(selfTextRef.current&&selfTextRef.current.children.length===0){
+        if(mediaBoxType==="postArea"){
+            selfText.className = styles.selfTextForPostArea;
+            selfTextRef.current.appendChild(selfText);
+        }
+        else{
+            selfText.className = styles.selfTextForPostBox;
+            const fogDiv = document.createElement("div");
+            fogDiv.className = styles.fogEffectContainer;
+            selfTextRef.current.appendChild(selfText);
+            selfTextRef.current.appendChild(fogDiv);
+        }
+        
+    }
+    return selfText;
 }
 
 
@@ -93,13 +112,15 @@ export const searchFilter = (searchValue, postInfo) => {
 }
 
 
-export const mediaContainerDefiner = (styles, mediaType, media, forbidden, videoRef, isGallery, thumbnail, selfText, dataForParse, dataFromPostArea ) => {
-    
-
-    const {isZoomed, handlePhotoClick} = dataFromPostArea?dataFromPostArea:{};
-    const {htmlStringIframe, iframeRef}= dataForParse;
+export const mediaContainerDefiner = (mediaBoxType ,styles, mediaType, media, forbidden, videoRef, isGallery, thumbnail, dataForParseSelfText, dataForParseIref, dataForPhotoZoom ) => {
+    const {isZoomed, handlePhotoClick} = dataForPhotoZoom?dataForPhotoZoom:{};
+    const {selfTextHTML, selfTextRef} = dataForParseSelfText;
+    const {htmlStringIframe, iframeRef}= dataForParseIref;
     htmlStringIframe&&iframeElementObtainer(htmlStringIframe, iframeRef);
-    
+    selfTextHTML&&selfTextElementObtainer(selfTextHTML, styles, selfTextRef, mediaBoxType);
+    const selfText = selfTextHTML; 
+
+
     let mediaContainer;
     switch (mediaType) {
         case "link":
@@ -111,7 +132,7 @@ export const mediaContainerDefiner = (styles, mediaType, media, forbidden, video
                 </a>;
             break;
         case "image":
-            if (isZoomed===true || isZoomed===false) {
+            if (mediaBoxType==="postArea") {
                 mediaContainer =
                     <>
                         {isZoomed && <div onClick={handlePhotoClick} className={styles.activeOverlay}></div>}
@@ -131,8 +152,11 @@ export const mediaContainerDefiner = (styles, mediaType, media, forbidden, video
                 mediaContainer = <a href="#">You can find detail about this post on reddit website</a>;
                 break;
             }
-            mediaContainer = <p className={styles.selfText}>{selfText.substring(0, 500)}... <a className={styles.postLink} href="#">read more</a></p>;
-            break;
+            else if(selfText) {
+                mediaContainer = <div className={styles.selfTextWithFogContainer} ref={selfTextRef}></div>;
+            }
+            
+            
         case "rich:media":
             mediaContainer = <p><strong>I dont know how to handle rich:media yet...</strong></p>;
             break;
@@ -144,6 +168,7 @@ export const mediaContainerDefiner = (styles, mediaType, media, forbidden, video
             break;
 
         default:
+            console.log("default");
             if (forbidden === "postgamethread" || forbidden === "postgame") {
                 mediaContainer = <a href="#" >You can find detail about this post on reddit website</a>;
                 break;
@@ -156,12 +181,15 @@ export const mediaContainerDefiner = (styles, mediaType, media, forbidden, video
                 else {
                     mediaContainer = <a href={media} className={styles.link}>{media.substring(0, 18)}...</a>
                 }
-
             }
-            else {
-                selfText ? mediaContainer = <p className={styles.selfText}>{selfText.substring(0, 500)}...<a className={styles.postLink} href="#">read more</a></p> : mediaContainer = null;
+            else if(selfText) {
+                mediaContainer = <div className={styles.selfTextWithFogContainer} ref={selfTextRef}></div>
+            }
+            else{
+                mediaContainer=null;
                 break;
             }
+            
     }
     return mediaContainer;
 }

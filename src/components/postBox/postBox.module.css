@@ -259,10 +259,23 @@ a:hover{
     width: 4%;
 }
 
-.selfText{
+.selfTextWithFogContainer{
+    position:relative;
+}
+
+.selfTextForPostBox{
     margin: 0;
     text-align:left;
+    max-height:200px;
+    overflow:hidden;
+}
 
+.fogEffectContainer{
+    position: absolute;
+    top:0;
+    width:100%;
+    height: 100%;
+    background: linear-gradient(to top, hsla(0, 0%, 100%, 1) 20px, hsla(0, 0%, 100%, 0));
 }
 
 .postLink{

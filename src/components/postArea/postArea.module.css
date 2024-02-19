@@ -50,6 +50,9 @@
     border-radius:7px;
 }
 /*post box styles*/
+.selfTextForPostArea{
+    text-align:left;
+}
 
 .postBox{
     display:flex;

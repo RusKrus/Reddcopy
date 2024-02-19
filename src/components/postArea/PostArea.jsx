@@ -26,7 +26,9 @@ function PostArea() {
     const status = useSelector(state => state.postArea.status);
     const location = useLocation();
     const [galleryImages, setGalleryImages] = useState([])
+    //refs for parsed data
     const iframeRef = useRef(null);
+    const selfTextRef = useRef(null);
 
     useEffect(() => {
 
@@ -51,7 +53,7 @@ function PostArea() {
     const mediaType = postDetails?.post_hint;
     const iconUrlWithSearchParam = postDetails?.sr_detail.community_icon;
     const reserveIconUrl = postDetails?.sr_detail.icon_img;
-    const selfText = postDetails?.selftext;
+    const selfTextHTML = postDetails?.selftext_html;
     const numComments = postDetails?.num_comments;
     //forbidden is data about post type which I can't show in my app
     const forbidden = postDetails?.link_flair_css_class;
@@ -63,10 +65,6 @@ function PostArea() {
     const htmlStringIframe = postDetails?.media?.oembed?.html;
 
 
-
-    
-
-    
     //getting alternative subreddit icon url
     const searchParamStart = iconUrlWithSearchParam ? iconUrlWithSearchParam.indexOf("?") : null;
     const iconUrl = searchParamStart ? iconUrlWithSearchParam.slice(0, searchParamStart) : iconUrlWithSearchParam;
@@ -151,7 +149,7 @@ function PostArea() {
     
 
     //defining container type;
-    const mediaContainer = status === "loaded" ? mediaContainerDefiner(styles, mediaType, media, forbidden, videoRef, isGallery, thumbnail, selfText,{htmlStringIframe, iframeRef}, {isZoomed, handlePhotoClick}) : null;
+    const mediaContainer = status === "loaded" ? mediaContainerDefiner("postArea" ,styles, mediaType, media, forbidden, videoRef, isGallery, thumbnail, {selfTextHTML, selfTextRef} ,{htmlStringIframe, iframeRef}, {isZoomed, handlePhotoClick}) : null;
 
 
     //getting time posted ago

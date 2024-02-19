@@ -82,7 +82,7 @@ function FeedArea() {
                                 mediaType={postData.post_hint}
                                 iconUrlWithSearchParam={postData.sr_detail.community_icon}
                                 reserverIconUrl={postData.sr_detail.icon_img}
-                                selfText={postData.selftext}
+                                selfTextHTML={postData.selftext_html}
                                 numComments={postData.num_comments}
                                 forbidden={postData.link_flair_css_class}
                                 isGallery={postData.is_gallery}
