@@ -3,13 +3,12 @@ import { useParams, useNavigate, useLocation } from "react-router-dom";
 import { useSelector, useDispatch } from 'react-redux';
 import { fetchingPostData } from "./postAreaSlice";
 import styles from "./postArea.module.css"
-import { timeDecoder, mediaContainerDefiner, domElementObtainer } from "../../helperFuncs/helperFuncs";
-import dashjs from 'dashjs';
+import { timeDecoder } from "../../helperFuncs/helperFuncs";
 import CommentsArea from "../commentsArea/CommentsArea.jsx";
-
 import PostAreaLoading from "./PostAreaLoading.jsx";
 import UpBtn from "../upBtn/UpButton.jsx";
 import FailedToLoad from "../failedToLoad/FailedToLoad.jsx";
+import MediaContainer from "../mediaContainer/MediaContainer.jsx";
 import { v4 as uuidv4 } from 'uuid';
 import 'react-loading-skeleton/dist/skeleton.css';
 
@@ -30,32 +29,27 @@ function PostArea() {
     const iframeRef = useRef(null);
     const selfTextRef = useRef(null);
 
-    useEffect(() => {
 
+    useEffect(() => {
         if (!postData){
             dispatch(fetchingPostData(postId));
         }
-        
     }, [])
 
-
-
-
     //defining all required data for post
-
     const subredditName = postDetails?.subreddit_name_prefixed;
     const author = postDetails?.author;
     const title = postDetails?.title;
     const score = postDetails?.score;
     const media = postDetails?.url;
     const time = postDetails?.created_utc;
-    const video = postDetails?.media?.reddit_video?.dash_url;
+    const video = postDetails?.media?.reddit_video?.hls_url;
     const mediaType = postDetails?.post_hint;
     const iconUrlWithSearchParam = postDetails?.sr_detail.community_icon;
     const reserveIconUrl = postDetails?.sr_detail.icon_img;
     const selfTextHTML = postDetails?.selftext_html;
     const numComments = postDetails?.num_comments;
-    //forbidden is data about post type which I can't show in my app
+    //forbidden is data about post type which I can't show in my app rn
     const forbidden = postDetails?.link_flair_css_class;
     const isGallery = postDetails?.is_gallery;
     const thumbnail = postDetails?.thumbnail;
@@ -63,23 +57,18 @@ function PostArea() {
     const subredditDescription = postDetails?.sr_detail.public_description;
     const followers = postDetails?.sr_detail.subscribers;
     const htmlStringIframe = postDetails?.media?.oembed?.html;
+    const isSelf = postDetails?.is_self;
 
+
+    
 
     //getting alternative subreddit icon url
     const searchParamStart = iconUrlWithSearchParam ? iconUrlWithSearchParam.indexOf("?") : null;
     const iconUrl = searchParamStart ? iconUrlWithSearchParam.slice(0, searchParamStart) : iconUrlWithSearchParam;
     
-    
+   
 
-    //working with dash video type. It was only one way to create video with sound in the app
-    const videoRef = useRef(null);
-    const [dashUrl, setDashUrl] = useState('');
 
-    useEffect(() => {
-        setDashUrl(video);
-        const player = dashjs.MediaPlayer().create();
-        player.initialize(videoRef.current, dashUrl, true);
-    }, [dashUrl, video])
 
     //working on score logic
     const [changedScore, setChangedScore] = useState(null);
@@ -148,8 +137,7 @@ function PostArea() {
 
     
 
-    //defining container type;
-    const mediaContainer = status === "loaded" ? mediaContainerDefiner("postArea" ,styles, mediaType, media, forbidden, videoRef, isGallery, thumbnail, {selfTextHTML, selfTextRef} ,{htmlStringIframe, iframeRef}, {isZoomed, handlePhotoClick}) : null;
+    
 
 
     //getting time posted ago
@@ -173,11 +161,18 @@ function PostArea() {
                 </div>:null}
                 <div className={styles.postAndCommentsBox}>
                     <div className={styles.postBox}>
-                        <div className={styles.mediaContainer}>
-                            <h3 className={styles.title}>{title}</h3>
-                            {mediaContainer ? mediaContainer : null}
-                        </div>
-
+                            <MediaContainer mediaBoxType = "postArea"
+                                            title = {title}
+                                            styles = {styles}
+                                            mediaType = {mediaType}
+                                            media = {media} 
+                                            video={video}
+                                            isGallery = {isGallery} 
+                                            thumbnail = {thumbnail}
+                                            isSelf={isSelf}
+                                            dataForParseSelfText = {{selfTextHTML, selfTextRef}}
+                                            dataForParseIref = {{htmlStringIframe, iframeRef}}
+                                            dataForPhotoZoom = {{isZoomed, handlePhotoClick}}/>
                         <div className={styles.postInfoContainer}>
                             <div className={styles.likesContainer}>
                                 <svg onClick={onLikeClick} xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className={isLikeClicked ? styles.clickedLikeBtn : styles.likeBtn} >

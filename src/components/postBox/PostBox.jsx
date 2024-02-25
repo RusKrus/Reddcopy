@@ -1,15 +1,15 @@
-import React, { useState, useEffect, useRef, forwardRef } from "react";
+import React, { useState, useRef, forwardRef } from "react";
 import { useNavigate } from "react-router-dom";
-import { timeDecoder, mediaContainerDefiner } from "../../helperFuncs/helperFuncs";
+import { timeDecoder } from "../../helperFuncs/helperFuncs";
+import MediaContainer from "../mediaContainer/MediaContainer";
 import styles from "./postBox.module.css";
-import dashjs from 'dashjs';
+
 
 
 const PostBox = forwardRef((props, ref) => {
     //getting props
-    const { subredditName, author, title, score, media, time, video, mediaType, iconUrlWithSearchParam, reserverIconUrl, selfTextHTML, numComments, forbidden, isGallery, thumbnail, galleryInfo, htmlStringIframe, id } = props;
+    const { subredditName, author, title, score, media, time, video, mediaType, iconUrlWithSearchParam, reserverIconUrl, selfTextHTML, numComments, isGallery, thumbnail, galleryInfo, htmlStringIframe, isSelf, id } = props;
     //forbidden is data about post type which I can't show in my app
-    
     //getting time posted ago
     const timeAgo = timeDecoder(time);
 
@@ -20,11 +20,12 @@ const PostBox = forwardRef((props, ref) => {
     //refs for parsed data
     const iframeRef = useRef(null);
     const selfTextRef = useRef(null);
-
     const [changedScore, setChangedScore] = useState(score);
     const [isLikeClicked, setIsLikeClicked] = useState(false);
     const [isDislikeClicked, setIsDislikeClicked] = useState(false);
 
+
+    
 
     const navigate = useNavigate();
 
@@ -59,23 +60,11 @@ const PostBox = forwardRef((props, ref) => {
         }
 
     }
-    //working with dash video type
-    const videoRef = useRef(null);
-    const [dashUrl, setDashUrl] = useState('');
 
-    useEffect(() => {
-        setDashUrl(video);
-        const player = dashjs.MediaPlayer().create();
-        player.initialize(videoRef.current, dashUrl, true);
-    }, [dashUrl, video])
 
     const handlePostBoxClick = () => {
         navigate("/"+subredditName+"/"+id, {state: true});
     }
-
-
-    //media container definer
-    const mediaContainer = mediaContainerDefiner('postBox', styles, mediaType, media, forbidden, videoRef, isGallery, thumbnail, {selfTextHTML,selfTextRef} , {htmlStringIframe, iframeRef});
 
 
     return (
@@ -112,11 +101,17 @@ const PostBox = forwardRef((props, ref) => {
                     <hr className={styles.hr} />
 
                 </div>
-                <div className={(isGallery && thumbnail !== "default") ? styles.mediaContainerForGallery : styles.mediaContainer}>
-                    <h3 className={styles.title}>{title}</h3>
-                    {mediaContainer ? mediaContainer : null}
-                </div>
-
+                <MediaContainer mediaBoxType = "postBox"
+                                title = {title}
+                                styles = {styles}
+                                mediaType = {mediaType}
+                                media = {media} 
+                                video={video}
+                                isGallery = {isGallery} 
+                                thumbnail = {thumbnail}
+                                isSelf={isSelf}
+                                dataForParseSelfText = {{selfTextHTML, selfTextRef}}
+                                dataForParseIref = {{htmlStringIframe, iframeRef}}/>
             </div>
         </div>
 

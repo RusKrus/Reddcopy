@@ -1,0 +1,193 @@
+/*GENERAL STYLES FOR POST AREA/BOX*/
+.defaultPostBox{
+    padding-top:1rem;
+    width:100%;
+    margin: 0 auto;
+}
+
+
+.title{
+    margin: 0;
+    text-align:left;
+}
+
+.mediaContainerForLink{
+    width:100%;
+    display:flex;   
+}
+
+/*styles for link*/
+
+
+.linkPostTextInfoContainer{
+    display:inline-block;
+    width:70%;
+    margin-right:5%;
+}
+
+.anchorForImg{
+    display:inline-block;
+    width:25%;
+    height:100%;
+    text-align: right;
+}
+
+.linkImg{
+    width: 100%;
+    border: 1px solid navy;
+    border-radius: 5%;
+}
+
+.link{
+    display: inline-block;
+    margin: 1rem 0;
+}
+
+.linkIcon{
+    width:1rem;
+}
+
+
+/*syles for image*/
+.postMediaPhotoContainer{   
+    width:100%;
+    text-align:center;
+    padding-top: 1rem; 
+}
+
+/*styles for self*/
+table{
+    border-collapse:collapse;
+    border: 2px solid navy;
+}
+
+td{
+    padding:0.3rem;
+    border: 1px solid navy  ;
+}
+
+th{
+    padding:0.3rem;
+    border:1px solid navy;
+}
+
+
+/*styles for rich:video*/
+.iframeContainer{
+    margin-top:1rem;
+}
+
+/*styles for video*/
+.videoJSContainer {
+    margin-top: 1rem;
+}
+
+
+
+
+/*POST AREA*/
+
+
+/*styles for link*/
+/*syles for image*/
+
+.postAreaMediaPhoto{
+    display: inline-block;
+    max-height:600px;
+    max-width:100%;
+    margin: 0 auto;
+    cursor: zoom-in;
+    transition: 0.4s;
+}
+
+.activeOverlay{
+    width:100%;
+    height:100%;
+    position: fixed;
+    background-color: hsla(0, 0%, 50%, 0.8);    
+    top:0;
+    left:0;  
+    pointer-events: auto;
+}
+
+.zoomedPostMediaPhoto{
+    max-height:600px;
+    max-width:100%;
+    transform: scale(1.4);
+    cursor: zoom-out;
+    transition: 0.2s;
+    position:relative;
+    top:2.5rem;
+}
+
+/*styles for self*/
+.selfTextForPostArea{
+    text-align:left;
+}
+
+
+
+/*styles for rich:video*/
+
+/*styles for hosted:video*/
+.postMediaVideoJS{
+    width:100% !important;
+    height:600px;
+}
+
+
+/*POST BOX*/
+/*styles for link*/
+/*syles for image*/
+
+.postBoxMediaPhoto{
+    display: inline-block;
+    max-height:512px;
+    max-width:100%;
+    margin: 0 auto;
+}
+
+/*styles for self*/
+
+.selfTextWithFogContainer{
+    position:relative;
+}
+
+.selfTextForPostBox{
+    margin: 0;
+    text-align:left;
+    max-height:200px;
+    overflow:hidden;
+}
+
+.fogEffectContainer{
+    position: absolute;
+    top:0;
+    width:100%;
+    height: 100%;
+    background: linear-gradient(to top, hsla(0, 0%, 100%, 1) 20px, hsla(0, 0%, 100%, 0));
+}
+
+/*styles for rich:video*/
+/*styles for hosted:video*/
+.postMediaVideoJS{
+    width:100% !important;
+    height:512px;
+}
+
+/*gallery*/
+.galleryContainerPostBox{
+    display:flex;
+    flex-wrap:wrap;
+    align-items:flex-start
+}
+
+.titleGalleryPostBox{
+    width:72%;
+    padding-right:3%;
+    margin:0;
+}
+
+.thumbnailGalleryPostBox{
+    width:20%;
+}

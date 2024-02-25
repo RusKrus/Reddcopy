@@ -3,7 +3,7 @@ import styles from "./contentFilter.module.css";
 import { NavLink } from "react-router-dom";
 
 function ContentFilter() {
-    console.log("go owork")
+
     return (
         <div className={styles.contentFilter}>
             <NavLink to="/top" className={({ isActive }) => isActive ? styles.paramButtonActive : styles.paramButton}   >

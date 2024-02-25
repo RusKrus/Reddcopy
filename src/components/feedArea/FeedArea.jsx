@@ -78,16 +78,16 @@ function FeedArea() {
                                 score={postData.score}
                                 media={postData.url}
                                 time={postData.created_utc}
-                                video={postData.media?.reddit_video?.dash_url}
+                                video={postData.media?.reddit_video?.hls_url}
                                 mediaType={postData.post_hint}
                                 iconUrlWithSearchParam={postData.sr_detail.community_icon}
                                 reserverIconUrl={postData.sr_detail.icon_img}
                                 selfTextHTML={postData.selftext_html}
                                 numComments={postData.num_comments}
-                                forbidden={postData.link_flair_css_class}
                                 isGallery={postData.is_gallery}
                                 thumbnail={postData.thumbnail}
                                 galleryInfo={postData.media_metadata}
+                                isSelf={postData.is_self}
                                 htmlStringIframe = {postData?.media?.oembed?.html}
                                 id={postData.id}
                                 ref={num + 3 === postsInfo.posts.length ? itemToLoadContent : null}
