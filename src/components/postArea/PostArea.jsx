@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useParams, useNavigate, useLocation } from "react-router-dom";
 import { useSelector, useDispatch } from 'react-redux';
 import { fetchingPostData } from "./postAreaSlice";
@@ -9,6 +9,7 @@ import PostAreaLoading from "./PostAreaLoading.jsx";
 import UpBtn from "../upBtn/UpButton.jsx";
 import FailedToLoad from "../failedToLoad/FailedToLoad.jsx";
 import MediaContainer from "../mediaContainer/MediaContainer.jsx";
+import LikesCounter from "../likesCounter/LikesCounter.jsx";
 import { v4 as uuidv4 } from 'uuid';
 import 'react-loading-skeleton/dist/skeleton.css';
 
@@ -24,10 +25,8 @@ function PostArea() {
     const postComments = postData?.postComments;
     const status = useSelector(state => state.postArea.status);
     const location = useLocation();
-    const [galleryImages, setGalleryImages] = useState([])
     //refs for parsed data
-    const iframeRef = useRef(null);
-    const selfTextRef = useRef(null);
+
 
 
     useEffect(() => {
@@ -37,111 +36,52 @@ function PostArea() {
     }, [])
 
     //defining all required data for post
-    const subredditName = postDetails?.subreddit_name_prefixed;
-    const author = postDetails?.author;
-    const title = postDetails?.title;
-    const score = postDetails?.score;
-    const media = postDetails?.url;
-    const time = postDetails?.created_utc;
-    const video = postDetails?.media?.reddit_video?.hls_url;
-    const mediaType = postDetails?.post_hint;
-    const iconUrlWithSearchParam = postDetails?.sr_detail.community_icon;
-    const reserveIconUrl = postDetails?.sr_detail.icon_img;
-    const selfTextHTML = postDetails?.selftext_html;
-    const numComments = postDetails?.num_comments;
-    //forbidden is data about post type which I can't show in my app rn
-    const forbidden = postDetails?.link_flair_css_class;
-    const isGallery = postDetails?.is_gallery;
-    const thumbnail = postDetails?.thumbnail;
-    const galleryInfo = postDetails?.media_metadata;
-    const subredditDescription = postDetails?.sr_detail.public_description;
-    const followers = postDetails?.sr_detail.subscribers;
-    const htmlStringIframe = postDetails?.media?.oembed?.html;
-    const isSelf = postDetails?.is_self;
-
-
+    const postProps = {
+        subredditName:postDetails?.subreddit_name_prefixed,
+        author:postDetails?.author,
+        title:postDetails?.title,
+        score:postDetails?.score,
+        media:postDetails?.url,
+        time:postDetails?.created_utc,
+        video:postDetails?.media?.reddit_video?.hls_url,
+        mediaType:postDetails?.post_hint,
+        iconUrlWithSearchParam:postDetails?.sr_detail.community_icon,
+        reserveIconUrl:postDetails?.sr_detail.icon_img,
+        selfTextHTML:postDetails?.selftext_html,
+        numComments:postDetails?.num_comments,
+        isGallery:postDetails?.is_gallery,
+        thumbnail:postDetails?.thumbnail,
+        galleryInfo:postDetails?.media_metadata,
+        subredditDescription:postDetails?.sr_detail.public_description,
+        followers:postDetails?.sr_detail.subscribers,
+        htmlStringIframe:postDetails?.media?.oembed?.html,
+        isSelf:postDetails?.is_self,
+        flairText:postDetails?.link_flair_text,
+        flairTextColor:postDetails?.link_flair_text_color,
+        flairBackgroundColor:postDetails?.link_flair_background_color
+    }
     
-
+    
     //getting alternative subreddit icon url
-    const searchParamStart = iconUrlWithSearchParam ? iconUrlWithSearchParam.indexOf("?") : null;
-    const iconUrl = searchParamStart ? iconUrlWithSearchParam.slice(0, searchParamStart) : iconUrlWithSearchParam;
+    const searchParamStart = postProps.iconUrlWithSearchParam ? postProps.iconUrlWithSearchParam.indexOf("?") : null;
+    const iconUrl = searchParamStart ? postProps.iconUrlWithSearchParam.slice(0, searchParamStart) : postProps.iconUrlWithSearchParam;
+
     
-   
 
-
-
-    //working on score logic
-    const [changedScore, setChangedScore] = useState(null);
-    const [isLikeClicked, setIsLikeClicked] = useState(false);
-    const [isDislikeClicked, setIsDislikeClicked] = useState(false);
-
-
-    //useEffect is used because in case of refreshing the page score passed to setChangedScore is undefined and is not re-rendered when data is fethced 
-    useEffect(() => {
-        setChangedScore(score);
-    }, [score])
-
-    //to ensure that incase second load of the page scrol bar will be on the top
+        //to ensure that incase second load of the page scrol bar will be on the top
     useEffect(() => {
         window.scrollTo({ top: 0 });
     }, [])
 
-    const onLikeClick = () => {
 
-        setIsLikeClicked(!isLikeClicked);
-        setIsDislikeClicked(false);
-        if (changedScore === score) {
-            setChangedScore(changedScore => changedScore + 1)
-        }
-        else if (changedScore > score) {
-            setChangedScore(score)
-        }
-        else if (changedScore < score) {
-            setChangedScore(changedScore => changedScore + 2)
-        }
-    }
-
-    const onDislikeClick = () => {
-
-        setIsDislikeClicked(!isDislikeClicked);
-        setIsLikeClicked(false);
-        if (changedScore === score) {
-            setChangedScore(changedScore => changedScore - 1)
-        }
-        else if (changedScore < score) {
-            setChangedScore(score)
-        }
-        else if (changedScore > score) {
-            setChangedScore(changedScore => changedScore - 2)
-        }
-
-    }
-
-    //media container definer, handling logic for some kinds of containers
-    const [isZoomed, setIsZoomed] = useState(false)
-    const handlePhotoClick = () => {
-        setIsZoomed(!isZoomed);
-    }
-
-    //checker for isZoomed value
-    useEffect(() => {
-        document.body.style.overflow = isZoomed ? 'hidden' : 'auto';
-        if (isZoomed) {
-            window.scroll({ top: 0 })
-        }
-    }, [isZoomed])
 
     const handleBacklick = () => {
         navigate(-1);
     }
 
-    
-
-    
-
 
     //getting time posted ago
-    const timeAgo = timeDecoder(time);
+    const timeAgo = timeDecoder(postProps.time);
 
     if (status === "loading") {
         return (
@@ -161,45 +101,37 @@ function PostArea() {
                 </div>:null}
                 <div className={styles.postAndCommentsBox}>
                     <div className={styles.postBox}>
-                            <MediaContainer mediaBoxType = "postArea"
-                                            title = {title}
+                            <MediaContainer containerType = "postArea"
+                                            galleryInfo = {postProps.galleryInfo}
+                                            title = {postProps.title}
                                             styles = {styles}
-                                            mediaType = {mediaType}
-                                            media = {media} 
-                                            video={video}
-                                            isGallery = {isGallery} 
-                                            thumbnail = {thumbnail}
-                                            isSelf={isSelf}
-                                            dataForParseSelfText = {{selfTextHTML, selfTextRef}}
-                                            dataForParseIref = {{htmlStringIframe, iframeRef}}
-                                            dataForPhotoZoom = {{isZoomed, handlePhotoClick}}/>
+                                            mediaType = {postProps.mediaType}
+                                            media = {postProps.media} 
+                                            video={postProps.video}
+                                            isGallery = {postProps.isGallery} 
+                                            thumbnail = {postProps.thumbnail}
+                                            isSelf={postProps.isSelf}
+                                            htmlDataForParseSelfText = {{selfTextHTML:postProps.selfTextHTML, htmlStringIframe:postProps.htmlStringIframe}}
+                                            flairProps={{flairText:postProps.flairText, flairTextColor:postProps.flairTextColor, flairBackgroundColor:postProps.flairBackgroundColor}}
+                                            />
                         <div className={styles.postInfoContainer}>
-                            <div className={styles.likesContainer}>
-                                <svg onClick={onLikeClick} xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className={isLikeClicked ? styles.clickedLikeBtn : styles.likeBtn} >
-                                    <path strokeLinecap="round" strokeLinejoin="round" d="M6.633 10.25c.806 0 1.533-.446 2.031-1.08a9.041 9.041 0 0 1 2.861-2.4c.723-.384 1.35-.956 1.653-1.715a4.498 4.498 0 0 0 .322-1.672V2.75a.75.75 0 0 1 .75-.75 2.25 2.25 0 0 1 2.25 2.25c0 1.152-.26 2.243-.723 3.218-.266.558.107 1.282.725 1.282m0 0h3.126c1.026 0 1.945.694 2.054 1.715.045.422.068.85.068 1.285a11.95 11.95 0 0 1-2.649 7.521c-.388.482-.987.729-1.605.729H13.48c-.483 0-.964-.078-1.423-.23l-3.114-1.04a4.501 4.501 0 0 0-1.423-.23H5.904m10.598-9.75H14.25M5.904 18.5c.083.205.173.405.27.602.197.4-.078.898-.523.898h-.908c-.889 0-1.713-.518-1.972-1.368a12 12 0 0 1-.521-3.507c0-1.553.295-3.036.831-4.398C3.387 9.953 4.167 9.5 5 9.5h1.053c.472 0 .745.556.5.96a8.958 8.958 0 0 0-1.302 4.665c0 1.194.232 2.333.654 3.375Z" />
-                                </svg>
-                                {(changedScore < 1000) ? <span className={isLikeClicked ? styles.likesCounterGreen : isDislikeClicked ? styles.likesCounterRed : styles.likesCounter}>{changedScore}</span> : <span className={isLikeClicked ? styles.likesCounterGreen : isDislikeClicked ? styles.likesCounterRed : styles.likesCounter}>{(changedScore / 1000).toFixed(1)}k</span>}
-                                <svg onClick={onDislikeClick} xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className={isDislikeClicked ? styles.clickedDislikeBtn : styles.dislikeBtn} >
-                                    <path strokeLinecap="round" strokeLinejoin="round" d="M7.498 15.25H4.372c-1.026 0-1.945-.694-2.054-1.715a12.137 12.137 0 0 1-.068-1.285c0-2.848.992-5.464 2.649-7.521C5.287 4.247 5.886 4 6.504 4h4.016a4.5 4.5 0 0 1 1.423.23l3.114 1.04a4.5 4.5 0 0 0 1.423.23h1.294M7.498 15.25c.618 0 .991.724.725 1.282A7.471 7.471 0 0 0 7.5 19.75 2.25 2.25 0 0 0 9.75 22a.75.75 0 0 0 .75-.75v-.633c0-.573.11-1.14.322-1.672.304-.76.93-1.33 1.653-1.715a9.04 9.04 0 0 0 2.86-2.4c.498-.634 1.226-1.08 2.032-1.08h.384m-10.253 1.5H9.7m8.075-9.75c.01.05.027.1.05.148.593 1.2.925 2.55.925 3.977 0 1.487-.36 2.89-.999 4.125m.023-8.25c-.076-.365.183-.75.575-.75h.908c.889 0 1.713.518 1.972 1.368.339 1.11.521 2.287.521 3.507 0 1.553-.295 3.036-.831 4.398-.306.774-1.086 1.227-1.918 1.227h-1.053c-.472 0-.745-.556-.5-.96a8.95 8.95 0 0 0 .303-.54" />
-                                </svg>
-                            </div>
-                            <p className={styles.postDescription} >Posted by <span>{author}</span> <span className={styles.timeAgo}>{timeAgo}</span></p>
+                            <LikesCounter score={postProps.score} containerType={"postArea"}/>
+                            <p className={styles.postDescription} >Posted by <span>{postProps.author}</span> <span className={styles.timeAgo}>{timeAgo}</span></p>
                         </div>
                     </div>
                     <div className={styles.commentsArea}>
-                        <h3 className={styles.commentsCounter}>{numComments} comments</h3>
+                        <h3 className={styles.commentsCounter}>{postProps.numComments} comments</h3>
                         <hr className={styles.hrComments} />
                         {postComments?.filter(comment => comment.kind === "t1").map(comment => <CommentsArea comment={comment} key={uuidv4()} />)}
                     </div>
                 </div>
 
                 <div className={styles.subredditInfoBox} >
-                    <p className={styles.subredditMainInfo}><img className={styles.subredditAvatar} src={iconUrl ? iconUrl : reserveIconUrl} alt="Subreddit avatar" />{subredditName}</p>
+                    <p className={styles.subredditMainInfo}>{(iconUrl||postProps.reserveIconUrl)&&<img className={styles.subredditAvatar} src={iconUrl ? iconUrl : postProps.reserveIconUrl} alt="Subreddit avatar" />}{postProps.subredditName}</p>
                     <hr className={styles.hrSrInfo}></hr>
-                    <p className={styles.subredditDescription}>{subredditDescription || <span style={{ fontStyle: 'italic' }}>No info avaliable yet</span>}</p>
+                    <p className={styles.subredditDescription}>{postProps.subredditDescription || <span style={{ fontStyle: 'italic' }}>No info avaliable yet</span>}</p>
                     <hr className={styles.hrSrInfo}></hr>
-                    <p className={styles.followersNumber}>{followers} followers</p>
-                    
+                    <p className={styles.followersNumber}>{postProps.followers} followers</p>
                 </div>
                {/*When I put src attribute using url with "" 0 image works. When I pass url as variable - it doesn't work. I cant solve this problem
                <div>{Object.keys(galleryInfo).length>0?Object.keys(galleryInfo).map(photoInfo=><img onError={(e)=>console.error(e)} src={galleryInfo[photoInfo].p[4].u}/>):<>не работает</>}</div>*/}
@@ -213,8 +145,6 @@ function PostArea() {
             <FailedToLoad reloadAction={fetchingPostData} actionParam={postId} />
         )
     }
-
-
 
 }
 

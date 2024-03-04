@@ -86,9 +86,12 @@ function FeedArea() {
                                 numComments={postData.num_comments}
                                 isGallery={postData.is_gallery}
                                 thumbnail={postData.thumbnail}
-                                galleryInfo={postData.media_metadata}
+
                                 isSelf={postData.is_self}
                                 htmlStringIframe = {postData?.media?.oembed?.html}
+                                flairText={postData.link_flair_text}
+                                flairTextColor={postData.link_flair_text_color}
+                                flairBackgroundColor={postData.link_flair_background_color}
                                 id={postData.id}
                                 ref={num + 3 === postsInfo.posts.length ? itemToLoadContent : null}
                                 key={uuidv4()} />

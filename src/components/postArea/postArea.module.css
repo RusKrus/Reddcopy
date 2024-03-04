@@ -95,70 +95,7 @@
     color:hsla(0, 0%, 50%, 0.6)
 }
 
-.likesContainer{
-    height:100%;
-    width:50%;
-    display: flex;
-    align-items:center;
-    
-}
 
-.likeBtn{
-    width:8%;
-}
-
-.likeBtn:hover{
-    cursor: pointer;
-    color: green;
-    background-color: rgb(235, 234, 234);
-}
-
-.clickedLikeBtn{
-    width:8%;
-    color:green; 
-    cursor: pointer;
-}
-
-
-
-.likesCounter{
-    margin:.5rem;
-    font-weight:600;
-    font-size:0.8rem;
-}
-
-.likesCounterGreen{
-    margin:.5rem;
-    font-weight:700;
-    font-size:0.8rem;
-    color:green;
-}
-
-.likesCounterRed{
-    margin:.5rem;
-    font-weight:700;
-    font-size:0.8rem;
-    color:red;
-}
-
-
-
-.dislikeBtn{
-    width:8%;
-}
-
-.clickedDislikeBtn{
-    width:8%;
-    height:auto;
-    color:red;
-    cursor: pointer;
-}
-
-.dislikeBtn:hover{
-    cursor: pointer;
-    color: red;
-    background-color: rgb(235, 234, 234);
-}
 
 /*comments styles*/
 

@@ -1,0 +1,180 @@
+/*general likes styles*/
+.likesCounter{
+    margin:.5rem;
+    font-weight:600;
+    font-size:0.8rem;
+    display: inline;
+}
+
+.likesCounterGreen{
+    margin:.5rem;
+    font-weight:700;
+    font-size:0.8rem;
+    color:green;
+}
+
+.likesCounterRed{
+    margin:.5rem;
+    font-weight:700;
+    font-size:0.8rem;
+    color:red;
+    
+}
+
+
+/*postArea likes*/
+.likesContainerPostArea{
+    height:100%;
+    width:50%;
+    display: flex;
+    align-items:center;
+    justify-content:flex-start;
+    
+}
+
+.likeBtnPostArea{
+    width:8%;
+}
+
+.likeBtnPostArea:hover{
+    cursor: pointer;
+    color: green;
+    background-color: rgb(235, 234, 234);
+}
+
+.clickedLikeBtnPostArea{
+    width:8%;
+    color:green; 
+    cursor: pointer;
+}
+
+.dislikeBtnPostArea{
+    width:8%;
+}
+
+.clickedDislikeBtnPostArea{
+    width:8%;
+    height:auto;
+    color:red;
+    cursor: pointer;
+}
+
+.dislikeBtnPostArea:hover{
+    cursor: pointer;
+    color: red;
+    background-color: rgb(235, 234, 234);
+}
+
+
+/*comments likes*/
+
+
+.likesContainerComments{
+    display:flex;
+    
+}
+
+
+.likeBtnComments{
+    width:1.5rem;
+}
+
+.likeBtnComments:hover{
+    cursor: pointer;
+    color: green;
+    background-color: rgb(235, 234, 234);
+}
+
+.clickedLikeBtnComments{
+    width:1.5rem;;
+    color:green; 
+    cursor: pointer;
+}
+
+.dislikeBtnComments{
+    width:1.5rem;
+}
+
+.clickedDislikeBtnComments{
+    width:1.5rem;
+    height:auto;
+    color:red;
+    cursor: pointer;
+}
+
+.dislikeBtnComments:hover{
+    cursor: pointer;
+    color: red;
+    background-color: rgb(235, 234, 234);
+}
+
+/*postBox likes*/
+.likeBtnPostBox{
+    width:100%;
+    height:auto;
+    
+}
+
+.likeBtnPostBox:hover{
+    cursor: pointer;
+    color: green;
+    background-color: rgb(235, 234, 234);
+}
+
+.clickedLikeBtnPostBox{
+    width:100%;
+    height:auto;
+    color:green; 
+    cursor: pointer;
+}
+
+
+.dislikeBtnPostBox{
+    width:100%;
+    height:auto;
+}
+
+.clickedDislikeBtnPostBox{
+    width:100%;
+    height:auto;
+    color:red;
+    cursor: pointer;
+}
+
+
+.dislikeBtnPostBox:hover{
+    cursor: pointer;
+    color: red;
+    background-color: rgb(235, 234, 234);
+}
+
+.likesCounterPostBox{
+    display: inline-block;
+    font-weight: 700;
+    margin: 0.3rem 0 0.3rem 0;
+    width:100%;
+    font-size: .75rem;
+}
+
+.likesCounterGreenPostBox{
+    display: inline-block;
+    font-weight: 700;
+    margin: 0.3rem 0 0.3rem 0;
+    width:100%;
+    font-size: .75rem;
+    color:green;
+}
+
+.likesCounterRedPostBox{
+    display: inline-block;
+    font-weight: 700;
+    margin: 0.3rem 0 0.3rem 0;
+    width:100%;
+    font-size: .75rem;
+    color:red;
+}
+
+.likesContainerPostBox{
+    width:60%;
+    text-align: center;
+}

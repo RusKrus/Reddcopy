@@ -1,6 +1,6 @@
 .commentBox{
     text-align:left;
-    
+    overflow:hidden;
     padding:.5rem;
 }
 
@@ -24,64 +24,3 @@
     font-style:italic;
 }
 
-/*like butons*/
-.likesContainer{
-    display:flex;
-}
-
-
-.likeBtn{
-    width:1.5rem;
-}
-
-.likeBtn:hover{
-    cursor: pointer;
-    color: green;
-    background-color: rgb(235, 234, 234);
-}
-
-.clickedLikeBtn{
-    width:1.5rem;;
-    color:green; 
-    cursor: pointer;
-}
-
-
-.likesCounter{
-    margin:.5rem;
-    font-weight:600;
-    font-size:0.8rem;
-}
-
-.likesCounterGreen{
-    margin:.5rem;
-    font-weight:700;
-    font-size:0.8rem;
-    color:green;
-}
-
-.likesCounterRed{
-    margin:.5rem;
-    font-weight:700;
-    font-size:0.8rem;
-    color:red;
-}
-
-
-
-.dislikeBtn{
-    width:1.5rem;
-}
-
-.clickedDislikeBtn{
-    width:1.5rem;
-    height:auto;
-    color:red;
-    cursor: pointer;
-}
-
-.dislikeBtn:hover{
-    cursor: pointer;
-    color: red;
-    background-color: rgb(235, 234, 234);
-}

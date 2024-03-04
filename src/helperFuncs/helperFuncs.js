@@ -1,6 +1,31 @@
 import he from 'he';
 
-export const domElementObtainer = (htmlString) =>{
+export const imageGalleryPrepared = (galleryInfo) => {
+    const urlArrayToDecode = [];
+    for (const imageKey in galleryInfo){
+        urlArrayToDecode.push(galleryInfo[imageKey].s.u)
+    }
+
+    const decodedArray = [];
+    for(const url of urlArrayToDecode){
+        const decodedUrl = he.decode(url);
+        decodedArray.push(decodedUrl);
+    }
+    
+    const imageGalleryProps = [];
+    for (const decodedUrl of decodedArray){
+        imageGalleryProps.push({
+            original:decodedUrl,
+            thumbnail: decodedUrl,
+            originalAlt: "gallery image",
+            thumbnailAlt: "gallery image thumbnail",
+        })
+    } 
+
+    return imageGalleryProps;
+}
+
+export const domElementObtainer = (htmlString) => {
     const decodedHtml = he.decode(htmlString);
     const parser = new DOMParser();
     const doc = parser.parseFromString(decodedHtml, "text/html");
@@ -17,8 +42,31 @@ export const iframeElementObtainer = (htmlString, iframeRef) =>{
     }
 }
 
-export const selfTextElementObtainer = (htmlString, styles, selfTextRef, mediaBoxType) =>{
+export const aToImgLinkReplacer = (selfText) => {
+    
+    const elementChilds = selfText.children;
+    const anchorParagraphsArray = [];
+    for(const child of elementChilds){
+        if (child.querySelector('a')){
+            anchorParagraphsArray.push(child);
+        }
+    }
+
+    for(const child of anchorParagraphsArray){
+        const anchorElement = child.querySelector('a');
+        if(anchorElement.href.includes(".jpg")||anchorElement.href.includes("png")){
+            const tempRefContainer = anchorElement.href;
+            const imgElement = document.createElement("img");
+            imgElement.src = tempRefContainer;
+            imgElement.style.maxWidth = "100%"
+            child.replaceChild(imgElement, anchorElement)
+        }
+    }
+}
+
+export const selfTextElementObtainer = (htmlString, styles, selfTextRef, mediaBoxType) => {
     const selfText = domElementObtainer(htmlString);
+    aToImgLinkReplacer(selfText)
     if(selfTextRef.current&&selfTextRef.current.children.length===0){
         if(mediaBoxType==="postArea"){
             selfText.className = styles.selfTextForPostArea;
