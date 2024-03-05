@@ -1,6 +1,7 @@
 .postArea{
     display:grid;
     width:100%;
+    min-height: 100vh;
     grid-template-columns: 1fr 50rem 1fr;
     padding-top:1rem;
     background-color: hsl(0, 0%, 96%);

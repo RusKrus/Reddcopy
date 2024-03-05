@@ -51,3 +51,30 @@
    margin-bottom: 2rem; 
 }
 
+
+/*subreddit infobox*/
+
+.subredditInfoBoxLoading{
+   grid-column: 3/3;
+   align-self: start;
+   background-color:hsla(230, 50%, 70%, .3);
+   width: 60%;
+   justify-self: center;
+   padding:.5rem;
+   border-radius: 7px;
+   margin-top:1.5rem;
+}
+
+.hrSrInfoLoading{
+   border-top:1px solid hsl(220, 50%, 30%);
+}
+
+.srNameAndImageLoading{
+   display:flex;
+   align-items:center;
+}
+
+.srNameSkeletonContainer{
+   width: 40%;
+   margin-left: 0.4rem;
+}

@@ -5,10 +5,8 @@ import LikesCounter from "../likesCounter/LikesCounter.jsx";
 import { v4 as uuidv4 } from 'uuid';
 
 
-function CommentsArea({comment, containerType}){
+function CommentsArea({comment}){
     //getting comment info from props 
-
-
     const author=comment.data.author;
     const postedAgo=timeDecoder(comment.data.created_utc);
     const rawText=comment.data.body_html;
@@ -29,10 +27,6 @@ function CommentsArea({comment, containerType}){
             }
         }
     }, [textBoxRef.current])
-    
-
-
-
 
     return (
         <div className={styles.commentBox} ref={textBoxRef}>

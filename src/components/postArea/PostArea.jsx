@@ -23,6 +23,7 @@ function PostArea() {
     const postData = useSelector(state => state.postArea.postData[postId]);
     const postDetails = postData?.postInfo[0].data;
     const postComments = postData?.postComments;
+    console.log(Boolean (postComments))
     const status = useSelector(state => state.postArea.status);
     const location = useLocation();
     //refs for parsed data
@@ -93,7 +94,7 @@ function PostArea() {
     else if (status === "loaded") {
         return (
             <div className={styles.postArea}>
-
+                
                 {location.state?<div onClick={handleBacklick} className={styles.backButton}>
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className={styles.backSign}>
                         <path strokeLinecap="round" strokeLinejoin="round" d="m18.75 4.5-7.5 7.5 7.5 7.5m-6-15L5.25 12l7.5 7.5" />
@@ -122,7 +123,7 @@ function PostArea() {
                     <div className={styles.commentsArea}>
                         <h3 className={styles.commentsCounter}>{postProps.numComments} comments</h3>
                         <hr className={styles.hrComments} />
-                        {postComments?.filter(comment => comment.kind === "t1").map(comment => <CommentsArea comment={comment} key={uuidv4()} />)}
+                        {postComments&&postComments.length>0?postComments.filter(comment => comment.kind === "t1").map(comment => <CommentsArea comment={comment} key={uuidv4()} />):<h2>Nobody left a comment yet :(</h2>}
                     </div>
                 </div>
 
