@@ -8,12 +8,14 @@
 
     
 }
+
+
 /*button styles*/
 .backButton{
     width:30%;
     background-color:transparent ;
-    position:relative;
-    margin-top: -1rem;
+    position:sticky;
+    top: -1rem;
     cursor: pointer;
 
 }
@@ -29,7 +31,7 @@
 .backSign{
     position: fixed;
     top:50%;
-    left:2.5%;
+    padding: .75%;
     color:transparent;
     font-weight:bold;
     height:4rem;
@@ -41,7 +43,7 @@
 
 /*post+comments boxes*/
 .postAndCommentsBox{
-    grid-column: 2/2;
+
     padding:0 1rem;
     width:100%;
     box-sizing: border-box;
@@ -56,8 +58,6 @@
 .postBox{
     display:flex;
     flex-wrap:wrap;
-    
-    
 }
 
 .mediaContainer{
@@ -65,9 +65,6 @@
     text-align: center;
     
 }
-
-
-
 
 
 .postMedia{
@@ -115,7 +112,7 @@
 
 /*subreddit info box styles*/
 .subredditInfoBox{
-    grid-column: 3/3;
+
     align-self: start;
     background-color:hsla(230, 50%, 70%, .3);
     width: 60%;
@@ -178,6 +175,41 @@
     align-items:center;
 }
 
+
+
+
+@media only screen and (max-width: 1360px){
+    .postArea{
+        grid-template-columns: 1fr 40rem 1fr;
+    }
+}
+
+@media only screen and (max-width: 1024px){
+    .postArea{
+        box-sizing: border-box;
+        display: flex;
+        justify-content: space-between;
+        padding: 1rem 1rem 0 1rem;
+    }
+
+    .backButton{
+        display: none;
+    }
+
+    .postAndCommentsBox{
+        width: 70%;
+    }
+
+    .subredditInfoBox{
+        width:25%;
+    }
+
+}
+
+
+@media only screen and (max-width: 750px){
+    
+}
 
 
 

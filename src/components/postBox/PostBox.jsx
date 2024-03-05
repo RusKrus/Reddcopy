@@ -1,4 +1,4 @@
-import React, { useState, forwardRef, memo } from "react";
+import React, { forwardRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { timeDecoder } from "../../helperFuncs/helperFuncs";
 import MediaContainer from "../mediaContainer/MediaContainer";
@@ -8,6 +8,7 @@ import styles from "./postBox.module.css";
 
 
 const PostBox = forwardRef((props, ref) => {
+    
     //getting props
     const { subredditName, author, title, score, media, time, video, mediaType, iconUrlWithSearchParam, reserverIconUrl, selfTextHTML, numComments, isGallery, thumbnail, htmlStringIframe, flairText, flairTextColor, flairBackgroundColor, isSelf, id } = props;
     //forbidden is data about post type which I can't show in my app

@@ -7,7 +7,7 @@ import ContentFilter from "../contentFilter/ContentFilter.jsx"
 import NotFound from "../notFound/NotFound.jsx";
 import FailedToLoad from "../failedToLoad/FailedToLoad.jsx";
 import { useSelector, useDispatch } from 'react-redux';
-import { fetchingData, clearPosts } from "../feedArea/feedAreaSlice.js";
+import { fetchingData } from "../feedArea/feedAreaSlice.js";
 import { v4 as uuidv4 } from 'uuid';
 import { searchFilter } from "../../helperFuncs/helperFuncs.js";
 import {useParams} from "react-router-dom"; 
@@ -16,15 +16,15 @@ import {useParams} from "react-router-dom";
 function FeedArea() {
 
     const filterValue = useSelector(state => state.header.filterValue);
-    const itemToLoadContent = useRef();
-    //const observerLoader = useRef();
+    const itemToLoadContent = useRef(null);
+    const observerLoader = useRef(null);
     const {postFilterParam} = useParams();
     const activeParam = postFilterParam||"top";
     const postsInfo = useSelector(state => state.feedArea);
     const dispatch = useDispatch();
-    //const after = postsInfo.after;
+    const after = postsInfo.after;
     const status = postsInfo.status;
-
+    console.log(after)
 
     useEffect(() => {
         if(postsInfo.posts[activeParam].length===0){
@@ -39,13 +39,12 @@ function FeedArea() {
 
 
 
-    //-----------------------------------------------------------------------
-    /*infinity scroll, not ended (eats a lot of memory)
 
     const newPostsLoader=(entries)=>{
         if (entries[0].isIntersecting){
-            dispatch(fetchingData({searchParam: searchParam, after}));
+            dispatch(fetchingData({searchParam: activeParam, after}));
         };
+
     }
     useEffect(()=>{
         if(observerLoader.current){
@@ -54,10 +53,13 @@ function FeedArea() {
         observerLoader.current = new IntersectionObserver(newPostsLoader);
         if(itemToLoadContent.current){
             observerLoader.current.observe(itemToLoadContent.current);
+            console.log(itemToLoadContent.current)
         }
-    }, [after])*/
+    }, [after])
 
-    //--------------------------------------------------------------------------
+
+    console.log(itemToLoadContent.current)
+
 
 
 
@@ -65,8 +67,9 @@ function FeedArea() {
     return (
         <main className={styles.feedArea}>
             <ContentFilter />
-            {status === "loading" && Array(Math.floor(Math.random() * 5 + 3)).fill(0).map((ceil, num) => <LoadingBox key={num} />)}
-            {status === "loaded" && <>
+            {(status === "loading"&&filteredPosts.length===0) && Array(Math.floor(Math.random() * 5 + 3)).fill(0).map((ceil, num) => <LoadingBox key={num} />)}
+            {(status === "loaded"||filteredPosts.length>0)&&
+            <>
                 {
                     filteredPosts.length > 0 ?
                     <>
@@ -93,13 +96,13 @@ function FeedArea() {
                                 flairTextColor={postData.link_flair_text_color}
                                 flairBackgroundColor={postData.link_flair_background_color}
                                 id={postData.id}
-                                ref={num + 3 === postsInfo.posts.length ? itemToLoadContent : null}
+                                ref={num + 3 === postsInfo.posts[activeParam].length ? itemToLoadContent : null}
                                 key={uuidv4()} />
                         })}
                         <UpBtn />
                     </> :
-                    <NotFound text={"Sorry, no posts found"} />}
-                </>
+                <NotFound text={"Sorry, no posts found"} />}
+            </>
             }
             {status === "rejected" && <FailedToLoad reloadAction={fetchingData} actionParam={activeParam} />}
         </main>

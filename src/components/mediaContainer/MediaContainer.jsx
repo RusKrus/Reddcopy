@@ -156,15 +156,17 @@ function MediaContainer({containerType, galleryInfo, title, mediaType, media, vi
             }
                 
         case "rich:video":
+            console.log("this")
             return (
                 <div className={styles.defaultPostBox}> 
                     <h3 className={styles.title}>{title}</h3>
                     <p style={flairTextStyle}>{flairText}</p>
-                    {selfTextHTML&&<div ref={selfTextRef}></div>}
+                    {selfTextHTML&&<div ref={selfTextRef} className={styles.videoAndFogContainer}></div>}
                     <div  className={styles.iframeContainer} ref={iframeRef}></div>
                 </div>
             )
         case "hosted:video":
+           
             return (
                 <div className={styles.defaultPostBox}> 
                     <h3 className={styles.title}>{title}</h3>

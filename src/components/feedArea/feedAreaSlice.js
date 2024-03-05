@@ -42,22 +42,22 @@ const feedAreaSlice = createSlice({
                 .addCase(fetchingData.fulfilled, (state, action) => {
                     if (action.payload.searchParam==="top"){
                         state.status="loaded";
-                        state.after = action.payload.data.after;
+                        state.after = action.payload.data.data.after;
                         state.posts[action.payload.searchParam].push(...action.payload.data.data.children);
                     }
                     else if (action.payload.searchParam==="hot"){
                         state.status="loaded";
-                        state.after = action.payload.data.after;
+                        state.after = action.payload.data.data.after;
                         state.posts[action.payload.searchParam].push(...action.payload.data.data.children);
                     }
                     else if (action.payload.searchParam==="new"){
                         state.status="loaded";
-                        state.after = action.payload.data.after;
+                        state.after = action.payload.data.data.after;
                         state.posts[action.payload.searchParam].push(...action.payload.data.data.children);
                     }
                     else if (action.payload.searchParam==="rising"){
                         state.status="loaded";
-                        state.after = action.payload.data.after;
+                        state.after = action.payload.data.data.after;
                         state.posts[action.payload.searchParam].push(...action.payload.data.data.children);
                     }
                 })
