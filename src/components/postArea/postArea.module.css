@@ -1,26 +1,32 @@
-.postArea{
-    display:grid;
-    width:100%;
+.postArea {
+    display: grid;
+    width: 100%;
     min-height: 100vh;
     grid-template-columns: 1fr 50rem 1fr;
-    padding-top:1rem;
+    padding-top: 1rem;
     background-color: hsl(0, 0%, 96%);
 
-    
+
+}
+
+/*styles for mobile devices*/
+.descriptionMobile {
+    display: none;
 }
 
 
 /*button styles*/
-.backButton{
-    width:30%;
-    background-color:transparent ;
-    position:sticky;
+.backButton {
+    width: 30%;
+    background-color: transparent;
+    position: sticky;
     top: -1rem;
     cursor: pointer;
 
 }
 
-.backButton:hover{
+.backButton:hover {
+    display: block;
     transition: 0.2s;
     background-color: hsla(220, 70%, 50%, 0.45);
     text-decoration: none;
@@ -28,192 +34,212 @@
     position: relative;
 }
 
-.backSign{
+.backSign {
     position: fixed;
-    top:50%;
+    top: 50%;
     padding: .75%;
-    color:transparent;
-    font-weight:bold;
-    height:4rem;
+    color: transparent;
+    font-weight: bold;
+    height: 4rem;
 }
 
-.backButton:hover .backSign{
-    color:hsl(30,90%,50%);
+.backButton:hover .backSign {
+    color: hsl(30, 90%, 50%);
 }
 
 /*post+comments boxes*/
-.postAndCommentsBox{
+.postAndCommentsBox {
 
-    padding:0 1rem;
-    width:100%;
+    padding: 0 1rem;
+    width: 100%;
     box-sizing: border-box;
     box-shadow: 0 0 10px black;
     background-color: white;
-    margin-top:1.5rem;
-    border-radius:7px;
+    margin-top: 1.5rem;
+    border-radius: 7px;
 }
+
 /*post box styles*/
 
 
-.postBox{
-    display:flex;
-    flex-wrap:wrap;
+.postBox {
+    display: flex;
+    flex-wrap: wrap;
 }
 
-.mediaContainer{
-    width:100%;
+.mediaContainer {
+    width: 100%;
     text-align: center;
-    
+
 }
 
 
-.postMedia{
-    max-height:600px;
-    max-width:100%;
+.postMedia {
+    max-height: 600px;
+    max-width: 100%;
     margin: 0 auto;
 }
 
 
-.postInfoContainer{
+.postInfoContainer {
     display: flex;
-    width:100%;
+    width: 100%;
     margin-top: 1rem;
-    box-sizing:border-box;
+    box-sizing: border-box;
     height: 3rem;
 }
 
-.postDescription{
-    margin:0;
-    width:50%;
-    text-align:right;
+.postDescription {
+    margin: 0;
+    width: 50%;
+    text-align: right;
     align-self: center;
-    font-style:italic;
-    font-weight:bold;
-    font-size:0.8rem;
-    color:hsla(0, 0%, 50%, 0.6)
+    font-style: italic;
+    font-weight: bold;
+    font-size: 0.8rem;
+    color: hsla(0, 0%, 50%, 0.6)
 }
 
 
 
 /*comments styles*/
 
-.commentsArea{
-    width:100%;
+.commentsArea {
+    width: 100%;
     padding-top: 2rem;
-    text-align:center;
- }
+    text-align: center;
+}
 
-.hrComments{
-    background-color:white;
+.hrComments {
+    background-color: white;
     border-color: black;
-    margin-bottom: 2rem; 
+    margin-bottom: 2rem;
 }
 
 
 /*subreddit info box styles*/
-.subredditInfoBox{
+.subredditInfoBox {
 
     align-self: start;
-    background-color:hsla(230, 50%, 70%, .3);
+    background-color: hsla(230, 50%, 70%, .3);
     width: 60%;
     justify-self: center;
-    padding:.5rem;
+    padding: .5rem;
     border-radius: 7px;
-    margin-top:1.5rem;
+    margin-top: 1.5rem;
 }
 
-.subredditMainInfo{
+.subredditMainInfo {
     margin: 0;
     display: flex;
-    align-items:center;
+    align-items: center;
     font-style: italic;
     font-size: 1.1rem;
 }
 
-.subredditAvatar{
-    width:2rem;
-    height:auto;
+.subredditAvatar {
+    width: 2rem;
+    height: auto;
     border-radius: 50%;
     cursor: pointer;
-    margin-right:.3rem;
-    background-color:white;
-    
+    margin-right: .3rem;
+    background-color: white;
+
 }
 
-.subredditDescription{
+.subredditDescription {
     margin: 0;
 }
 
-.followersNumber{
+.followersNumber {
     margin: 0;
     font-weight: bold;
-    text-align:center;
+    text-align: center;
     font-size: 0.9rem;
 }
 
 
-.hrSrInfo{
-    border-top:1px solid hsl(220, 50%, 30%);
+.hrSrInfo {
+    border-top: 1px solid hsl(220, 50%, 30%);
 }
 
 /*for skeleton containers*/
 
-.skeletonPostInfo{
-    flex:1;
-    padding-left:20%;
+.skeletonPostInfo {
+    flex: 1;
+    padding-left: 20%;
 }
 
 /*for skeletons themselvs*/
 
-.skeletonLikesContainer{
-    flex:1;
+.skeletonLikesContainer {
+    flex: 1;
 
 }
 
-.srNameSkeleton{
-    display:flex;
-    align-items:center;
+.srNameSkeleton {
+    display: flex;
+    align-items: center;
 }
 
 
 
 
-@media only screen and (max-width: 1360px){
-    .postArea{
+@media only screen and (max-width: 1360px) {
+    .postArea {
         grid-template-columns: 1fr 40rem 1fr;
     }
 }
 
-@media only screen and (max-width: 1024px){
-    .postArea{
+@media only screen and (max-width: 1024px) {
+    .postArea {
         box-sizing: border-box;
         display: flex;
         justify-content: space-between;
         padding: 1rem 1rem 0 1rem;
     }
 
-    .backButton{
+    .backButton {
         display: none;
     }
 
-    .postAndCommentsBox{
+    .postAndCommentsBox {
         width: 70%;
     }
 
-    .subredditInfoBox{
-        width:25%;
+    .subredditInfoBox {
+        width: 25%;
     }
 
 }
 
 
-@media only screen and (max-width: 750px){
-    
+@media only screen and (max-width: 750px) {
+    .postAndCommentsBox {
+        width: 100%;
+        padding: 1rem;
+    }
+
+    .subredditInfoBox {
+        display: none;
+    }
+
+    .descriptionMobile {
+        cursor: pointer;
+        display: block;
+        text-decoration: underline;
+    }
+
+    .subredditMainInfoMobile {
+
+        font-weight: bold;
+        text-decoration: none;
+
+    }
+
+    .subredditAvatarMobile {
+        height: 3rem;
+        padding-right: .5rem;
+
+    }
 }
-
-
-
-
-
-
-
