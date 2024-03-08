@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from "react";
 import styles from "./contentFilter.module.css";
-import Select from 'react-select'
+
 import { useNavigate, useLocation } from "react-router-dom";
 
 
@@ -11,10 +11,6 @@ function ContentFilterMobile(){
     const location = useLocation()
     const formSelectRef = useRef(null)
     
-    const options = [
-        
-    ];
-
     useEffect(()=>{
         if(formSelectRef.current){
             const filterParam = location.pathname.substring(1);
@@ -28,7 +24,14 @@ function ContentFilterMobile(){
 
     return (
         <div  className={styles.contentFilterMobile}>
-             <Select options={options}/>
+            <form  className={styles.filterForm} onChange={handleChange}>
+                <select ref={formSelectRef} className={styles.filterSelector}>
+                    <option className={styles.optionParam} value="top">Top</option>
+                    <option value="hot">Hot</option>
+                    <option value="new">New</option>
+                    <option value="rising">Rising</option>
+                </select>
+            </form>
         </div>
     )
 
