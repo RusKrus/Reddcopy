@@ -10,7 +10,11 @@
 }
 
 /*styles for mobile devices*/
-.descriptionMobile {
+.subredditMainInfoMobile {
+    display: none;
+}
+
+.srDetailsMobile{
     display: none;
 }
 
@@ -224,22 +228,39 @@
         display: none;
     }
 
-    .descriptionMobile {
-        cursor: pointer;
-        display: block;
-        text-decoration: underline;
-    }
 
     .subredditMainInfoMobile {
-
         font-weight: bold;
         text-decoration: none;
-
+        width: 100%;
+        display: flex;
+        align-items: center;
+        margin: 0;
     }
 
     .subredditAvatarMobile {
         height: 3rem;
         padding-right: .5rem;
-
+        border-radius: 50%;
     }
+
+    .srMoreInfoMobile{
+        text-decoration: underline;
+        margin: .5rem 0;
+        
+    }
+
+    .srDetailsMobile{
+        cursor: pointer;
+        display: block;
+        
+    }
+
+    .subredditDescription{
+        background-color:hsla(220, 50%, 30%, .3);
+        border-radius: 5px;
+        padding:.3rem;
+    }
+
+
 }

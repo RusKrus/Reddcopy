@@ -102,8 +102,9 @@ function PostArea() {
                 </div> : null}
                 <div className={styles.postAndCommentsBox}>
                     <div className={styles.postBox}>
-                        <details className={styles.descriptionMobile}>
-                            <summary className={styles.subredditMainInfoMobile}>{(iconUrl || postProps.reserveIconUrl) && <img className={styles.subredditAvatarMobile} src={iconUrl ? iconUrl : postProps.reserveIconUrl} alt="Subreddit avatar" />}{postProps.subredditName}</summary>
+                        <p className={styles.subredditMainInfoMobile}>{(iconUrl || postProps.reserveIconUrl) && <img className={styles.subredditAvatarMobile} src={iconUrl ? iconUrl : postProps.reserveIconUrl} alt="Subreddit avatar" />}{postProps.subredditName}</p>
+                        <details className={styles.srDetailsMobile}>
+                            <summary className={styles.srMoreInfoMobile}>More info about subreddit</summary>
                             <p className={styles.subredditDescription}>{postProps.subredditDescription || <span style={{ fontStyle: 'italic' }}>No info avaliable yet</span>}</p>
                         </details>
                         <MediaContainer containerType="postArea"

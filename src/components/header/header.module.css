@@ -11,8 +11,6 @@
 
 }
 
-
-
 .logoContainer{
     display: flex;
     height: 2.5rem;
@@ -110,3 +108,47 @@
 
 
 
+
+
+@media only screen and (max-width: 1240px){
+    .form{
+        width:40rem;
+    }
+}
+
+@media only screen and (max-width: 1024px){
+    .logoContainer{
+        left: unset;
+        top: unset;
+        right: 1rem;   
+        height: 100%;    
+    }
+
+    .logo{
+        height: 80%;
+    }
+
+
+
+    .siteName{
+        display: none;
+    }
+
+    .form{
+        margin: 0;
+        padding-left: 1rem;
+        width:70%;
+    }
+
+    .input{
+        width: 100%;
+    }
+
+    .submitButton{
+        display: none;
+    }
+
+    .clearButton{
+        right: 1rem;
+    }
+}

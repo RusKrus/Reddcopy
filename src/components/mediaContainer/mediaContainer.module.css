@@ -130,7 +130,7 @@ th{
 /*styles for rich:video*/
 
 /*styles for hosted:video*/
-.postMediaVideoJS{
+.postAreaMediaVideoJS{
     width:100% !important;
     height:600px;
 }
@@ -174,7 +174,7 @@ th{
 
 /*styles for rich:video*/
 /*styles for hosted:video*/
-.postMediaVideoJS{
+.postBoxMediaVideoJS{
     width:100% !important;
     height:512px;
 }
@@ -199,4 +199,40 @@ th{
 
 .thumbnailGalleryPostBox{
     width:20%;
+}
+
+
+
+@media only screen and (max-width: 1024px){
+    .postAreaMediaPhoto{
+        max-height: 500px;
+    } 
+
+    .postAreaMediaVideoJS{
+        max-height: 400px;
+    } 
+
+    .postBoxMediaPhoto{
+        max-height: 450px;
+    } 
+
+    .postBoxMediaVideoJS{
+        max-height: 380px;
+    }
+}
+
+
+@media only screen and (max-width: 1360px){
+    .postAreaMediaPhoto{
+
+    } 
+    .postMediaVideoJS{
+
+    } 
+    .postBoxMediaPhoto{
+
+    } 
+    .postMediaVideoJS{
+        
+    }
 }

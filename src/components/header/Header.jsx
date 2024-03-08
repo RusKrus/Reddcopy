@@ -37,7 +37,7 @@ function Header(){
     return (
         <section className={styles.header}>
             <Link to="/" className={styles.logoContainer}>
-                <img className={styles.logo} src="redditIcon.png" alt="Site logo"/>
+                <img className={styles.logo} src="/redditIcon.png" alt="Site logo"/>
                 <span className={styles.siteName}>Reddcopy</span>
             </Link>
 

@@ -4,6 +4,7 @@ import PostBox from "../postBox/PostBox";
 import LoadingBox from "../postBox/LoadingBox";
 import UpBtn from "../upBtn/UpButton.jsx";
 import ContentFilter from "../contentFilter/ContentFilter.jsx"
+import ContentFilterMobile from "../contentFilter/ContentFilterMobile.jsx"
 import NotFound from "../notFound/NotFound.jsx";
 import FailedToLoad from "../failedToLoad/FailedToLoad.jsx";
 import { useSelector, useDispatch } from 'react-redux';
@@ -24,7 +25,6 @@ function FeedArea() {
     const dispatch = useDispatch();
     const after = postsInfo.after;
     const status = postsInfo.status;
-    console.log(after)
 
     useEffect(() => {
         if(postsInfo.posts[activeParam].length===0){
@@ -53,12 +53,11 @@ function FeedArea() {
         observerLoader.current = new IntersectionObserver(newPostsLoader);
         if(itemToLoadContent.current){
             observerLoader.current.observe(itemToLoadContent.current);
-            console.log(itemToLoadContent.current)
         }
     }, [after])
 
 
-    console.log(itemToLoadContent.current)
+
 
 
 
@@ -67,6 +66,7 @@ function FeedArea() {
     return (
         <main className={styles.feedArea}>
             <ContentFilter />
+            <ContentFilterMobile/>
             {(status === "loading"&&filteredPosts.length===0) && Array(Math.floor(Math.random() * 5 + 3)).fill(0).map((ceil, num) => <LoadingBox key={num} />)}
             {(status === "loaded"||filteredPosts.length>0)&&
             <>

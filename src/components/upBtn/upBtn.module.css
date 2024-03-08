@@ -20,3 +20,11 @@
     color:orange;
 
 }
+
+
+@media only screen and (max-width: 1024px){
+    .upWord{
+        width: 1.5rem;   
+    }
+} 
+
