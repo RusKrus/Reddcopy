@@ -1,30 +1,30 @@
 import React, { useEffect, useRef } from "react";
 import styles from "./contentFilter.module.css";
-
+import Select from 'react-select';
 import { useNavigate, useLocation } from "react-router-dom";
 
 
 
-function ContentFilterMobile(){
+function ContentFilterMobile() {
 
     const navigate = useNavigate();
     const location = useLocation()
     const formSelectRef = useRef(null)
-    
-    useEffect(()=>{
-        if(formSelectRef.current){
+
+    useEffect(() => {
+        if (formSelectRef.current) {
             const filterParam = location.pathname.substring(1);
-            formSelectRef.current.value=filterParam||"top";
+            formSelectRef.current.value = filterParam || "top";
         }
     }, [location.pathname]);
 
-    const handleChange = e =>{   
+    const handleChange = e => {
         navigate(`/${e.target.value}`)
     };
 
     return (
-        <div  className={styles.contentFilterMobile}>
-            <form  className={styles.filterForm} onChange={handleChange}>
+        <div className={styles.contentFilterMobile}>
+            <form className={styles.filterForm} onChange={handleChange}>
                 <select ref={formSelectRef} className={styles.filterSelector}>
                     <option className={styles.optionParam} value="top">Top</option>
                     <option value="hot">Hot</option>
