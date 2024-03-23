@@ -178,3 +178,105 @@
     width:60%;
     text-align: center;
 }
+
+/*pos box loading*/
+
+.likesContainer{
+    width:60%;
+}
+
+.likeBtn{
+    width:100%;
+    height:auto;
+    
+}
+
+.likeBtn:hover{
+    cursor: pointer;
+    color: green;
+    background-color: rgb(235, 234, 234);
+}
+
+
+.dislikeBtn{
+    width:100%;
+    height:auto;
+}
+
+
+.dislikeBtn:hover{
+    cursor: pointer;
+    color: red;
+    background-color: rgb(235, 234, 234);
+}
+
+
+.counterSkeleton{
+    display: block;
+    width: 100%;
+}
+
+@media only screen and (max-width: 768px){
+    /*Post box tab size style*/
+    .likesContainerPostBox{
+        display: flex;
+        align-items: center;
+    }
+
+    .likeBtnPostBox{
+        width: 1.5rem;
+    }
+
+    .clickedLikeBtnPostBox{
+        width: 1.5rem;
+    }
+
+    .dislikeBtnPostBox{
+        width: 1.5rem;
+    }
+
+    .clickedDislikeBtnPostBox{
+        width: 1.5rem;
+    }
+
+    .likesCounterPostBox{
+        width: 2.5rem;
+    }
+
+    .likesCounterGreenPostBox{
+        display: inline-block;
+        font-weight: 700;
+        margin: 0.3rem 0 0.3rem 0;
+        width: 2.5rem;
+        color:green;
+    }
+    
+    .likesCounterRedPostBox{
+        width: 2.5rem;
+        color:red;
+    }
+
+    /*loading box tab size style*/
+    .likesContainer{
+        width:60%;
+        display: flex;
+        align-items: center;
+        
+    }
+    
+    .likeBtn{
+        width:1.5rem;
+        height:auto;
+        
+    }
+    
+    .dislikeBtn{
+        width:1.5rem;
+        height:auto;
+    }
+
+    .counterSkeleton{
+        width: 2.5rem;
+    }
+}
+

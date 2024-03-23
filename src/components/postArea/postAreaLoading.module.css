@@ -1,12 +1,16 @@
 .loadingAreaSkeleton {
    grid-column: 2/2;
-   padding: 0 1rem;
+   padding: 1rem;
    width: 100%;
    box-sizing: border-box;
    box-shadow: 0 0 10px black;
    background-color: white;
    margin-top: 1.5rem;
    border-radius: 7px;
+}
+
+.mobileSubredditInfo{
+   display: none;
 }
 
 .titleSkeleton {
@@ -77,4 +81,36 @@
 .srNameSkeletonContainer{
    width: 40%;
    margin-left: 0.4rem;
+}
+
+@media only screen and (max-width: 1024px) {
+   .loadingAreaSkeleton{
+      width: 70%;
+   }
+
+   .subredditInfoBoxLoading{
+      width:25%;
+   }
+}
+
+@media only screen and (max-width: 768px) {
+   .loadingAreaSkeleton{
+      width: 100%;
+   }
+
+   .subredditInfoBoxLoading{
+      display: none;
+   }
+
+   .mobileSubredditInfo{
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+   }
+
+   .srMoreInfoButtonSkeleton{
+      display: block;
+      margin: .5rem 0;  
+      
+   }
 }

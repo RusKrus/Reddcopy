@@ -90,7 +90,7 @@
     }
 }
 
-@media only screen and (max-width: 750px){
+@media only screen and (max-width: 768px){
     .contentFilter{
         display: none;
     }
@@ -111,14 +111,31 @@
         height:100%;
     }
 
+    
     .filterSelector{
         height:100%;
         border-radius: 6px;
         width: 7rem;
         text-align: center;
-    }
-    .optionParam{
+        font-size: 1.1rem;
+        background-color: hsla(210, 50%, 50%, .7);
+        border-color: blue;
         font-weight: bold;
+        color: blue;
     }
+    
+
+
+    .filterSelector:focus-visible{
+        outline: 1px solid blue;
+    }
+
+
+
+    .optionParam{
+        font-size: 1.1rem 
+    }
+
+    
 
 }

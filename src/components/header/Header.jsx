@@ -35,15 +35,15 @@ function Header(){
 
 
     return (
-        <section className={styles.header}>
+        <section className={styles.header} role="banner">
             <Link to="/" className={styles.logoContainer}>
                 <img className={styles.logo} src="/redditIcon.png" alt="Site logo"/>
                 <span className={styles.siteName}>Reddcopy</span>
             </Link>
 
-            <form className={styles.form} onSubmit={handleSubmit} >
+            <form className={styles.form} onSubmit={handleSubmit} role="form">
                 <input autoComplete="off" className={styles.input} type="text" name="find"  placeholder="Type to search..." value={inputValue} onChange={handleChange}/>
-                {inputValue&&<button type="button" onClick={handleClick} className={styles.clearButton}>x</button>}
+                {inputValue&&<button type="button" onClick={handleClick} className={styles.clearButton} data-testid="clear-button">x</button>}
                 <button type="submit" className={styles.submitButton} >
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className={styles.findIcon}>
                         <path strokeLinecap="round" strokeLinejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />

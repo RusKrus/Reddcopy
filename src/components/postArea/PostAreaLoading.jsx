@@ -11,6 +11,11 @@ function PostAreaLoading() {
       <>
          <div className={styles.loadingAreaSkeleton}>
             <div className={styles.mediaSkeletonBox}>
+               <div className={styles.mobileSubredditInfo}>
+                  <Skeleton circle width="48px" height="48px"/>
+                  <Skeleton width={"5rem"} containerClassName={styles.srNameSkeletonContainer}/>
+               </div>
+               <Skeleton width={'180px'} containerClassName={styles.srMoreInfoButtonSkeleton}/>
                <Skeleton className={styles.titleSkeleton} />
                <Skeleton className={styles.mediaSkeleton} />
             </div>

@@ -27,9 +27,9 @@ function ContentFilterMobile() {
             <form className={styles.filterForm} onChange={handleChange}>
                 <select ref={formSelectRef} className={styles.filterSelector}>
                     <option className={styles.optionParam} value="top">Top</option>
-                    <option value="hot">Hot</option>
-                    <option value="new">New</option>
-                    <option value="rising">Rising</option>
+                    <option className={styles.optionParam} value="hot">Hot</option>
+                    <option className={styles.optionParam} value="new">New</option>
+                    <option className={styles.optionParam} value="rising">Rising</option>
                 </select>
             </form>
         </div>
