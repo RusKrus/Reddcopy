@@ -4,26 +4,26 @@ const headerSlice = createSlice({
     name: "inputField",
     initialState: {
         inputValue: "",
-        filterValue:""
+        filterValue: ""
     },
-    reducers:{
-        setFilterValue(state, action){
+    reducers: {
+        setFilterValue(state, action) {
             state.filterValue = action.payload;
         },
-        clearFilterValue(state){
+        clearFilterValue(state) {
             state.filterValue = "";
         },
-        setInputValue(state, action){
+        setInputValue(state, action) {
             state.inputValue = action.payload;
         },
-        clearInputValue(state){
+        clearInputValue(state) {
             state.inputValue = "";
         }
 
     }
 })
 
-
-export const {setFilterValue, clearFilterValue, setInputValue, clearInputValue} = headerSlice.actions;
+export const getInputValue = (state) => state.inputValue
+export const { setFilterValue, clearFilterValue, setInputValue, clearInputValue } = headerSlice.actions;
 
 export default headerSlice.reducer;
