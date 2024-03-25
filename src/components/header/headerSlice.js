@@ -23,7 +23,7 @@ const headerSlice = createSlice({
     }
 })
 
-export const getInputValue = (state) => state.inputValue
+export const getInputValue = (state) => state.inputField.inputValue;
 export const { setFilterValue, clearFilterValue, setInputValue, clearInputValue } = headerSlice.actions;
 
 export default headerSlice.reducer;
