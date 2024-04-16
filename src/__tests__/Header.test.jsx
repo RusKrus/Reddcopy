@@ -1,27 +1,30 @@
-import { render, screen, fireEvent, waitFor } from '@testing-library/react';
+import { render, screen, fireEvent, act } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import Header from "../components/header/Header";
-import * as reduxHooks from "react-redux";
-import { MemoryRouter } from 'react-router-dom'
-import { setInputValue } from '../components/header/headerSlice';
+import { Provider } from 'react-redux';
+import store from "../components/app/store";
+import { MemoryRouter } from 'react-router-dom';
 
-jest.mock("react-redux");
 
-const useDispatchMocked = jest.spyOn(reduxHooks, 'useDispatch');
-const dispatch = jest.fn();
 
+jest.spyOn(window, "scrollTo");
 
 describe("Header behaviour", () => {
 
-    beforeEach(() => {
-        useDispatchMocked.mockReturnValue(dispatch)
-        render(
-            <MemoryRouter initialEntries={["/top"]}>
-                <Header />
-            </MemoryRouter>)
+    beforeEach(()=>{
+        const header = act(()=>{
+            render(
+                <MemoryRouter>
+                    <Provider store={store}>
+                        <Header/>
+                    </Provider>
+                </MemoryRouter>
+            )
+        })
+        
     })
 
-    it("must render header", () => {
+    it("must render header component", ()=>{
         const headerElement = screen.getByRole("banner");
         expect(headerElement).toBeInTheDocument();
     })
@@ -29,7 +32,9 @@ describe("Header behaviour", () => {
     it("must show correct work with <Link/>", () => {
         const link = screen.getByRole("link");
         expect(link).toBeInTheDocument();
-        userEvent.click(link);
+        act(()=>{
+            userEvent.click(link);
+        })
         expect(window.location.pathname).toBe("/")
     })
 
@@ -38,7 +43,10 @@ describe("Header behaviour", () => {
         expect(form).toBeInTheDocument();
         const handleSubmit = jest.fn();
         form.onsubmit = handleSubmit;
-        fireEvent.submit(form);
+        act(()=>{
+            fireEvent.submit(form);
+        })
+        
         expect(handleSubmit).toHaveBeenCalledTimes(1)
     })
 
@@ -47,25 +55,33 @@ describe("Header behaviour", () => {
         expect(input).toBeInTheDocument();
         const handleChange = jest.fn();
         input.onchange = handleChange;
-        fireEvent.change(input);
+        act(()=>{
+            fireEvent.change(input);
+        })
+        
         expect(handleChange).toHaveBeenCalledTimes(1);
-
     })
 
     it("must not show clear button", () => {
         const clearButton = screen.queryByText("x");
-        expect(clearButton).not.toBeInTheDocument;
+        expect(clearButton).not.toBeInTheDocument();
     })
 
-    it("must show clear button", async () => {
+    it("must show clear button and button should work correct", () => {
         const input = screen.getByRole("textbox");
-        await waitFor(()=>{
-            setInputValue("Something");
-            
+        act(()=>{
+            userEvent.type(input, "Something");
         })
-        expect(input.value).toBe("Something")
-        const clearButton = await screen.findByText("x");
+        
+        const clearButton = screen.queryByText("x");
         expect(clearButton).toBeInTheDocument();
+        act(()=>{
+            userEvent.click(clearButton);
+        })
+        
+        expect()
     })
+
+
 
 })

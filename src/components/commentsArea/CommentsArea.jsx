@@ -15,6 +15,7 @@ function CommentsArea({comment}){
 
     //parsing and inputing html text
     const textBoxRef = useRef(null);
+    
     const textHTML = domElementObtainer(rawText);
     textHTML.className = styles.textBox;
    
@@ -29,12 +30,12 @@ function CommentsArea({comment}){
     }, [textBoxRef.current])
 
     return (
-        <div className={styles.commentBox} ref={textBoxRef}>
+        <div className={styles.commentBox} ref={textBoxRef} >
             <p className={styles.commentInfo}>{author}<span className={styles.postedAgo}>• {postedAgo}</span></p>
             <p className="toReplace" ></p>
             <LikesCounter score={score} containerType={"comments"}/>
-            <div className={styles.reply}>
-                {replies&&replies.filter(comment=>comment.kind==="t1").map(reply=>comment.kind!=="more"&&<CommentsArea comment={reply} key={uuidv4()}  />)}
+            <div className={styles.reply} >
+                {replies&&replies.filter(comment=>comment.kind==="t1").map(reply=><CommentsArea comment={reply} key={uuidv4()}  />)}
             </div>
             
         </div>

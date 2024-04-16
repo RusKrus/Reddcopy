@@ -22,7 +22,7 @@ function Header(){
         window.scrollTo({top:0});
     }
 
-    const handleClick = (e) =>{
+    const handleClick = () =>{
         dispatch(clearFilterValue());
         dispatch(clearInputValue())
     }
