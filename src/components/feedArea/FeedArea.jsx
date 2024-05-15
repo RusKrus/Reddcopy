@@ -89,7 +89,7 @@ function FeedArea() {
                                 numComments={postData.num_comments}
                                 isGallery={postData.is_gallery}
                                 thumbnail={postData.thumbnail}
-
+                                isNsfw={postData.over_18}
                                 isSelf={postData.is_self}
                                 htmlStringIframe = {postData?.media?.oembed?.html}
                                 flairText={postData.link_flair_text}

@@ -10,16 +10,36 @@ import styles from "./postBox.module.css";
 const PostBox = forwardRef((props, ref) => {
     
     //getting props
-    const { subredditName, author, title, score, media, time, video, mediaType, iconUrlWithSearchParam, reserverIconUrl, selfTextHTML, numComments, isGallery, thumbnail, htmlStringIframe, flairText, flairTextColor, flairBackgroundColor, isSelf, id } = props;
-    //forbidden is data about post type which I can't show in my app
+    const { subredditName, 
+            author, 
+            title, 
+            score, 
+            media, 
+            time, 
+            video, 
+            mediaType, 
+            iconUrlWithSearchParam, 
+            reserverIconUrl, 
+            selfTextHTML, 
+            numComments, 
+            isGallery, 
+            thumbnail, 
+            isNsfw, 
+            htmlStringIframe, 
+            flairText, 
+            flairTextColor, 
+            flairBackgroundColor, 
+            isSelf, 
+            id } = props;
+
+
     //getting time posted ago
     const timeAgo = timeDecoder(time);
-
     //getting alternative subreddit icon url
     const searchParamStart = iconUrlWithSearchParam ? iconUrlWithSearchParam.indexOf("?") : null;
     const iconUrl = searchParamStart ? iconUrlWithSearchParam.slice(0, searchParamStart) : iconUrlWithSearchParam;
-
-    //refs for parsed data
+    //selfAlone is a self media w/o selftext (only title) 
+    const selfAlone = ((mediaType==="self"||isSelf)&&(!selfTextHTML))?true:false;
 
 
     const navigate = useNavigate();
@@ -29,7 +49,7 @@ const PostBox = forwardRef((props, ref) => {
         navigate("/"+subredditName+"/"+id, {state: true});
     }
 
-
+    (mediaType==="self"&&selfAlone)&&console.log("check is this self is alone and correct:", title)
     return (
         <div ref={ref} onClick={handlePostBoxClick} className={styles.postContainer}>
             <div className={styles.actionContainer}>
@@ -42,7 +62,7 @@ const PostBox = forwardRef((props, ref) => {
                 </div>
             </div>
 
-            <div className={styles.postDataContainer}>
+            <div className={styles.postDataContainer} style={{alignContent:selfAlone?"space-between":"first baseline"}}>
                 <div className={styles.postInfoContainer}>
                     <div className={styles.postData}>
                         {(iconUrl||reserverIconUrl)&&<img className={styles.subredditPhoto} src={iconUrl ? iconUrl : reserverIconUrl} alt="Subreddit avatar" />}
@@ -60,6 +80,7 @@ const PostBox = forwardRef((props, ref) => {
                                 video={video}
                                 isGallery = {isGallery} 
                                 thumbnail = {thumbnail}
+                                isNsfw = {isNsfw}
                                 isSelf={isSelf}
                                 htmlDataForParseSelfText = {{selfTextHTML, htmlStringIframe}}
                                 flairProps={{flairText, flairTextColor, flairBackgroundColor}}/>

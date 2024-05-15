@@ -23,7 +23,6 @@ function PostArea() {
     const postData = useSelector(state => state.postArea.postData[postId]);
     const postDetails = postData?.postInfo[0].data;
     const postComments = postData?.postComments;
-    console.log(Boolean(postComments))
     const status = useSelector(state => state.postArea.status);
     const location = useLocation();
     //refs for parsed data
@@ -44,37 +43,40 @@ function PostArea() {
         score: postDetails?.score,
         media: postDetails?.url,
         time: postDetails?.created_utc,
-        video: postDetails?.media?.reddit_video?.hls_url,
         mediaType: postDetails?.post_hint,
-        iconUrlWithSearchParam: postDetails?.sr_detail.community_icon,
-        reserveIconUrl: postDetails?.sr_detail.icon_img,
         selfTextHTML: postDetails?.selftext_html,
         numComments: postDetails?.num_comments,
-        isGallery: postDetails?.is_gallery,
         thumbnail: postDetails?.thumbnail,
-        galleryInfo: postDetails?.media_metadata,
-        subredditDescription: postDetails?.sr_detail.public_description,
-        followers: postDetails?.sr_detail.subscribers,
-        htmlStringIframe: postDetails?.media?.oembed?.html,
+        //is_something info collection
+        isGallery: postDetails?.is_gallery,
         isSelf: postDetails?.is_self,
+        isNsfw:postDetails?.over_18,
+        //media info collection
+        galleryInfo: postDetails?.media_metadata,
+        htmlStringIframe: postDetails?.media?.oembed?.html,
+        video: postDetails?.media?.reddit_video?.hls_url,
+        //link flair info collection
         flairText: postDetails?.link_flair_text,
         flairTextColor: postDetails?.link_flair_text_color,
-        flairBackgroundColor: postDetails?.link_flair_background_color
+        flairBackgroundColor: postDetails?.link_flair_background_color,
+        //sybreddit info collection
+        iconUrlWithSearchParam: postDetails?.sr_detail.community_icon,
+        reserveIconUrl: postDetails?.sr_detail.icon_img,
+        subredditDescription: postDetails?.sr_detail.public_description,
+        followers: postDetails?.sr_detail.subscribers
     }
+    console.log(postProps.subredditDescription)
+
 
 
     //getting alternative subreddit icon url
     const searchParamStart = postProps.iconUrlWithSearchParam ? postProps.iconUrlWithSearchParam.indexOf("?") : null;
     const iconUrl = searchParamStart ? postProps.iconUrlWithSearchParam.slice(0, searchParamStart) : postProps.iconUrlWithSearchParam;
 
-
-
     //to ensure that incase second load of the page scrol bar will be on the top
     useEffect(() => {
         window.scrollTo({ top: 0 });
     }, [])
-
-
 
     const handleBacklick = () => {
         navigate(-1);
@@ -99,9 +101,10 @@ function PostArea() {
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className={styles.backSign}>
                         <path strokeLinecap="round" strokeLinejoin="round" d="m18.75 4.5-7.5 7.5 7.5 7.5m-6-15L5.25 12l7.5 7.5" />
                     </svg>
-                </div> : null}
+                </div> : <div></div>}
                 <div className={styles.postAndCommentsBox}>
                     <div className={styles.postBox}>
+                        {/*mobile styles*/}
                         <p className={styles.subredditMainInfoMobile}>{(iconUrl || postProps.reserveIconUrl) && <img className={styles.subredditAvatarMobile} src={iconUrl ? iconUrl : postProps.reserveIconUrl} alt="Subreddit avatar" />}{postProps.subredditName}</p>
                         <details className={styles.srDetailsMobile}>
                             <summary className={styles.srMoreInfoMobile}>More info about subreddit</summary>
@@ -116,6 +119,7 @@ function PostArea() {
                             video={postProps.video}
                             isGallery={postProps.isGallery}
                             thumbnail={postProps.thumbnail}
+                            isNsfw={postProps.isNsfw}
                             isSelf={postProps.isSelf}
                             htmlDataForParseSelfText={{ selfTextHTML: postProps.selfTextHTML, htmlStringIframe: postProps.htmlStringIframe }}
                             flairProps={{ flairText: postProps.flairText, flairTextColor: postProps.flairTextColor, flairBackgroundColor: postProps.flairBackgroundColor }}
@@ -139,8 +143,6 @@ function PostArea() {
                     <hr className={styles.hrSrInfo}></hr>
                     <p className={styles.followersNumber}>{postProps.followers} followers</p>
                 </div>
-                {/*When I put src attribute using url with "" 0 image works. When I pass url as variable - it doesn't work. I cant solve this problem
-               <div>{Object.keys(galleryInfo).length>0?Object.keys(galleryInfo).map(photoInfo=><img onError={(e)=>console.error(e)} src={galleryInfo[photoInfo].p[4].u}/>):<>не работает</>}</div>*/}
                 <UpBtn />
 
             </div>

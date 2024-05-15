@@ -169,19 +169,22 @@ export const searchFilter = (searchValue, postInfo) => {
 
 
 
-export const intersectHandler = async (entries) =>{
-    
-    const videoElement = entries[0].target.querySelector('video');
-    try{
-        if(entries[0].isIntersecting){
-            await videoElement.play();
-        }
-        else{
-            videoElement.pause();
+
+
+
+
+export const imageDefiner = (url) =>{
+    const imageExtensionArray = ["jpg", "jpeg", "png", "gif", "webp"];
+
+    if (typeof url !== "string"){
+        return false;
+    }
+
+    for (const extension of imageExtensionArray){
+        if (url.includes(extension)){
+            return true;
         }
     }
-    catch(e){
-        console.log(e);
-    }
-    
-}   
+
+    return false;
+}

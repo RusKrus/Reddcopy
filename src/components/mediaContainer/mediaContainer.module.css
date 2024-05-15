@@ -1,15 +1,22 @@
+/*fonts*/
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wght@0,100..900;1,100..900&display=swap');
+
+
 /*GENERAL STYLES FOR POST AREA/BOX*/
-.defaultPostBox{
+.defaultPostContainer{
     padding-top:1rem;
     width:100%;
     margin: 0 auto;
+
 }
 
 
 .title{
+    font-family: "Noto Sans", sans-serif;
     margin: 0;
     text-align:left;
     overflow:hidden;
+    font-size: 1.3rem;
 }
 
 .mediaContainerForLink{
@@ -17,6 +24,54 @@
     display:flex;   
     flex-wrap:wrap;
 }
+
+/*NSFW*/
+.nsfwWarning{
+    font-weight: bold;
+    color:hsl(350, 100%, 60%);
+    text-decoration: underline;
+    display: inline-block;
+    padding: .1rem;
+    margin: 0 0 1rem 0;
+}
+
+.seePostButton{
+    padding: .5rem;
+    font-weight: bold;
+    font-size: 1rem;
+    border: none;
+    border-radius: 6px;
+    background-color: hsla(0, 0%, 0%, 0.3);
+    color: white;
+}
+
+
+.nsfw_fog{
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    top: 0;
+    z-index: 10;
+    background-color: hsla(0, 0%, 48%, .8);
+    border-radius: 10px;
+    box-shadow: inset white;
+    display:flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+}
+
+.nsfw_fog:hover .seePostButton{
+    background-color: hsl(350, 100%, 40%);
+    transition: .200s
+}
+
+
+
+
+
+
+
 
 /*styles for link*/
 
@@ -55,14 +110,27 @@
 }
 
 
-/*syles for image*/
+
+
+/*styles for image*/
+
+
 .postMediaPhotoContainer{   
-    width:100%;
-    text-align:center;
-    padding-top: 1rem; 
+    width: 100%;
+    text-align: center;
+    margin-top: 1rem;
+    position: relative;
+    overflow: hidden;
+    background-color: hsla(0, 0%, 48%, .5);
+    border-radius: 10px;
 }
 
 /*styles for self*/
+.selfTextWithFogContainer{
+    position:relative;
+
+}
+
 table{
     border-collapse:collapse;
     border: 2px solid navy;
@@ -87,7 +155,12 @@ th{
 /*styles for video*/
 .videoJSContainer {
     margin-top: 1rem;
+    position: relative;
+    overflow: hidden;
+    border-radius: 10px;
 }
+
+
 
 
 
@@ -98,7 +171,6 @@ th{
 /*styles for link*/
 
 /*syles for image*/
-
 .postAreaMediaPhoto{
     display: inline-block;
     max-height:600px;
@@ -106,13 +178,36 @@ th{
     margin: 0 auto;
     cursor: zoom-in;
     transition: 0.4s;
+
 }
+
 
 .postAreaMediaPhoto:fullscreen{
     cursor: zoom-out;
 }
 
+/*nsfw*/
+.postAreaNsfwPhoto{
+    display: inline-block;
+    max-height:600px;
+    max-width:100%;
+    margin: 0 auto;
+    cursor: zoom-in;
+    transition: 0.4s;
+    filter: blur(20px)
+}
+
+.postAreaNsfwVideo{
+    width:100% !important;
+    height:600px;
+    filter:blur(20px);
+    border-radius: 10px;
+
+}
+
 /*styles for self*/
+
+
 .selfTextForPostArea{
     text-align:left;
 }
@@ -133,15 +228,26 @@ th{
 .postAreaMediaVideoJS{
     width:100% !important;
     height:600px;
+    border-radius: 10px;
 }
 
 /*styles for gallery*/
 
 
 /*POST BOX*/
-/*styles for link*/
-/*syles for image*/
 
+
+/*styles for link*/
+
+/*syles for image*/
+.postBoxMediaPhoto{
+    display: inline-block;
+    max-height:520px;
+    max-width:100%;
+    margin: 0 auto;
+    transition: 0.4s;
+
+}
 .postBoxMediaPhoto{
     display: inline-block;
     max-height:512px;
@@ -149,11 +255,25 @@ th{
     margin: 0 auto;
 }
 
-/*styles for self*/
-
-.selfTextWithFogContainer{
-    position:relative;
+/*nsfw*/
+.postBoxNsfwPhoto{
+    display: inline-block;
+    max-height:512px;
+    max-width:100%;
+    margin: 0 auto;
+    cursor: zoom-in;
+    transition: 0.4s;
+    filter: blur(20px)
 }
+
+.postBoxNsfwVideo{
+    width:100% !important;
+    height:512px;
+    filter:blur(20px);
+    border-radius: 10px;
+}
+
+/*styles for self*/
 
 .selfTextForPostBox{
     margin: 0;
@@ -170,13 +290,13 @@ th{
     background: linear-gradient(to top, hsla(0, 0%, 100%, 1) 20px, hsla(0, 0%, 100%, 0));
 }
 
-
-
 /*styles for rich:video*/
+
 /*styles for hosted:video*/
 .postBoxMediaVideoJS{
     width:100% !important;
     height:512px;
+    border-radius: 10px;
 }
 
 .videoAndFogContainer{

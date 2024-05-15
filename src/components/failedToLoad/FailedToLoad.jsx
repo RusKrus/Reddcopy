@@ -9,7 +9,6 @@ function FailedToLoad({reloadAction, actionParam}){
     const handleClick = () =>{
         dispatch(reloadAction(actionParam));
     }
-    console.log(actionParam);
 
     return (
         <div className={styles.failedDiv}>

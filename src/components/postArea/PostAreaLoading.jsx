@@ -9,7 +9,7 @@ import LoadingCommentsArea from "../commentsArea/LoadingCommentsArea.jsx";
 function PostAreaLoading() {
    return (
       <>
-         <div className={styles.loadingAreaSkeleton}>
+         <div className={styles.loadingAreaSkeleton} data-testid="loading screen">
             <div className={styles.mediaSkeletonBox}>
                <div className={styles.mobileSubredditInfo}>
                   <Skeleton circle width="48px" height="48px"/>

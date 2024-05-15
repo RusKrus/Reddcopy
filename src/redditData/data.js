@@ -31,6 +31,7 @@ export const serverRequests = {
             })
             if (response.ok) {
                 const jsonResponse = await response.json();
+                
                 return jsonResponse;
             }
             else {
@@ -49,13 +50,10 @@ export const serverRequests = {
         if (!after) {
             const URL = `https://www.reddit.com/${searchParam}.json?sr_detail=true`;
             response = await fetch(URL);
-            console.log("No after: " + URL)
         }
         else {
             const URL = `https://www.reddit.com/${searchParam}.json?after=${after}&sr_detail=true`;
-            response = await fetch(URL);
-            console.log("after is used: " + URL)
-            
+            response = await fetch(URL);  
         }
         const posts = await response.json();
         return (posts);
@@ -65,6 +63,7 @@ export const serverRequests = {
         const url = `https://www.reddit.com/comments/${postId}.json?sr_detail=true`;
         const response = await fetch(url);
         const responseJson = await response.json();
+        console.log(responseJson)
         return responseJson;
     }
 

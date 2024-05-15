@@ -1,16 +1,17 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import VideoJS from '../../videojs/VideoJS.jsx';
-import {iframeElementObtainer, selfTextElementObtainer, imageGalleryPrepared} from "../../helperFuncs/helperFuncs.js" ;
+import {iframeElementObtainer, selfTextElementObtainer, imageGalleryPrepared, imageDefiner} from "../../helperFuncs/helperFuncs.js" ;
 import styles from "./mediaContainer.module.css";
 import "react-image-gallery/styles/css/image-gallery.css";
 import ImageGallery from "react-image-gallery";
 
 
-function MediaContainer({containerType, galleryInfo, title, mediaType, media, video, isGallery, thumbnail, isSelf, htmlDataForParseSelfText, flairProps}){
+function MediaContainer({containerType, galleryInfo, title, mediaType, media, video, isGallery, thumbnail, isNsfw, isSelf, htmlDataForParseSelfText, flairProps}){
 
-
+    //getting data from props
     const {selfTextHTML, htmlStringIframe} = htmlDataForParseSelfText;
     const {flairText, flairTextColor, flairBackgroundColor} = flairProps
+    //setting up refs for element obtainer funcs
     const iframeRef = useRef(null);
     const selfTextRef = useRef(null);
     
@@ -29,15 +30,31 @@ function MediaContainer({containerType, galleryInfo, title, mediaType, media, vi
         padding:"1px 1px 2px 1px",
     }
 
-    const handleClick=e=>{
+    //photo click inside post area handler 
+    const handleZoomClick=e=>{
         if(document.fullscreenElement ){
             document.exitFullscreen() 
         }
         else{
             e.target.requestFullscreen();
- 
         }
     }
+    
+    //show nsfw button handler 
+    const [isShowNsfwClicked, setIsShowNsfwClicked] = useState(!isNsfw);
+    const handleSeeNsfwClickDiv =e=>{
+        e.stopPropagation();
+        e.target.remove();
+        setIsShowNsfwClicked(true);
+    }
+
+    const handleSeeNsfwClickSpan =e=>{
+        e.stopPropagation();
+        e.target.parentNode.remove();
+        setIsShowNsfwClicked(true);
+    }
+
+    
 
     const preparedImageGalleryProperty = imageGalleryPrepared(galleryInfo, styles);
 
@@ -50,7 +67,7 @@ function MediaContainer({containerType, galleryInfo, title, mediaType, media, vi
     
     const videoJsOptions = {
         muted:containerType==="postBox"?true:false,
-        autoplay: true,
+        autoplay: isShowNsfwClicked?true:false,
         controls: true,
         responsive: true,
         sources: [{
@@ -58,17 +75,18 @@ function MediaContainer({containerType, galleryInfo, title, mediaType, media, vi
             type: 'application/x-mpegURL'
         }]
         };
-
+    
+    //(isNsfw)&&console.log("NSFW detected");
+    //(containerType="postArea")&&console.log(mediaType);
     switch (mediaType) {
         case "link":
-            if(containerType==="postArea"){
-                
                 return(
-                    <div className={styles.mediaContainerForLink+" "+styles.defaultPostBox}> 
+                    <div className={styles.mediaContainerForLink+" "+styles.defaultPostContainer}> 
+                        {isNsfw&&<p className={styles.nsfwWarning}>NSFW content warning!</p>}
                         <div className={styles.linkPostTextInfoContainer}>
                             <h3 className={styles.title}>{title}</h3>
                             <p style={flairTextStyle}>{flairText}</p>
-                            {selfTextHTML&&<div ref={selfTextRef}></div>}
+                            {selfTextHTML&&<div className={containerType==="postArea"?null:styles.selfTextWithFogContainer} ref={selfTextRef}></div>}
                             <a href={media} rel="noreferrer" target="_blank" className={styles.link}>{media.substring(0, 26)}...
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className={styles.linkIcon}>
                                     <path strokeLinecap="round" strokeLinejoin="round" d="M13.19 8.688a4.5 4.5 0 0 1 1.242 7.244l-4.5 4.5a4.5 4.5 0 0 1-6.364-6.364l1.757-1.757m13.35-.622 1.757-1.757a4.5 4.5 0 0 0-6.364-6.364l-4.5 4.5a4.5 4.5 0 0 0 1.242 7.244" />
@@ -85,79 +103,40 @@ function MediaContainer({containerType, galleryInfo, title, mediaType, media, vi
                         </a>
                     </div>
                 )
-            }
-            else{
-                return(
-                    <div className={styles.mediaContainerForLink+" "+styles.defaultPostBox}> 
-                        <div className={styles.linkPostTextInfoContainer}>
-                            <h3 className={styles.title}>{title}</h3>
-                            <p style={flairTextStyle}>{flairText}</p>
-                            {selfTextHTML&&<div className={styles.selfTextWithFogContainer} ref={selfTextRef}></div>}
-                            <a href={media} rel="noreferrer" target="_blank" className={styles.link}>{media.substring(0, 26)}...
-                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className={styles.linkIcon}>
-                                    <path strokeLinecap="round" strokeLinejoin="round" d="M13.19 8.688a4.5 4.5 0 0 1 1.242 7.244l-4.5 4.5a4.5 4.5 0 0 1-6.364-6.364l1.757-1.757m13.35-.622 1.757-1.757a4.5 4.5 0 0 0-6.364-6.364l-4.5 4.5a4.5 4.5 0 0 0 1.242 7.244" />
-                                </svg>
-                            </a>
-                        </div>
-                        <a href={media} rel="noreferrer" target="_blank" className={styles.anchorForImg}>
-                            {thumbnail!=="default"?<img src={thumbnail} className={styles.linkImg}/>:
-                            <div className={styles.linkImg}>
-                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className={styles.defaultImage}>
-                                    <path strokeLinecap="round" strokeLinejoin="round" d="M13.19 8.688a4.5 4.5 0 0 1 1.242 7.244l-4.5 4.5a4.5 4.5 0 0 1-6.364-6.364l1.757-1.757m13.35-.622 1.757-1.757a4.5 4.5 0 0 0-6.364-6.364l-4.5 4.5a4.5 4.5 0 0 0 1.242 7.244" />
-                                </svg>
-                            </div>}
-                        </a>
-                    </div>
-                )
-            }
         case "image":
-            if (containerType==="postArea") {
+                selfTextHTML&&console.log("image with self text!:", title)
                 return(            
-                    <div className={styles.defaultPostBox}> 
+                    <div className={styles.defaultPostContainer}> 
+                        {isNsfw&&<p className={styles.nsfwWarning}>NSFW content warning!</p>}
                         <h3 className={styles.title}>{title}</h3>
                         <p style={flairTextStyle}>{flairText}</p>
-                        {selfTextHTML&&<div ref={selfTextRef}></div>}
+                        {selfTextHTML&&<div className={styles.selfTextWithFogContainer} ref={selfTextRef} ></div>}
                         <div className={styles.postMediaPhotoContainer}>
-                            <img  onClick={handleClick} src={media} className={styles.postAreaMediaPhoto} alt="Post media" />
+                            <img  onClick={containerType==="postArea"?handleZoomClick:null} src={media} className={containerType==="postArea"?isShowNsfwClicked?styles.postAreaMediaPhoto:styles.postAreaNsfwPhoto:isShowNsfwClicked?styles.postBoxMediaPhoto:styles.postBoxNsfwPhoto} alt="Post media" />
+                            {isNsfw&&
+                                <div className={styles.nsfw_fog} onClick={handleSeeNsfwClickDiv}>
+                                    <span className={styles.seePostButton} onClick={handleSeeNsfwClickSpan}>See the post</span>
+                                </div>
+                            }
                         </div>
                     </div>
                 )    
-            }
-            else {
-                return(            
-                    <div className={styles.defaultPostBox}> 
-                        <h3 className={styles.title}>{title}</h3>
-                        <p style={flairTextStyle}>{flairText}</p>
-                        {selfTextHTML&&<div className={styles.selfTextWithFogContainer} ref={selfTextRef}></div>}
-                        <div className={styles.postMediaPhotoContainer}>
-                            <img src={media} className={styles.postBoxMediaPhoto} alt="Post media" />
-                        </div>
-                    </div>
-                )    
-            }
+
         case "self":
-            if(containerType==="postArea"){
-                return (            
-                    <div className={styles.defaultPostBox}> 
-                        <h3 className={styles.title}>{title} </h3>
-                        <p style={flairTextStyle}>{flairText}</p>
-                        {selfTextHTML&&<div ref={selfTextRef}></div>}
-                    </div>
-                )
-            }
-            else{
                 return (         
-                    <div className={styles.defaultPostBox}> 
+                    <div className={styles.defaultPostContainer}> 
+                        {isNsfw&&<p className={styles.nsfwWarning}>NSFW content warning!</p>}
                         <h3 className={styles.title}>{title} </h3>
                         <p style={flairTextStyle}>{flairText}</p>
-                        {selfTextHTML&&<div className={styles.selfTextWithFogContainer} ref={selfTextRef}></div>}
+                        {selfTextHTML&&<div className={containerType==="postArea"?null:styles.selfTextWithFogContainer} ref={selfTextRef}></div>}
                     </div>
                 )   
-            }
                 
         case "rich:video":
+            console.log("rich video type!!!", title)
             return (
-                <div className={styles.defaultPostBox}> 
+                <div className={styles.defaultPostContainer}> 
+                    {isNsfw&&<p className={styles.nsfwWarning}>NSFW content warning!</p>}
                     <h3 className={styles.title}>{title}</h3>
                     <p style={flairTextStyle}>{flairText}</p>
                     {selfTextHTML&&<div ref={selfTextRef} className={styles.videoAndFogContainer}></div>}
@@ -165,20 +144,29 @@ function MediaContainer({containerType, galleryInfo, title, mediaType, media, vi
                 </div>
             )
         case "hosted:video":
-           
             return (
-                <div className={styles.defaultPostBox}> 
+                <div className={styles.defaultPostContainer}>
+                    {isNsfw&&<p className={styles.nsfwWarning}>NSFW content warning!</p>} 
                     <h3 className={styles.title}>{title}</h3>
                     <p style={flairTextStyle}>{flairText}</p>
                     {selfTextHTML&&<div ref={selfTextRef} className={styles.videoAndFogContainer}></div>}
-                    <VideoJS options={videoJsOptions} onReady={handlePlayerReady} classNames={[containerType==="postArea"?styles.postAreaMediaVideoJS:styles.postBoxMediaVideoJS, styles.videoJSContainer]}/>
+                    <div className={styles.videoJSContainer} >
+                        <VideoJS  options={videoJsOptions} onReady={handlePlayerReady}  className={containerType==="postArea"?styles.postAreaMediaVideoJS:styles.postBoxMediaVideoJS} isShowNsfwClicked={isShowNsfwClicked} />
+                        {isNsfw&&
+                            <div className={styles.nsfw_fog} onClick={handleSeeNsfwClickDiv}>
+                                <span className={styles.seePostButton} onClick={handleSeeNsfwClickSpan}>See the post</span>
+                            </div>
+                        }
+                    </div>
+                    
                 </div>)
 
         default:
             if (isGallery) {
                 if(containerType==="postArea"){
                     return(
-                        <div className={styles.defaultPostBox}>
+                        <div className={styles.defaultPostContainer}>
+                            {isNsfw&&<p className={styles.nsfwWarning}>NSFW content warning!</p>}
                             <h3 className={styles.title}>{title}</h3>
                             <p style={flairTextStyle}>{flairText}</p>
                             {selfTextHTML&&<div ref={selfTextRef}></div>}
@@ -186,15 +174,18 @@ function MediaContainer({containerType, galleryInfo, title, mediaType, media, vi
                             items={preparedImageGalleryProperty}
                             infinite={false}
                             showPlayButton={false}
+                            showThumbnails={false}
+                            slideDuration={200}
+                            showBullets={true}
                             />
                         </div>
                     )
                 }
-                else{
-                    
+                else if (containerType==="postBox"){
                     if (thumbnail.includes(".png")||thumbnail.includes(".jpg")) {
                         return (
-                            <div className={styles.defaultPostBox+" "+styles.galleryContainerPostBox}> 
+                            <div className={styles.defaultPostContainer+" "+styles.galleryContainerPostBox}> 
+                                {isNsfw&&<p className={styles.nsfwWarning}>NSFW content warning!</p>}
                                 <div className={styles.titleAndFlairFlexPostBox}>
                                     <h3 className={styles.title}>{title}</h3>
                                     <p style={flairTextStyle}>{flairText}</p>
@@ -206,7 +197,8 @@ function MediaContainer({containerType, galleryInfo, title, mediaType, media, vi
                     }
                     else if(thumbnail==="default") {
                         return (
-                            <div className={styles.defaultPostBox}> 
+                            <div className={styles.defaultPostContainer}> 
+                                {isNsfw&&<p className={styles.nsfwWarning}>NSFW content warning!</p>}
                                 <h3 className={styles.title}>{title}</h3>
                                 <p style={flairTextStyle}>{flairText}</p>
                                 {selfTextHTML&&<div ref={selfTextRef} className={styles.selfTextWithFogContainer}></div>}
@@ -215,7 +207,8 @@ function MediaContainer({containerType, galleryInfo, title, mediaType, media, vi
                     }
                     else{
                         return (
-                            <div className={styles.defaultPostBox}> 
+                            <div className={styles.defaultPostContainer}> 
+                                {isNsfw&&<p className={styles.nsfwWarning}>NSFW content warning!</p>}
                                 <h3 className={styles.title}>{title}</h3>
                                 <p style={flairTextStyle}>{flairText}</p>
                                 {selfTextHTML&&<div className={styles.selfTextWithFogContainer} ref={selfTextRef}></div>}
@@ -228,46 +221,34 @@ function MediaContainer({containerType, galleryInfo, title, mediaType, media, vi
             
 
             else if(isSelf) {
-                
                 if (thumbnail==="self"||thumbnail==="default"||thumbnail==="spoiler"){
-                    if(containerType==="postArea"){
-                        return (            
-                            <div className={styles.defaultPostBox}> 
-                                <h3 className={styles.title}>{title}</h3>
-                                <p style={flairTextStyle}>{flairText}</p>
-                                {selfTextHTML&&<div ref={selfTextRef}></div>}
-                            </div>
-                        )
-                    }
-                    else{
-                        return (         
-                            
-                            <div className={styles.defaultPostBox}> 
-                                <h3 className={styles.title}>{title} </h3>
-                                <p style={flairTextStyle}>{flairText}</p>
-                                {selfTextHTML&&<div className={styles.selfTextWithFogContainer} ref={selfTextRef}></div>}
-                            </div>
-                        )   
-                    }
+                    return (   
+                        <div className={styles.defaultPostContainer}> 
+                            {isNsfw&&<p className={styles.nsfwWarning}>NSFW content warning!</p>}
+                            <h3 className={styles.title}>{title} </h3>
+                            <p style={flairTextStyle}>{flairText}</p>
+                            {selfTextHTML&&<div className={containerType==="postArea"?null:styles.selfTextWithFogContainer} ref={selfTextRef}></div>}
+                        </div>
+                    )   
                 }
+
                 else if(thumbnail.includes(".png")||thumbnail.includes(".jpg")){
-                    
                     return (
-                        
-                        <div className={styles.defaultPostBox}> 
+                        <div className={styles.defaultPostContainer}> 
+                            {isNsfw&&<p className={styles.nsfwWarning}>NSFW content warning!</p>}
                             <h3 className={styles.title}>{title}</h3>
                             <p style={flairTextStyle}>{flairText}</p>
                             {selfTextHTML&&<div ref={selfTextRef} className={styles.selfWithPhotoPostArea}></div>}
                         </div>
                     )
                 }
+
                 else{
                     return(
-                        <div className={styles.defaultPostBox}> 
-                    
+                        <div className={styles.defaultPostContainer}> 
                             <h3 className={styles.title}>{title}</h3>
                             <p style={flairTextStyle}>{flairText}</p>
-                            {selfTextHTML&&<div ref={selfTextRef}></div>}
+                            {selfTextHTML&&<div ref={selfTextRef} className={styles.selfWithPhotoPostArea}></div>}
                             <a href={thumbnail} rel="noreferrer" target="_blank" className={styles.link}>{media.substring(0, 26)}...
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className={styles.linkIcon}>
                                     <path strokeLinecap="round" strokeLinejoin="round" d="M13.19 8.688a4.5 4.5 0 0 1 1.242 7.244l-4.5 4.5a4.5 4.5 0 0 1-6.364-6.364l1.757-1.757m13.35-.622 1.757-1.757a4.5 4.5 0 0 0-6.364-6.364l-4.5 4.5a4.5 4.5 0 0 0 1.242 7.244" />
@@ -275,16 +256,26 @@ function MediaContainer({containerType, galleryInfo, title, mediaType, media, vi
                             </a>
                         </div>
                     )
-                    
                 }
             }
             else{
+                //console.log("check this one for image definer:", title)
                 return (
-                    <div className={styles.defaultPostBox}> 
+                    <div className={styles.defaultPostContainer}> 
+                        {isNsfw&&<p className={styles.nsfwWarning}>NSFW content warning!</p>}
                         <h3 className={styles.title}>{title}</h3>
                         <p style={flairTextStyle}>{flairText}</p>
                         {selfTextHTML&&<div ref={selfTextRef}></div>}
-                        {media&&<a href={media} target="_blank" rel="noreferrer" className={styles.link}>{media.substring(0, 26)}...</a>}
+                        {media?imageDefiner(media)?
+                            <div className={styles.postMediaPhotoContainer}>
+                                <img  onClick={containerType==="postArea"?handleZoomClick:null} src={media} className={containerType==="postArea"?isShowNsfwClicked?styles.postAreaMediaPhoto:styles.postAreaNsfwPhoto:isShowNsfwClicked?styles.postBoxMediaPhoto:styles.postBoxNsfwPhoto} alt="Post media" />
+                                {isNsfw&&
+                                    <div className={styles.nsfw_fog} onClick={handleSeeNsfwClickDiv}>
+                                        <span className={styles.seePostButton} onClick={handleSeeNsfwClickSpan}>See the post</span>
+                                    </div>
+                                }
+                            </div>:
+                            <a href={media} target="_blank" rel="noreferrer" className={styles.link}>{media.substring(0, 26)}...</a>:null}
                     </div>
                 );
 
