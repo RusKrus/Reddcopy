@@ -12,6 +12,7 @@ import MediaContainer from "../mediaContainer/MediaContainer.jsx";
 import LikesCounter from "../likesCounter/LikesCounter.jsx";
 import { v4 as uuidv4 } from 'uuid';
 import 'react-loading-skeleton/dist/skeleton.css';
+import { domElementObtainer } from "../../helperFuncs/helperFuncs.js";
 
 function PostArea() {
 
@@ -34,10 +35,10 @@ function PostArea() {
             dispatch(fetchingPostData(postId));
         }
     }, [])
-
+    
     //defining all required data for post
     const postProps = {
-        subredditName: postDetails?.subreddit_name_prefixed,
+        subredditName: postDetails?.subreddit,
         author: postDetails?.author,
         title: postDetails?.title,
         score: postDetails?.score,
@@ -65,7 +66,7 @@ function PostArea() {
         subredditDescription: postDetails?.sr_detail.public_description,
         followers: postDetails?.sr_detail.subscribers
     }
-    console.log(postProps.subredditDescription)
+
 
 
 

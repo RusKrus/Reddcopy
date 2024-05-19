@@ -5,8 +5,7 @@
     grid-template-columns: 1fr 50rem 1fr;
     padding-top: 1rem;
     background-color: hsl(0, 0%, 96%);
-
-
+    
 }
 
 /*styles for mobile devices*/
@@ -69,6 +68,7 @@
 .postBox {
     display: flex;
     flex-wrap: wrap;
+    overflow: hidden;
 }
 
 .mediaContainer {
@@ -126,7 +126,7 @@
 
     align-self: start;
     background-color: hsla(230, 50%, 70%, .3);
-    width: 60%;
+    width: 80%;
     justify-self: center;
     padding: .5rem;
     border-radius: 7px;
@@ -137,8 +137,8 @@
     margin: 0;
     display: flex;
     align-items: center;
-    font-style: italic;
-    font-size: 1.1rem;
+    font-weight: bold;
+    flex-wrap:wrap;
 }
 
 .subredditAvatar {
@@ -153,6 +153,8 @@
 
 .subredditDescription {
     margin: 0;
+    word-break:break-word;
+    font-size: 0.8rem;
 }
 
 .followersNumber {
@@ -190,6 +192,12 @@
 
 
 @media only screen and (max-width: 1360px) {
+    .postArea {
+        grid-template-columns: 1fr 45rem 1fr;
+    }
+}
+
+@media only screen and (max-width:1240px){
     .postArea {
         grid-template-columns: 1fr 40rem 1fr;
     }
@@ -236,6 +244,7 @@
         display: flex;
         align-items: center;
         margin: 0;
+        font-size: 1.2rem;
     }
 
     .subredditAvatarMobile {
@@ -260,6 +269,7 @@
         background-color:hsla(220, 50%, 30%, .3);
         border-radius: 5px;
         padding:.3rem;
+
     }
 
 

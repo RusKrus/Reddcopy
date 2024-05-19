@@ -1,5 +1,5 @@
 import he from 'he';
-
+//fucntion for preparing data for ImageGallery 
 export const imageGalleryPrepared = (galleryInfo) => {
     const urlArrayToDecode = [];
     for (const imageKey in galleryInfo){
@@ -25,6 +25,7 @@ export const imageGalleryPrepared = (galleryInfo) => {
     return imageGalleryProps;
 }
 
+//getting HTML element from coded string
 export const domElementObtainer = (htmlString) => {
     const decodedHtml = he.decode(htmlString);
     const parser = new DOMParser();
@@ -64,6 +65,7 @@ export const aToImgLinkReplacer = (selfText) => {
     }
 }
 
+//creating decoded HTML for post area or post box (with fog or without)
 export const selfTextElementObtainer = (htmlString, styles, selfTextRef, mediaBoxType) => {
     const selfText = domElementObtainer(htmlString);
     aToImgLinkReplacer(selfText)
