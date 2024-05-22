@@ -1,43 +1,51 @@
-jest.mock("../redditData/data.js");
+
 import { screen, fireEvent, act, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import PostArea from "../components/postArea/PostArea";
-import testingTools from "../helperFuncs/testingTools"
+import { testingTools, mockedServerAnswer } from "../helperFuncs/testingTools"
 import { serverRequests } from "../redditData/data.js";
 
 
-
-const mockedScrollFunc = jest.spyOn(window, "scrollTo");
-
+jest.mock("../redditData/data.js"); //inside of it block if .getPostInfo manually mocked with resolved value - this function always returns undefined, but in other blocks of code the function returns correct value. I can not find an issue. 
+jest.spyOn(window, "scrollTo");
 
 
 describe("Post area behaviour", ()=>{
+    describe("fullfilled post area behaviour", ()=>{
+        it("must render returned data correctly", async ()=>{
+            expect.assertions()
+            const resolvedValue = mockedServerAnswer();
+            serverRequests.getPostInfo.mockResolvedValueOnce(resolvedValue);
+            testingTools.renderWithReduxRouter(<PostArea/>);
+            const postInfoContainer = await screen.findByTestId("postAndCommentsBox");
+            expect(postInfoContainer).toBeInTheDocument();
+            console.log(screen)
+            
+            
+
+        })
+    })
 
     describe("loading post area behaviour", ()=>{
         it("must show loading screen", async ()=>{
+            expect.assertions(1);
             serverRequests.getPostInfo.mockReturnValueOnce(new Promise(()=>{}));
-            const postAreaLoading = testingTools.renderWithReduxRouter(<PostArea/>);
+            testingTools.renderWithReduxRouter(<PostArea/>);
             const loadingScreen = await screen.findByTestId("loading screen");
+            expect(loadingScreen).toBeInTheDocument();
+            
         })
-
     })
 
     describe("Rejected post area behaviour", ()=>{
         it("must render error message if fetch request is rejected", async ()=>{
             expect.assertions(2);
             serverRequests.getPostInfo.mockRejectedValueOnce("Something hapenned");
-            const postArea = testingTools.renderWithReduxRouter(<PostArea/>);
+            testingTools.renderWithReduxRouter(<PostArea/>);
             const errorMessage = await screen.findByText(/Something gone wrong/)
             const tryAgainBtn = await screen.findByText("Try again");
             expect(errorMessage).toBeInTheDocument();
-            expect(tryAgainBtn).toBeInTheDocument();
+            expect(tryAgainBtn).toBeInTheDocument(); 
         })
     })  
-    
-    describe("fullfilled post area behaviour", ()=>{
-        it("", async ()=>{
-            const answer = await serverRequests.getPostInfo();
-            console.log(serverRequests.getPostInfo("id"))
-        })
-    })
 })

@@ -96,7 +96,7 @@ describe("comments area behaviour", ()=>{
         expect(correctCommentTextElement).toBeInTheDocument();
     })
 
-    it("must not render reply with incorrect type ", ()=>{
+    it("must not render reply with incorrect type", ()=>{
         const authorNameElement = screen.queryByText(commentsProp.data.replies.data.children[1].data.author);
         expect(authorNameElement).not.toBeInTheDocument();
         const correctTime = timeDecoder(commentsProp.data.replies.data.children[1].data.created_utc);

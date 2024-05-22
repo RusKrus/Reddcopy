@@ -1,11 +1,11 @@
-const resolvedValue = [
+export const resolvedValue = [
     //post data
     {
         data:{
             children:[
                 {
                     data:{
-                        subreddit_name_prefixed: "r/meirl",
+                        subreddit: "meirl",
                         author: "unsunglory",
                         title: "meirl",
                         score: 10990,
@@ -17,6 +17,7 @@ const resolvedValue = [
                         thumbnail: "https://b.thumbs.redditmedia.com/ga4F7GOYCPz2jUY0Aqd3VyoBIm5eMwQVXsY7nLpr5EY.jpg",
                         is_gallery: false,
                         is_self: false,
+                        over_18: false,
                         media_metadata: undefined,
                         media: null,
                         link_flair_text: null,
@@ -39,7 +40,8 @@ const resolvedValue = [
     }
 ]
 
+/*
 export const serverRequests = {
     getPostInfo: jest.fn().mockResolvedValue(resolvedValue)
 }
-  
+  */

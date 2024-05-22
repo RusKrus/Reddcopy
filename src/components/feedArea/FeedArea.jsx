@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useRef } from "react";
 import styles from "./feedArea.module.css";
 import PostBox from "../postBox/PostBox";
 import LoadingBox from "../postBox/LoadingBox";
@@ -40,13 +40,15 @@ function FeedArea() {
 
 
 
-    const newPostsLoader=(entries)=>{
-        if (entries[0].isIntersecting){
-            dispatch(fetchingData({searchParam: activeParam, after}));
-        };
 
-    }
     useEffect(()=>{
+        const newPostsLoader=(entries)=>{
+            if (entries[0].isIntersecting){
+                dispatch(fetchingData({searchParam: activeParam, after}));
+            };
+    
+        }
+
         if(observerLoader.current){
             observerLoader.current.disconnect();
         }
@@ -54,7 +56,7 @@ function FeedArea() {
         if(itemToLoadContent.current){
             observerLoader.current.observe(itemToLoadContent.current);
         }
-    }, [after])
+    }, [after, dispatch, activeParam])
 
 
 

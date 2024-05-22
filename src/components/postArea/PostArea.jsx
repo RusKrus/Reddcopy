@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { useParams, useNavigate, useLocation } from "react-router-dom";
 import { useSelector, useDispatch } from 'react-redux';
 import { fetchingPostData } from "./postAreaSlice";
@@ -12,7 +12,6 @@ import MediaContainer from "../mediaContainer/MediaContainer.jsx";
 import LikesCounter from "../likesCounter/LikesCounter.jsx";
 import { v4 as uuidv4 } from 'uuid';
 import 'react-loading-skeleton/dist/skeleton.css';
-import { domElementObtainer } from "../../helperFuncs/helperFuncs.js";
 
 function PostArea() {
 
@@ -34,7 +33,7 @@ function PostArea() {
         if (!postData) {
             dispatch(fetchingPostData(postId));
         }
-    }, [])
+    }, [dispatch, postData, postId])
     
     //defining all required data for post
     const postProps = {
@@ -60,7 +59,7 @@ function PostArea() {
         flairText: postDetails?.link_flair_text,
         flairTextColor: postDetails?.link_flair_text_color,
         flairBackgroundColor: postDetails?.link_flair_background_color,
-        //sybreddit info collection
+        //subreddit info collection
         iconUrlWithSearchParam: postDetails?.sr_detail.community_icon,
         reserveIconUrl: postDetails?.sr_detail.icon_img,
         subredditDescription: postDetails?.sr_detail.public_description,
@@ -103,7 +102,7 @@ function PostArea() {
                         <path strokeLinecap="round" strokeLinejoin="round" d="m18.75 4.5-7.5 7.5 7.5 7.5m-6-15L5.25 12l7.5 7.5" />
                     </svg>
                 </div> : <div></div>}
-                <div className={styles.postAndCommentsBox}>
+                <div className={styles.postAndCommentsBox} data-testid = "postAndCommentsBox">
                     <div className={styles.postBox}>
                         {/*mobile styles*/}
                         <p className={styles.subredditMainInfoMobile}>{(iconUrl || postProps.reserveIconUrl) && <img className={styles.subredditAvatarMobile} src={iconUrl ? iconUrl : postProps.reserveIconUrl} alt="Subreddit avatar" />}{postProps.subredditName}</p>

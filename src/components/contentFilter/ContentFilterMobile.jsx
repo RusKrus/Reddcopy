@@ -1,6 +1,5 @@
 import React, { useEffect, useRef } from "react";
 import styles from "./contentFilter.module.css";
-import Select from 'react-select';
 import { useNavigate, useLocation } from "react-router-dom";
 
 

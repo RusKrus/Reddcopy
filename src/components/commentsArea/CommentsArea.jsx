@@ -27,7 +27,7 @@ function CommentsArea({comment}){
                 textBoxRef.current.replaceChild(textHTML, elementToReplace);
             }
         }
-    }, [textBoxRef.current])
+    }, [textHTML])
 
     return (
         <div className={styles.commentBox} ref={textBoxRef} >
