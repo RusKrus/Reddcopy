@@ -1,4 +1,4 @@
-import { render, screen, fireEvent, act } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import CommentsArea from "../components/commentsArea/CommentsArea";
 import React from "react";
 import { timeDecoder, domElementObtainer } from '../helperFuncs/helperFuncs';
@@ -45,20 +45,12 @@ const commentsProp = {
 
 
 describe("comments area behaviour", ()=>{
-    let commentsArea;
-    let rerenderer;
-    beforeEach(()=>{
-        const {container, rerender} = render(<CommentsArea comment={commentsProp} key={uuidv4()}/>);
-        commentsArea = container;
-        rerenderer = rerender;
-    })
-
-
 
     it("must not render any comment text if useRef is null",()=>{
+        const {rerender} = render(<CommentsArea comment={commentsProp} key={uuidv4()}/>);
         const originalSelector = jest.spyOn(Element.prototype, "querySelector");
         originalSelector.mockReturnValue(null);
-        rerenderer(<CommentsArea comment={commentsProp} key={uuidv4()}/>);
+        rerender(<CommentsArea comment={commentsProp} key={uuidv4()}/>);
         originalSelector.mockRestore();
         //checking main comment text 
         const correctString = domElementObtainer(commentsProp.data.body_html).children[0].innerHTML;
@@ -72,6 +64,7 @@ describe("comments area behaviour", ()=>{
     })
 
     it("must render first comment correctly", ()=>{
+        const {container} = render(<CommentsArea comment={commentsProp} key={uuidv4()}/>);
         const authorNameElement = screen.getByText(commentsProp.data.author);
         expect(authorNameElement).toBeInTheDocument();
         const correctTime = timeDecoder(commentsProp.data.created_utc);
@@ -80,12 +73,13 @@ describe("comments area behaviour", ()=>{
         const correctString = domElementObtainer(commentsProp.data.body_html).children[0].innerHTML;
         const correctCommentTextElement = screen.getByText(correctString);
         expect(correctCommentTextElement).toBeInTheDocument();
-        const elementToReplace = commentsArea.querySelector(".toReplace");
+        const elementToReplace = container.querySelector(".toReplace");
         expect(elementToReplace).not.toBeInTheDocument();
 
     })
     
     it("must render reply on first comment correctly", () =>{
+        render(<CommentsArea comment={commentsProp} key={uuidv4()}/>);
         const authorNameElement = screen.getByText(commentsProp.data.replies.data.children[0].data.author);
         expect(authorNameElement).toBeInTheDocument();
         const correctTime = timeDecoder(commentsProp.data.replies.data.children[0].data.created_utc);
@@ -97,6 +91,7 @@ describe("comments area behaviour", ()=>{
     })
 
     it("must not render reply with incorrect type", ()=>{
+        render(<CommentsArea comment={commentsProp} key={uuidv4()}/>);
         const authorNameElement = screen.queryByText(commentsProp.data.replies.data.children[1].data.author);
         expect(authorNameElement).not.toBeInTheDocument();
         const correctTime = timeDecoder(commentsProp.data.replies.data.children[1].data.created_utc);

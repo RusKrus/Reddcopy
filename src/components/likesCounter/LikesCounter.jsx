@@ -99,6 +99,7 @@ function LikesCounter({score, containerType}){
                     </svg>
                 </div>
             )
+            // no default
     }
 }
 
