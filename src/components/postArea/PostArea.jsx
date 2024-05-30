@@ -25,7 +25,7 @@ function PostArea() {
     const postComments = postData?.postComments;
     const status = useSelector(state => state.postArea.status);
     const location = useLocation();
-    //refs for parsed data
+    //refs for parsed data 
 
 
 
@@ -97,7 +97,7 @@ function PostArea() {
         return (
             <div className={styles.postArea}>
                 
-                {location.state ? <div onClick={handleBacklick} className={styles.backButton}>
+                {location.state ? <div onClick={handleBacklick} className={styles.backButton} data-testid="backButton">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className={styles.backSign}>
                         <path strokeLinecap="round" strokeLinejoin="round" d="m18.75 4.5-7.5 7.5 7.5 7.5m-6-15L5.25 12l7.5 7.5" />
                     </svg>

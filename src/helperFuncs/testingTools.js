@@ -22,9 +22,9 @@ export const testingTools = {
 
         return store;
     },
-    renderWithReduxRouter(component, store=this.createMockStore()){
+    renderWithReduxRouter(component, store=this.createMockStore(), previousPages=["/","/top"]){
         const renderedComponent = render(
-            <MemoryRouter>
+            <MemoryRouter initialEntries={previousPages}> 
                 <Provider store={store}>
                     {component}
                 </Provider>
@@ -34,7 +34,50 @@ export const testingTools = {
     }
 }
 
-export const mockedServerAnswer = () =>{
+const commentsData = 
+[{   
+    kind: "t1",
+    data:{
+        author: "John Weak",
+        created_utc: 1680962338,
+        body_html: `&lt;div class="md"&gt;&lt;p&gt;Blurry you looks enough like me that I&amp;#39;m going to tell people I met Tobey Maguire&lt;/p&gt; &lt;/div&gt;`,
+        score: 273,
+        replies: {
+            kind: "Listing",
+            data:{
+                children:[
+                    {
+                        kind: "t1",
+                        data:
+                        {
+                            author: "John Weak 2",
+                            created_utc: 1712672507,
+                            body_html: `&lt;div class="md"&gt;&lt;p&gt;Won’t appear on Leo’s Hinge anymore.&lt;/p&gt; &lt;/div&gt;`,
+                            score: 25,
+                            replies: {}
+                        }
+                    },
+                    {
+                        kind: "more",
+                        data:
+                        {
+                            author: "John Weak 3",
+                            created_utc: 1700000000,
+                            body_html: `&lt;div class="md"&gt;&lt;p&gt;I am should not be rendered.&lt;/p&gt; &lt;/div&gt;`,
+                            score: 28,
+                            replies: {}
+                        }
+                    }
+                ]
+            }
+        }
+    }
+}]
+
+export const mockedServerAnswer = ({publicDescription = "you, me, us, irl, reddit style", 
+                                    comments=commentsData, 
+                                    iconUrl=null, 
+                                    iconUrlSpare="https://b.thumbs.redditmedia.com/4ADRnu2cwKIkpQt0N-g36-iq6EfTNFVV1RComMcEZiU.png"}={}) =>{
     return [
             //post data
             {
@@ -61,9 +104,9 @@ export const mockedServerAnswer = () =>{
                                 ink_flair_text_color: null,
                                 link_flair_background_color: null,
                                 sr_detail: {
-                                    community_icon:null,
-                                    icon_img: "https://b.thumbs.redditmedia.com/4ADRnu2cwKIkpQt0N-g36-iq6EfTNFVV1RComMcEZiU.png",
-                                    public_description: "you, me, us, irl, reddit style",
+                                    community_icon:iconUrl,
+                                    icon_img: iconUrlSpare,
+                                    public_description: publicDescription,
                                     subscribers: 2732296
                                 }
                             }
@@ -75,46 +118,7 @@ export const mockedServerAnswer = () =>{
             {
                 kind: "Listing",
                 data:{
-                    children: [
-                        {   
-                            kind: "t1",
-                            data:{
-                                author: "John Weak",
-                                created_utc: 1680962338,
-                                body_html: `&lt;div class="md"&gt;&lt;p&gt;Blurry you looks enough like me that I&amp;#39;m going to tell people I met Tobey Maguire&lt;/p&gt; &lt;/div&gt;`,
-                                score: 273,
-                                replies: {
-                                    kind: "Listing",
-                                    data:{
-                                        children:[
-                                            {
-                                                kind: "t1",
-                                                data:
-                                                {
-                                                    author: "John Weak 2",
-                                                    created_utc: 1712672507,
-                                                    body_html: `&lt;div class="md"&gt;&lt;p&gt;Won’t appear on Leo’s Hinge anymore.&lt;/p&gt; &lt;/div&gt;`,
-                                                    score: 25,
-                                                    replies: {}
-                                                }
-                                            },
-                                            {
-                                                kind: "more",
-                                                data:
-                                                {
-                                                    author: "John Weak 3",
-                                                    created_utc: 1700000000,
-                                                    body_html: `&lt;div class="md"&gt;&lt;p&gt;I am should not be rendered.&lt;/p&gt; &lt;/div&gt;`,
-                                                    score: 28,
-                                                    replies: {}
-                                                }
-                                            }
-                                        ]
-                                    }
-                                }
-                            }
-                        }
-                    ]
+                    children: comments
                 }
             }
         ]

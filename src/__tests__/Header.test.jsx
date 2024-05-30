@@ -1,4 +1,4 @@
-import { screen, fireEvent } from '@testing-library/react';
+import { screen, fireEvent, act } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import Header from "../components/header/Header";
 import { testingTools } from "../helperFuncs/testingTools"
@@ -30,8 +30,7 @@ describe("Header behaviour", () => {
         expect(form).toBeInTheDocument();
         const handleSubmit = jest.fn();
         form.onsubmit = handleSubmit;
-            fireEvent.submit(form);
-        
+        fireEvent.submit(form);
         expect(handleSubmit).toHaveBeenCalledTimes(1)
     })
 
@@ -41,8 +40,9 @@ describe("Header behaviour", () => {
         expect(input).toBeInTheDocument();
         const handleChange = jest.fn();
         input.onchange = handleChange;
+        act(()=>{
             fireEvent.change(input);
-        
+        })
         expect(handleChange).toHaveBeenCalledTimes(1);
     })
 
