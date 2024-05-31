@@ -9,16 +9,14 @@ const serverRequest = mockedServerAnswer();
 const commentsProp = serverRequest[1].data.children[0];
 
 
-
+ 
 describe("comments area behaviour", ()=>{
 
     it("must not render any comment text if useRef is null",()=>{
         const {rerender} = render(<CommentsArea comment={commentsProp} key={uuidv4()}/>);
         const originalSelector = jest.spyOn(Element.prototype, "querySelector");
         originalSelector.mockReturnValue(null);
-        act(()=>{
-           rerender(<CommentsArea comment={commentsProp} key={uuidv4()}/>);
-        })
+        rerender(<CommentsArea comment={commentsProp} key={uuidv4()}/>);
         originalSelector.mockRestore();
         //checking main comment text 
         const correctString = domElementObtainer(commentsProp.data.body_html).children[0].innerHTML;
@@ -32,9 +30,7 @@ describe("comments area behaviour", ()=>{
     })
 
     it("must render first comment correctly", ()=>{
-        act(()=>{
             render(<CommentsArea comment={commentsProp} key={uuidv4()}/>);
-        })
         const authorNameElement = screen.getByText(commentsProp.data.author);
         expect(authorNameElement).toBeInTheDocument();
         const correctTime = timeDecoder(commentsProp.data.created_utc);
@@ -49,9 +45,7 @@ describe("comments area behaviour", ()=>{
     })
     
     it("must render reply on first comment correctly", () =>{
-        act(()=>{
-            render(<CommentsArea comment={commentsProp} key={uuidv4()}/>);
-        })
+        render(<CommentsArea comment={commentsProp} key={uuidv4()}/>);
         const authorNameElement = screen.getByText(commentsProp.data.replies.data.children[0].data.author);
         expect(authorNameElement).toBeInTheDocument();
         const correctTime = timeDecoder(commentsProp.data.replies.data.children[0].data.created_utc);
@@ -63,9 +57,7 @@ describe("comments area behaviour", ()=>{
     })
 
     it("must not render reply with incorrect type", ()=>{
-        act(()=>{
-            render(<CommentsArea comment={commentsProp} key={uuidv4()}/>);
-        })
+        render(<CommentsArea comment={commentsProp} key={uuidv4()}/>);
         const authorNameElement = screen.queryByText(commentsProp.data.replies.data.children[1].data.author);
         expect(authorNameElement).not.toBeInTheDocument();
         const correctTime = timeDecoder(commentsProp.data.replies.data.children[1].data.created_utc);
