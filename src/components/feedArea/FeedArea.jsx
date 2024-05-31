@@ -77,7 +77,8 @@ function FeedArea() {
                     <>
                         {filteredPosts.map((postInfo, num) => {
                             const postData = postInfo.data;
-                            return <PostBox subredditName={postData.subreddit_name_prefixed}
+                            return <PostBox 
+                                subredditName={postData.subreddit_name_prefixed}
                                 author={postData.author}
                                 title={postData.title}
                                 score={postData.score}

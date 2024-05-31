@@ -108,7 +108,8 @@ export const mockedServerAnswer = ({publicDescription = "you, me, us, irl, reddi
                                     icon_img: iconUrlSpare,
                                     public_description: publicDescription,
                                     subscribers: 2732296
-                                }
+                                },
+                                id: 12345
                             }
                         }
                     ]
