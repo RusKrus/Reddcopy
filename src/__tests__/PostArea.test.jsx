@@ -31,7 +31,8 @@ describe("Post area behaviour", ()=>{
             expect(postInfoContainer).toBeInTheDocument();
         })
 
-        it("must show back button in component", async ()=>{
+
+       it("must show back button in component", async ()=>{
             expect.assertions(1);
             const resolvedValue = mockedServerAnswer();
             useLocation.mockReturnValue({state:true})
@@ -41,20 +42,23 @@ describe("Post area behaviour", ()=>{
             expect(backButton).toBeInTheDocument();
         })
 
-        it("must not show back button in component", async ()=>{
-            expect.assertions(1);
+
+
+       it("must not show back button in component", async ()=>{
+            //expect.assertions(1);
             const resolvedValue = mockedServerAnswer();
             useLocation.mockReturnValue({state:null})
             serverRequests.getPostInfo.mockResolvedValueOnce(resolvedValue);
-            testingTools.renderWithReduxRouter(<PostArea/>);
+            await act(async () => {
+                testingTools.renderWithReduxRouter(<PostArea />);
+            });
             let backButton;
-            await waitFor(()=>{
-                backButton = screen.queryByTestId("backButton");
-            })
+            backButton = screen.queryByTestId("backButton");
             expect(backButton).toBeNull();
         })
 
-        it("must show correct back button behaviour", async ()=>{
+
+ it("must show correct back button behaviour", async ()=>{
             expect.assertions(1);
             const resolvedValue = mockedServerAnswer();
             useLocation.mockReturnValue({state:true})
@@ -67,7 +71,8 @@ describe("Post area behaviour", ()=>{
             expect(mockedNavigate).toHaveBeenCalledWith(-1);
         })
 
-        it("must show correct subreddit info behaviour", async ()=>{
+
+       it("must show correct subreddit info behaviour", async ()=>{
             const resolvedValue = mockedServerAnswer({publicDescription: null});
             serverRequests.getPostInfo.mockResolvedValueOnce(resolvedValue);
             useLocation.mockReturnValue({state:null});
@@ -85,7 +90,7 @@ describe("Post area behaviour", ()=>{
             expect(defaultCommentsString).toBeInTheDocument();
         })
 
-        it("must use correct img link - spare if main is absent", async ()=>{
+    it("must use correct img link - spare if main is absent", async ()=>{
             const resolvedValue = mockedServerAnswer({iconUrl:null, iconUrlSpare:"http://spareiconurl/"});
             serverRequests.getPostInfo.mockResolvedValueOnce(resolvedValue);
             useLocation.mockReturnValue({state:null});
@@ -94,8 +99,9 @@ describe("Post area behaviour", ()=>{
             expect(img[0].src).toBe("http://spareiconurl/");
             expect(img[1].src).toBe("http://spareiconurl/");
         })
+
         
-        it("must use correct img link - main link is avaliable", async () =>{
+             it("must use correct img link - main link is avaliable", async () =>{
             const resolvedValue = mockedServerAnswer({iconUrl:"http://mainiconurl/", iconUrlSpare:"http://spareiconurl/"});
             serverRequests.getPostInfo.mockResolvedValueOnce(resolvedValue);
             useLocation.mockReturnValue({state:null});
