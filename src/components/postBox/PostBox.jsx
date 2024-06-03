@@ -49,7 +49,7 @@ const PostBox = forwardRef((props, ref) => {
         navigate("/"+subredditName+"/"+id, {state: true});
     }
 
-    (mediaType==="self"&&selfAlone)&&console.log("check is this self is alone and correct:", title)
+    //(mediaType==="self"&&selfAlone)&&console.log("check is this self is alone and correct:", title)
     return (
         <div ref={ref} onClick={handlePostBoxClick} className={styles.postContainer} >
             <div className={styles.actionContainer}>

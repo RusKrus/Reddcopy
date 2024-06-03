@@ -77,7 +77,11 @@ const commentsData =
 export const mockedServerAnswer = ({publicDescription = "you, me, us, irl, reddit style", 
                                     comments=commentsData, 
                                     iconUrl=null, 
-                                    iconUrlSpare="https://b.thumbs.redditmedia.com/4ADRnu2cwKIkpQt0N-g36-iq6EfTNFVV1RComMcEZiU.png"}={}) =>{
+                                    iconUrlSpare="https://b.thumbs.redditmedia.com/4ADRnu2cwKIkpQt0N-g36-iq6EfTNFVV1RComMcEZiU.png",
+                                    numComments=555,
+                                    postHint=null,
+                                    isSelf=true,
+                                    selfText=null}={}) =>{
     return [
             //post data
             {
@@ -91,12 +95,12 @@ export const mockedServerAnswer = ({publicDescription = "you, me, us, irl, reddi
                                 score: 10990,
                                 url: "https://i.redd.it/an4snz6o2zwc1.jpeg",
                                 created_utc: 1714202011,
-                                post_hint: undefined,
-                                selftext_html: null,
-                                num_comments: 455,
+                                post_hint: postHint,
+                                selftext_html: selfText,
+                                num_comments: numComments,
                                 thumbnail: "https://b.thumbs.redditmedia.com/ga4F7GOYCPz2jUY0Aqd3VyoBIm5eMwQVXsY7nLpr5EY.jpg",
                                 is_gallery: false,
-                                is_self: false,
+                                is_self: isSelf,
                                 over_18: false,
                                 media_metadata: undefined,
                                 media: null,

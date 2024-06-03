@@ -8,7 +8,7 @@ jest.mock("react-router-dom", ()=>({
     ...jest.requireActual('react-router-dom'),
     useNavigate: jest.fn()
 }))
-
+ 
 describe("post box behaviour", ()=>{
     it("must render post box, and post box must direct to post area correctly", ()=>{
         const resolvedValue = mockedServerAnswer();
@@ -24,8 +24,8 @@ describe("post box behaviour", ()=>{
                                             time={postData.created_utc}
                                             video={postData.media?.reddit_video?.hls_url}
                                             mediaType={postData.post_hint}
-                                            iconUrlWithSearchParam={postData.sr_detail.community_icon}
-                                            reserverIconUrl={postData.sr_detail.icon_img}
+                                            iconUrlWithSearchParam={postData.sr_detail.community_icon} //main icon
+                                            reserverIconUrl={postData.sr_detail.icon_img} //spare icon
                                             selfTextHTML={postData.selftext_html}
                                             numComments={postData.num_comments}
                                             isGallery={postData.is_gallery}
@@ -41,7 +41,8 @@ describe("post box behaviour", ()=>{
         const postBoxContainer = screen.getByTestId('postContainer');
         expect(postBoxContainer).toBeInTheDocument();
         userEvent.click(postBoxContainer);
-        expect(mockedNavigate).toHaveBeenCalledWith(`/${postData.subreddit}/${postData.id}`,expect.objectContaining({state: true}))
+        expect(mockedNavigate).toHaveBeenCalledWith(`/${postData.subreddit}/${postData.id}`,expect.objectContaining({state: true}));
+        
     })
 
     it("must use correct img link - spare if main is absent", ()=>{
@@ -72,12 +73,10 @@ describe("post box behaviour", ()=>{
                                             />)
         const img = screen.getByAltText("Subreddit avatar");
         expect(img.src).toBe("http://spareiconurl/");
-
     })
 
-    
     it("must use correct img link - main link is avaliable", () =>{
-        const resolvedValue = mockedServerAnswer({iconUrl:null, iconUrlSpare:"http://mainiconurl/"});
+        const resolvedValue = mockedServerAnswer({iconUrl:"http://mainiconurl/", iconUrlSpare:null});
         const postData = resolvedValue[0].data.children[0].data;
         testingTools.renderWithReduxRouter(<Postbox 
                                             subredditName={postData.subreddit}
@@ -104,6 +103,125 @@ describe("post box behaviour", ()=>{
                                             />)
         const img = screen.getByAltText("Subreddit avatar");
         expect(img.src).toBe("http://mainiconurl/");
+        
+    })
 
+    it("must show correct style if post is only title (selfAlone)", async ()=>{
+        //selfAlone example
+        let resolvedValue = mockedServerAnswer({postHint: "self", isSelf: true, selfText: null});
+        let postData = resolvedValue[0].data.children[0].data;
+        const {rerender} = testingTools.renderWithReduxRouter(<Postbox 
+                                                                subredditName={postData.subreddit}
+                                                                author={postData.author}
+                                                                title={postData.title}
+                                                                score={postData.score}
+                                                                media={postData.url}
+                                                                time={postData.created_utc}
+                                                                video={postData.media?.reddit_video?.hls_url}
+                                                                mediaType={postData.post_hint}
+                                                                iconUrlWithSearchParam={postData.sr_detail.community_icon}
+                                                                reserverIconUrl={postData.sr_detail.icon_img}
+                                                                selfTextHTML={postData.selftext_html}
+                                                                numComments={postData.num_comments}
+                                                                isGallery={postData.is_gallery}
+                                                                thumbnail={postData.thumbnail}
+                                                                isNsfw={postData.over_18}
+                                                                isSelf={postData.is_self}
+                                                                htmlStringIframe = {postData?.media?.oembed?.html}
+                                                                flairText={postData.link_flair_text}
+                                                                flairTextColor={postData.link_flair_text_color}
+                                                                flairBackgroundColor={postData.link_flair_background_color}
+                                                                id={postData.id}
+                                                                />);
+        let postBoxContainer = screen.getByTestId('postContainer');
+        expect(postBoxContainer.style.alignContent).toBe("space-between");
+        //not self text alone example
+        resolvedValue = mockedServerAnswer({postHint: "image", isSelf: false, selfText: null});
+        postData = resolvedValue[0].data.children[0].data;
+        rerender(<Postbox 
+                        subredditName={postData.subreddit}
+                        author={postData.author}
+                        title={postData.title}
+                        score={postData.score}
+                        media={postData.url}
+                        time={postData.created_utc}
+                        video={postData.media?.reddit_video?.hls_url}
+                        mediaType={postData.post_hint}
+                        iconUrlWithSearchParam={postData.sr_detail.community_icon}
+                        reserverIconUrl={postData.sr_detail.icon_img}
+                        selfTextHTML={postData.selftext_html}
+                        numComments={postData.num_comments}
+                        isGallery={postData.is_gallery}
+                        thumbnail={postData.thumbnail}
+                        isNsfw={postData.over_18}
+                        isSelf={postData.is_self}
+                        htmlStringIframe = {postData?.media?.oembed?.html}
+                        flairText={postData.link_flair_text}
+                        flairTextColor={postData.link_flair_text_color}
+                        flairBackgroundColor={postData.link_flair_background_color}
+                        id={postData.id}
+                        />);
+        postBoxContainer = screen.getByTestId('postContainer');
+        expect(postBoxContainer.style.alignContent).toBe("first baseline");
+
+    })
+
+    it("must show correct comments counter work", async ()=>{
+        let resolvedValue = mockedServerAnswer({numComments:999});
+        let postData = resolvedValue[0].data.children[0].data;
+        const {rerender} = testingTools.renderWithReduxRouter(<Postbox 
+                                                                subredditName={postData.subreddit}
+                                                                author={postData.author}
+                                                                title={postData.title}
+                                                                score={postData.score}
+                                                                media={postData.url}
+                                                                time={postData.created_utc}
+                                                                video={postData.media?.reddit_video?.hls_url}
+                                                                mediaType={postData.post_hint}
+                                                                iconUrlWithSearchParam={postData.sr_detail.community_icon}
+                                                                reserverIconUrl={postData.sr_detail.icon_img}
+                                                                selfTextHTML={postData.selftext_html}
+                                                                numComments={postData.num_comments}
+                                                                isGallery={postData.is_gallery}
+                                                                thumbnail={postData.thumbnail}
+                                                                isNsfw={postData.over_18}
+                                                                isSelf={postData.is_self}
+                                                                htmlStringIframe = {postData?.media?.oembed?.html}
+                                                                flairText={postData.link_flair_text}
+                                                                flairTextColor={postData.link_flair_text_color}
+                                                                flairBackgroundColor={postData.link_flair_background_color}
+                                                                id={postData.id}
+                                                                />)
+        let commentsCounter = screen.getByText(999);
+        expect(commentsCounter).toBeInTheDocument();
+        resolvedValue = mockedServerAnswer({numComments:1000});
+        postData = resolvedValue[0].data.children[0].data;
+        rerender(<Postbox 
+                    subredditName={postData.subreddit}
+                    author={postData.author}
+                    title={postData.title}
+                    score={postData.score}
+                    media={postData.url}
+                    time={postData.created_utc}
+                    video={postData.media?.reddit_video?.hls_url}
+                    mediaType={postData.post_hint}
+                    iconUrlWithSearchParam={postData.sr_detail.community_icon}
+                    reserverIconUrl={postData.sr_detail.icon_img}
+                    selfTextHTML={postData.selftext_html}
+                    numComments={postData.num_comments}
+                    isGallery={postData.is_gallery}
+                    thumbnail={postData.thumbnail}
+                    isNsfw={postData.over_18}
+                    isSelf={postData.is_self}
+                    htmlStringIframe = {postData?.media?.oembed?.html}
+                    flairText={postData.link_flair_text}
+                    flairTextColor={postData.link_flair_text_color}
+                    flairBackgroundColor={postData.link_flair_background_color}
+                    id={postData.id}
+                    />)
+        commentsCounter = await screen.getByText("1.0k");
+        expect(commentsCounter).toBeInTheDocument();
+
+        //unmountComponentAtNode(container);
     })
 })
