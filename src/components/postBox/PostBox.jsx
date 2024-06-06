@@ -49,9 +49,9 @@ const PostBox = forwardRef((props, ref) => {
         navigate("/"+subredditName+"/"+id, {state: true});
     }
 
-    (mediaType==="self"&&selfAlone)&&console.log("check is this self is alone and correct:", title)
+    //(mediaType==="self"&&selfAlone)&&console.log("check is this self is alone and correct:", title)
     return (
-        <div ref={ref} onClick={handlePostBoxClick} className={styles.postContainer}>
+        <div ref={ref} onClick={handlePostBoxClick} className={styles.postContainer} >
             <div className={styles.actionContainer}>
                 <LikesCounter score={score} containerType={"postBox"}/>
                 <div to={id} className={styles.commentsContainer}>
@@ -62,7 +62,7 @@ const PostBox = forwardRef((props, ref) => {
                 </div>
             </div>
 
-            <div className={styles.postDataContainer} style={{alignContent:selfAlone?"space-between":"first baseline"}}>
+            <div data-testid="postContainer" className={styles.postDataContainer} style={{alignContent:selfAlone?"space-between":"first baseline"}}>
                 <div className={styles.postInfoContainer}>
                     <div className={styles.postData}>
                         {(iconUrl||reserverIconUrl)&&<img className={styles.subredditPhoto} src={iconUrl ? iconUrl : reserverIconUrl} alt="Subreddit avatar" />}

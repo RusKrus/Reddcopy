@@ -32,7 +32,7 @@ function CommentsArea({comment}){
     return (
         <div className={styles.commentBox} ref={textBoxRef} >
             <p className={styles.commentInfo}>{author}<span className={styles.postedAgo}>• {postedAgo}</span></p>
-            <p className="toReplace" ></p>
+            <p className="toReplace" data-testid="toReplace"></p>
             <LikesCounter score={score} containerType={"comments"}/>
             <div className={styles.reply} >
                 {replies&&replies.filter(comment=>comment.kind==="t1").map(reply=><CommentsArea comment={reply} key={uuidv4()}  />)}
