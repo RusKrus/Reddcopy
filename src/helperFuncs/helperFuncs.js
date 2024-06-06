@@ -163,7 +163,8 @@ export const timeDecoder = time => {
 export const searchFilter = (searchValue, postInfo) => {
     const postData = postInfo.data;
     const valueToCheck = searchValue.toLowerCase();
-    return (postData.subreddit_name_prefixed.toLowerCase().includes(valueToCheck) ||
+    return (
+        postData.subreddit_name_prefixed.toLowerCase().includes(valueToCheck) ||
         postData.author.toLowerCase().includes(valueToCheck) ||
         postData.title.toLowerCase().includes(valueToCheck) ||
         postData.selftext.toLowerCase().includes(valueToCheck))

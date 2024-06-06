@@ -1,4 +1,3 @@
-
 import { screen, fireEvent, act, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import PostArea from "../components/postArea/PostArea";
