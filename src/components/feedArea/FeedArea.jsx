@@ -107,7 +107,7 @@ function FeedArea() {
                 <NotFound text={"Sorry, no posts found"} />}
             </>
             }
-            {status === "rejected" && <FailedToLoad reloadAction={fetchingData} actionParam={activeParam} />}
+            {status === "rejected" && <FailedToLoad reloadAction={fetchingData} actionParam={activeParam}/>}
         </main>
     )
 }

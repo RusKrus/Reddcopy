@@ -74,14 +74,14 @@ const commentsData =
     }
 }]
 
-export const mockedServerAnswer = ({publicDescription = "you, me, us, irl, reddit style", 
-                                    comments=commentsData, 
-                                    iconUrl=null, 
-                                    iconUrlSpare="https://b.thumbs.redditmedia.com/4ADRnu2cwKIkpQt0N-g36-iq6EfTNFVV1RComMcEZiU.png",
-                                    numComments=555,
-                                    postHint=null,
-                                    isSelf=true,
-                                    selfText=null}={}) =>{
+export const mockedPostServerAnswer = ({publicDescription = "you, me, us, irl, reddit style", 
+                                        comments=commentsData, 
+                                        iconUrl=null, 
+                                        iconUrlSpare="https://b.thumbs.redditmedia.com/4ADRnu2cwKIkpQt0N-g36-iq6EfTNFVV1RComMcEZiU.png",
+                                        numComments=555,
+                                        postHint=null,
+                                        isSelf=true,
+                                        selfText=null}={}) =>{
     return [
             //post data
             {
@@ -89,6 +89,7 @@ export const mockedServerAnswer = ({publicDescription = "you, me, us, irl, reddi
                     children:[
                         {
                             data:{
+                                subreddit_name_prefixed:"r/meirl", //for feed area
                                 subreddit: "meirl",
                                 author: "unsunglory",
                                 title: "meirl",
@@ -130,4 +131,14 @@ export const mockedServerAnswer = ({publicDescription = "you, me, us, irl, reddi
     
 }
 
- 
+export const mockedPostsServerAnswer = ({}={}) =>{
+    const post = mockedPostServerAnswer();
+    const posts = Array(25).fill(post[0].data.children[0]);
+    return{
+        kind: "Listing",
+        data: {
+            after: "t3_1da2n25",
+            children: posts
+        }
+    }
+}

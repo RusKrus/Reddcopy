@@ -1,7 +1,7 @@
 import { screen, waitFor, act } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import PostArea from "../components/postArea/PostArea";
-import { testingTools, mockedServerAnswer } from "../helperFuncs/testingTools"
+import { testingTools, mockedPostServerAnswer } from "../helperFuncs/testingTools"
 import { serverRequests } from "../redditData/data.js";
 import { useLocation, useNavigate } from "react-router-dom";
 
@@ -22,7 +22,7 @@ describe("Post area behaviour", ()=>{
     describe("fullfilled post area behaviour", ()=>{
         it("must render returned data correctly", async ()=>{
             expect.assertions(1);
-            const resolvedValue = mockedServerAnswer();
+            const resolvedValue = mockedPostServerAnswer();
             useLocation.mockReturnValue({state:true})
             serverRequests.getPostInfo.mockResolvedValueOnce(resolvedValue);
             testingTools.renderWithReduxRouter(<PostArea/>);
@@ -33,7 +33,7 @@ describe("Post area behaviour", ()=>{
 
        it("must show back button in component", async ()=>{
             expect.assertions(1);
-            const resolvedValue = mockedServerAnswer();
+            const resolvedValue = mockedPostServerAnswer();
             useLocation.mockReturnValue({state:true})
             serverRequests.getPostInfo.mockResolvedValueOnce(resolvedValue);
             testingTools.renderWithReduxRouter(<PostArea/>);
@@ -45,7 +45,7 @@ describe("Post area behaviour", ()=>{
 
        it("must not show back button in component", async ()=>{
             //expect.assertions(1);
-            const resolvedValue = mockedServerAnswer();
+            const resolvedValue = mockedPostServerAnswer();
             useLocation.mockReturnValue({state:null})
             serverRequests.getPostInfo.mockResolvedValueOnce(resolvedValue);
             await act(async () => {
@@ -57,22 +57,22 @@ describe("Post area behaviour", ()=>{
         })
 
 
- it("must show correct back button behaviour", async ()=>{
-            expect.assertions(1);
-            const resolvedValue = mockedServerAnswer();
-            useLocation.mockReturnValue({state:true})
-            serverRequests.getPostInfo.mockResolvedValueOnce(resolvedValue);
-            testingTools.renderWithReduxRouter(<PostArea/>);
-            const mockedNavigate = jest.fn();
-            useNavigate.mockReturnValue(mockedNavigate);
-            const backButton = await screen.findByTestId("backButton"); 
-            userEvent.click(backButton);
-            expect(mockedNavigate).toHaveBeenCalledWith(-1);
-        })
+        it("must show correct back button behaviour", async ()=>{
+                    expect.assertions(1);
+                    const resolvedValue = mockedPostServerAnswer();
+                    useLocation.mockReturnValue({state:true})
+                    serverRequests.getPostInfo.mockResolvedValueOnce(resolvedValue);
+                    testingTools.renderWithReduxRouter(<PostArea/>);
+                    const mockedNavigate = jest.fn();
+                    useNavigate.mockReturnValue(mockedNavigate);
+                    const backButton = await screen.findByTestId("backButton"); 
+                    userEvent.click(backButton);
+                    expect(mockedNavigate).toHaveBeenCalledWith(-1);
+                })
 
 
        it("must show correct subreddit info behaviour", async ()=>{
-            const resolvedValue = mockedServerAnswer({publicDescription: null});
+            const resolvedValue = mockedPostServerAnswer({publicDescription: null});
             serverRequests.getPostInfo.mockResolvedValueOnce(resolvedValue);
             useLocation.mockReturnValue({state:null});
             testingTools.renderWithReduxRouter(<PostArea/>);
@@ -81,7 +81,7 @@ describe("Post area behaviour", ()=>{
         })
 
         it("must show correct string if it is no comments array", async ()=>{
-            const resolvedValue = mockedServerAnswer({comments:null});
+            const resolvedValue = mockedPostServerAnswer({comments:null});
             serverRequests.getPostInfo.mockResolvedValueOnce(resolvedValue);
             useLocation.mockReturnValue({state:null});
             testingTools.renderWithReduxRouter(<PostArea/>);
@@ -89,19 +89,19 @@ describe("Post area behaviour", ()=>{
             expect(defaultCommentsString).toBeInTheDocument();
         })
 
-    it("must use correct img link - spare if main is absent", async ()=>{
-            const resolvedValue = mockedServerAnswer({iconUrl:null, iconUrlSpare:"http://spareiconurl/"});
-            serverRequests.getPostInfo.mockResolvedValueOnce(resolvedValue);
-            useLocation.mockReturnValue({state:null});
-            testingTools.renderWithReduxRouter(<PostArea/>);
-            const img = await screen.findAllByAltText("Subreddit avatar");
-            expect(img[0].src).toBe("http://spareiconurl/");
-            expect(img[1].src).toBe("http://spareiconurl/");
-        })
+        it("must use correct img link - spare if main is absent", async ()=>{
+                const resolvedValue = mockedPostServerAnswer({iconUrl:null, iconUrlSpare:"http://spareiconurl/"});
+                serverRequests.getPostInfo.mockResolvedValueOnce(resolvedValue);
+                useLocation.mockReturnValue({state:null});
+                testingTools.renderWithReduxRouter(<PostArea/>);
+                const img = await screen.findAllByAltText("Subreddit avatar");
+                expect(img[0].src).toBe("http://spareiconurl/");
+                expect(img[1].src).toBe("http://spareiconurl/");
+            })
 
         
-             it("must use correct img link - main link is avaliable", async () =>{
-            const resolvedValue = mockedServerAnswer({iconUrl:"http://mainiconurl/", iconUrlSpare:"http://spareiconurl/"});
+        it("must use correct img link - main link is avaliable", async () =>{
+            const resolvedValue = mockedPostServerAnswer({iconUrl:"http://mainiconurl/", iconUrlSpare:"http://spareiconurl/"});
             serverRequests.getPostInfo.mockResolvedValueOnce(resolvedValue);
             useLocation.mockReturnValue({state:null});
             testingTools.renderWithReduxRouter(<PostArea/>);

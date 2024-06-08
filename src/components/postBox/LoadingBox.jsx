@@ -6,7 +6,7 @@ import LikesCounter from "../likesCounter/LikesCounter.jsx";
 
 const LoadingBox = () => {
     return(
-        <div className={styles.loadingPostContainer}>
+        <div className={styles.loadingPostContainer} data-testid="loading box">
             <div className={styles.loadingActionContainer}> 
                 <LikesCounter containerType="postBoxLoading" />
                 <div className={styles.commentsContainer}>

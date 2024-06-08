@@ -3,9 +3,9 @@ import CommentsArea from "../components/commentsArea/CommentsArea";
 import React from "react";
 import { timeDecoder, domElementObtainer } from '../helperFuncs/helperFuncs';
 import { v4 as uuidv4 } from 'uuid';
-import { mockedServerAnswer } from "../helperFuncs/testingTools"
+import { mockedPostServerAnswer } from "../helperFuncs/testingTools"
 
-const serverRequest = mockedServerAnswer();
+const serverRequest = mockedPostServerAnswer();
 const commentsProp = serverRequest[1].data.children[0];
 
 

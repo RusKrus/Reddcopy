@@ -1,7 +1,7 @@
 import { screen, act } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import Postbox from "../components/postBox/PostBox.jsx";
-import { testingTools, mockedServerAnswer } from "../helperFuncs/testingTools"
+import { testingTools, mockedPostServerAnswer } from "../helperFuncs/testingTools"
 import { useNavigate } from "react-router-dom";
 
 jest.mock("react-router-dom", ()=>({
@@ -11,7 +11,7 @@ jest.mock("react-router-dom", ()=>({
  
 describe("post box behaviour", ()=>{
     it("must render post box, and post box must direct to post area correctly", ()=>{
-        const resolvedValue = mockedServerAnswer();
+        const resolvedValue = mockedPostServerAnswer();
         const postData = resolvedValue[0].data.children[0].data;
         const mockedNavigate = jest.fn();
         useNavigate.mockReturnValue(mockedNavigate);
@@ -46,7 +46,7 @@ describe("post box behaviour", ()=>{
     })
 
     it("must use correct img link - spare if main is absent", ()=>{
-        const resolvedValue = mockedServerAnswer({iconUrl:null, iconUrlSpare:"http://spareiconurl/"});
+        const resolvedValue = mockedPostServerAnswer({iconUrl:null, iconUrlSpare:"http://spareiconurl/"});
         const postData = resolvedValue[0].data.children[0].data;
         testingTools.renderWithReduxRouter(<Postbox 
                                             subredditName={postData.subreddit}
@@ -76,7 +76,7 @@ describe("post box behaviour", ()=>{
     })
 
     it("must use correct img link - main link is avaliable", () =>{
-        const resolvedValue = mockedServerAnswer({iconUrl:"http://mainiconurl/", iconUrlSpare:null});
+        const resolvedValue = mockedPostServerAnswer({iconUrl:"http://mainiconurl/", iconUrlSpare:null});
         const postData = resolvedValue[0].data.children[0].data;
         testingTools.renderWithReduxRouter(<Postbox 
                                             subredditName={postData.subreddit}
@@ -108,7 +108,7 @@ describe("post box behaviour", ()=>{
 
     it("must show correct style if post is only title (selfAlone)", async ()=>{
         //selfAlone example
-        let resolvedValue = mockedServerAnswer({postHint: "self", isSelf: true, selfText: null});
+        let resolvedValue = mockedPostServerAnswer({postHint: "self", isSelf: true, selfText: null});
         let postData = resolvedValue[0].data.children[0].data;
         const {rerender} = testingTools.renderWithReduxRouter(<Postbox 
                                                                 subredditName={postData.subreddit}
@@ -136,7 +136,7 @@ describe("post box behaviour", ()=>{
         let postBoxContainer = screen.getByTestId('postContainer');
         expect(postBoxContainer.style.alignContent).toBe("space-between");
         //not self text alone example
-        resolvedValue = mockedServerAnswer({postHint: "image", isSelf: false, selfText: null});
+        resolvedValue = mockedPostServerAnswer({postHint: "image", isSelf: false, selfText: null});
         postData = resolvedValue[0].data.children[0].data;
         rerender(<Postbox 
                         subredditName={postData.subreddit}
@@ -167,7 +167,7 @@ describe("post box behaviour", ()=>{
     })
 
     it("must show correct comments counter work", async ()=>{
-        let resolvedValue = mockedServerAnswer({numComments:999});
+        let resolvedValue = mockedPostServerAnswer({numComments:999});
         let postData = resolvedValue[0].data.children[0].data;
         const {rerender} = testingTools.renderWithReduxRouter(<Postbox 
                                                                 subredditName={postData.subreddit}
@@ -194,7 +194,7 @@ describe("post box behaviour", ()=>{
                                                                 />)
         let commentsCounter = screen.getByText(999);
         expect(commentsCounter).toBeInTheDocument();
-        resolvedValue = mockedServerAnswer({numComments:1000});
+        resolvedValue = mockedPostServerAnswer({numComments:1000});
         postData = resolvedValue[0].data.children[0].data;
         rerender(<Postbox 
                     subredditName={postData.subreddit}
