@@ -41,7 +41,7 @@ function Header(){
                 <span className={styles.siteName}>Reddcopy</span>
             </Link>
 
-            <form className={styles.form} onSubmit={handleSubmit} role="form">
+            <form className={styles.form} onSubmit={handleSubmit} data-testid="form">
                 <input autoComplete="off" className={styles.input} type="text" name="find"  placeholder="Type to search..." value={inputValue} onChange={handleChange}/>
                 {inputValue&&<button type="button" onClick={handleClick} className={styles.clearButton} data-testid="clear-button">x</button>}
                 <button type="submit" className={styles.submitButton} >

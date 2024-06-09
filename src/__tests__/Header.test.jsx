@@ -27,7 +27,7 @@ describe("Header behaviour", () => {
 
   it("must show correct form element behaviour", () => {
         testingTools.renderWithReduxRouter(<Header/>)
-        const form = screen.getByRole("form");
+        const form = screen.getByTestId("form");
         expect(form).toBeInTheDocument();
         const handleSubmit = jest.fn();
         form.onsubmit = handleSubmit;
