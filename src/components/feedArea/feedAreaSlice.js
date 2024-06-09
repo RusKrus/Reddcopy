@@ -8,7 +8,6 @@ export const fetchingData = createAsyncThunk(
     async (searchParamsObject) => {
         const {searchParam, after} = searchParamsObject;
         const data = await serverRequests.getPosts(searchParam, after);
-        console.log(data);
         return {data, searchParam};
     }
 )

@@ -51,7 +51,7 @@ const PostBox = forwardRef((props, ref) => {
 
     //(mediaType==="self"&&selfAlone)&&console.log("check is this self is alone and correct:", title)
     return (
-        <div ref={ref} onClick={handlePostBoxClick} className={styles.postContainer} >
+        <div ref={ref} onClick={handlePostBoxClick} className={styles.postContainer} data-testid={"postBox"}>
             <div className={styles.actionContainer}>
                 <LikesCounter score={score} containerType={"postBox"}/>
                 <div to={id} className={styles.commentsContainer}>
