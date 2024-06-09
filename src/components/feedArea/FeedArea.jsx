@@ -55,7 +55,7 @@ function FeedArea() {
 
 
 
-
+    
 
     const filteredPosts = postsInfo.posts[activeParam].filter(postInfo => searchFilter(filterValue, postInfo))
     return (
@@ -76,6 +76,7 @@ function FeedArea() {
                                 title={postData.title}
                                 score={postData.score}
                                 media={postData.url}
+                                imgSrc={postData.preview?.images[0].source.url} //important
                                 time={postData.created_utc}
                                 video={postData.media?.reddit_video?.hls_url}
                                 mediaType={postData.post_hint}

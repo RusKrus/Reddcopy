@@ -177,7 +177,7 @@ export const searchFilter = (searchValue, postInfo) => {
 
 
 export const imageDefiner = (url) =>{
-    const imageExtensionArray = ["jpg", "jpeg", "png", "gif", "webp"];
+    const imageExtensionArray = ["jpg", "jpeg", "png", "gif", "webp", "avif"];
 
     if (typeof url !== "string"){
         return false;

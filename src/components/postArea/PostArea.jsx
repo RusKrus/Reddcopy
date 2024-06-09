@@ -36,11 +36,12 @@ function PostArea() {
     }, [dispatch, postData, postId])
     
     //defining all required data for post
-    const postProps = {
+    const postProps = {  
         subredditName: postDetails?.subreddit,
         author: postDetails?.author,
         title: postDetails?.title,
         score: postDetails?.score,
+        imageSrc: postDetails?.preview?.images[0].source.url,
         media: postDetails?.url,
         time: postDetails?.created_utc,
         mediaType: postDetails?.post_hint,
@@ -65,6 +66,8 @@ function PostArea() {
         subredditDescription: postDetails?.sr_detail.public_description,
         followers: postDetails?.sr_detail.subscribers
     }
+
+    console.log(postProps.imageSrc)
 
 
 
@@ -114,6 +117,7 @@ function PostArea() {
                             galleryInfo={postProps.galleryInfo}
                             title={postProps.title}
                             styles={styles}
+                            imgSrc={postProps.imageSrc}
                             mediaType={postProps.mediaType}
                             media={postProps.media}
                             video={postProps.video}

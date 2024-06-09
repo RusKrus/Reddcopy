@@ -14,6 +14,7 @@ const PostBox = forwardRef((props, ref) => {
             author, 
             title, 
             score, 
+            imgSrc,
             media, 
             time, 
             video, 
@@ -76,6 +77,7 @@ const PostBox = forwardRef((props, ref) => {
                                 title = {title}
                                 styles = {styles}
                                 mediaType = {mediaType}
+                                imgSrc = {imgSrc}
                                 media = {media} 
                                 video={video}
                                 isGallery = {isGallery} 

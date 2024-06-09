@@ -4,6 +4,10 @@
     height: 600px;
 }
 
+.image-gallery{
+    background-color: hsla(0, 0%, 48%, .5)
+}
+
 body{
     font-family: "Libre Baskerville", serif;  
 }
