@@ -9,10 +9,10 @@ import NotFound from "../notFound/NotFound.jsx";
 import FailedToLoad from "../failedToLoad/FailedToLoad.jsx";
 import { useSelector, useDispatch } from 'react-redux';
 import { fetchingData } from "../feedArea/feedAreaSlice.js";
-import { v4 as uuidv4 } from 'uuid';
 import { searchFilter } from "../../helperFuncs/helperFuncs.js";
 import {useParams} from "react-router-dom"; 
-
+import UAParser from "ua-parser-js";
+import { switchHeaderVisibility }  from "../header/headerSlice"
 
 function FeedArea() {
 
@@ -26,14 +26,18 @@ function FeedArea() {
     const after = postsInfo.after;
     const status = postsInfo.status;
 
+    //getting user's device data
+    const UAresults = new UAParser();
+    const deviceData = UAresults.getDevice();
+
     useEffect(() => {
         if(postsInfo.posts[activeParam].length===0){
             dispatch(fetchingData({ searchParam: activeParam }));
         }
+        dispatch(switchHeaderVisibility(true))
         
-        // eslint-disable-next-line
-    }, [activeParam])
-
+        
+    }, [activeParam, dispatch, postsInfo.posts])
 
     useEffect(()=>{
         const newPostsLoader=(entries)=>{
@@ -58,6 +62,7 @@ function FeedArea() {
     
 
     const filteredPosts = postsInfo.posts[activeParam].filter(postInfo => searchFilter(filterValue, postInfo))
+    
     return (
         <main className={styles.feedArea}>
             <ContentFilter />
@@ -70,13 +75,15 @@ function FeedArea() {
                     <>
                         {filteredPosts.map((postInfo, num) => {
                             const postData = postInfo.data;
+                            
                             return <PostBox 
+                                deviceData={deviceData}
                                 subredditName={postData.subreddit_name_prefixed}
                                 author={postData.author}
                                 title={postData.title}
                                 score={postData.score}
                                 media={postData.url}
-                                imgSrc={postData.preview?.images[0].source.url} //important
+                                imgResolutions={postData.preview?.images[0]} 
                                 time={postData.created_utc}
                                 video={postData.media?.reddit_video?.hls_url}
                                 mediaType={postData.post_hint}
@@ -94,7 +101,7 @@ function FeedArea() {
                                 flairBackgroundColor={postData.link_flair_background_color}
                                 id={postData.id}
                                 ref={num + 3 === postsInfo.posts[activeParam].length ? itemToLoadContent : null}
-                                key={uuidv4()} />
+                                key={num} />
                         })}
                         <UpBtn />
                     </> :

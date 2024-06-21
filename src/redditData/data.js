@@ -56,6 +56,7 @@ export const serverRequests = {
             response = await fetch(URL);  
         }
         const posts = await response.json();
+        console.log(posts)
         return (posts);
     },
 
@@ -63,7 +64,6 @@ export const serverRequests = {
         const url = `https://www.reddit.com/comments/${postId}.json?sr_detail=true`;
         const response = await fetch(url);
         const responseJson = await response.json();
-        console.log(responseJson)
         return responseJson;
     }
 

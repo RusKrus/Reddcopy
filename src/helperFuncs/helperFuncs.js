@@ -37,7 +37,8 @@ export const domElementObtainer = (htmlString) => {
 export const iframeElementObtainer = (htmlString, iframeRef) =>{
     const iframe = domElementObtainer(htmlString);
     iframe.width="100%";
-    iframe.height="500px"
+    iframe.height="500px";
+    iframe.style.position="relative";
     if(iframeRef.current&&iframeRef.current.children.length<1){
         iframeRef.current.appendChild(iframe);
     }
@@ -190,4 +191,14 @@ export const imageDefiner = (url) =>{
     }
 
     return false;
+}
+
+
+export const correctResolutionsDefiner = (imgResolutions, deviceData)=>{
+    if(imgResolutions.resolutions.length < 4){
+        return imgResolutions.source.url;
+    }
+    else if(imgResolutions.resolutions.length >= 4){
+        return imgResolutions.resolutions.at(-1).url;
+    }
 }

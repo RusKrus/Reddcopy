@@ -1,13 +1,14 @@
 import React, { useEffect, useRef, useState } from "react";
 import VideoJS from '../../videojs/VideoJS.jsx';
-import {iframeElementObtainer, selfTextElementObtainer, imageGalleryPrepared, imageDefiner} from "../../helperFuncs/helperFuncs.js" ;
+import {iframeElementObtainer, selfTextElementObtainer, imageGalleryPrepared, imageDefiner, correctResolutionsDefiner} from "../../helperFuncs/helperFuncs.js" ;
 import styles from "./mediaContainer.module.css";
 import "react-image-gallery/styles/css/image-gallery.css";
 import ImageGallery from "react-image-gallery";
 import he from 'he';
 
 
-function MediaContainer({containerType, galleryInfo, title, mediaType, imgSrc, media, video, isGallery, thumbnail, isNsfw, isSelf, htmlDataForParseSelfText, flairProps}){
+
+const MediaContainer = function MediaContainer({containerType, deviceData, galleryInfo, title, mediaType, imgResolutions, media, video, isGallery, thumbnail, isNsfw, isSelf, htmlDataForParseSelfText, flairProps}){
 
     //getting data from props
     const {selfTextHTML, htmlStringIframe} = htmlDataForParseSelfText;
@@ -56,10 +57,14 @@ function MediaContainer({containerType, galleryInfo, title, mediaType, imgSrc, m
     }
 
     
-
+    //for gallery
     const preparedImageGalleryProperty = imageGalleryPrepared(galleryInfo, styles);
 
-    //image decoding 
+    //defining apple mobile device 
+    const isAppleMobileDevice = (deviceData.type==="mobile"||deviceData.type==="tablet")&&deviceData.vendor==="Apple"?true:false;
+
+    //image size defining and decoding
+    const imgSrc = imgResolutions?correctResolutionsDefiner(imgResolutions, deviceData):null;
     const imgSrcDecoded = imgSrc?he.decode(imgSrc):null;
 
     //setting up video JS
@@ -70,7 +75,7 @@ function MediaContainer({containerType, galleryInfo, title, mediaType, imgSrc, m
     
     const videoJsOptions = {
         muted:containerType==="postBox"?true:false,
-        autoplay: isShowNsfwClicked?true:false,
+        autoplay: false,
         controls: true,
         responsive: true,
         sources: [{
@@ -78,9 +83,7 @@ function MediaContainer({containerType, galleryInfo, title, mediaType, imgSrc, m
             type: 'application/x-mpegURL'
         }]
         };
-    
-    //(isNsfw)&&console.log("NSFW detected");
-    //(containerType="postArea")&&console.log(mediaType);
+        
     switch (mediaType) {
         case "link":
                 return(
@@ -135,14 +138,14 @@ function MediaContainer({containerType, galleryInfo, title, mediaType, imgSrc, m
                 )   
                 
         case "rich:video":
-            console.log("rich video type!!!", title)
+
             return (
                 <div className={styles.defaultPostContainer}> 
                     {isNsfw&&<p className={styles.nsfwWarning}>NSFW content warning!</p>}
                     <h3 className={styles.title}>{title}</h3>
                     <p style={flairTextStyle}>{flairText}</p>
                     {selfTextHTML&&<div ref={selfTextRef} className={styles.videoAndFogContainer}></div>}
-                    <div  className={styles.iframeContainer} ref={iframeRef}></div>
+                    <div  className={styles.iframeContainer} ref={iframeRef} ></div>
                 </div>
             )
         case "hosted:video":
@@ -153,7 +156,7 @@ function MediaContainer({containerType, galleryInfo, title, mediaType, imgSrc, m
                     <p style={flairTextStyle}>{flairText}</p>
                     {selfTextHTML&&<div ref={selfTextRef} className={styles.videoAndFogContainer}></div>}
                     <div className={styles.videoJSContainer} >
-                        <VideoJS  options={videoJsOptions} onReady={handlePlayerReady}  className={containerType==="postArea"?styles.postAreaMediaVideoJS:styles.postBoxMediaVideoJS} isShowNsfwClicked={isShowNsfwClicked} />
+                        <VideoJS  options={videoJsOptions} onReady={handlePlayerReady}  className={containerType==="postArea"?styles.postAreaMediaVideoJS:styles.postBoxMediaVideoJS} isShowNsfwClicked={isShowNsfwClicked} isAppleMobileDevice={isAppleMobileDevice}/>
                         {isNsfw&&
                             <div className={styles.nsfw_fog} onClick={handleSeeNsfwClickDiv}>
                                 <span className={styles.seePostButton} onClick={handleSeeNsfwClickSpan}>See the post</span>
@@ -261,7 +264,6 @@ function MediaContainer({containerType, galleryInfo, title, mediaType, imgSrc, m
                 }
             }
             else{
-                //console.log("check this one for image definer:", title)
                 return (
                     <div className={styles.defaultPostContainer}> 
                         {isNsfw&&<p className={styles.nsfwWarning}>NSFW content warning!</p>}

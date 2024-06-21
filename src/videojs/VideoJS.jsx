@@ -5,7 +5,7 @@ import 'video.js/dist/video-js.css';
 export const VideoJS = (props) => {
   const videoRef = React.useRef(null);
   const playerRef = React.useRef(null);
-  const {options, onReady, className, isShowNsfwClicked} = props;
+  const {options, onReady, className, isShowNsfwClicked, isAppleMobileDevice} = props;
   
   
   
@@ -18,10 +18,10 @@ export const VideoJS = (props) => {
 
     const intersectHandler = async (entries) =>{
       const videoElement = entries[0].target.querySelector('video');
-      if(isShowNsfwClicked){
+      if(isShowNsfwClicked&&!isAppleMobileDevice){
         try{
           if(entries[0].isIntersecting){
-              await videoElement.play();
+            await videoElement.play();
           }
           else{
               videoElement.pause();
@@ -46,7 +46,7 @@ export const VideoJS = (props) => {
       }
     }
 
-  }, [isShowNsfwClicked]);
+  }, [isShowNsfwClicked, isAppleMobileDevice]);
 
   
 
@@ -60,11 +60,11 @@ export const VideoJS = (props) => {
         onReady && onReady(player); 
       });
     } 
-    else {
+    /*else {
       const player = playerRef.current;
       player.autoplay(options.autoplay);
       player.src(options.sources);
-    }
+    }*/ 
   }, [options, videoRef, onReady, className]);
 
 

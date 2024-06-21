@@ -7,14 +7,16 @@ import styles from "./postBox.module.css";
 
 
 
+
 const PostBox = forwardRef((props, ref) => {
     
     //getting props
-    const { subredditName, 
+    const { deviceData,
+            subredditName, 
             author, 
             title, 
             score, 
-            imgSrc,
+            imgResolutions,
             media, 
             time, 
             video, 
@@ -34,6 +36,10 @@ const PostBox = forwardRef((props, ref) => {
             id } = props;
 
 
+
+
+    //getting correct resolution for img 
+    
     //getting time posted ago
     const timeAgo = timeDecoder(time);
     //getting alternative subreddit icon url
@@ -44,13 +50,12 @@ const PostBox = forwardRef((props, ref) => {
 
 
     const navigate = useNavigate();
-
-
+    
+        
     const handlePostBoxClick = () => {
         navigate("/"+subredditName+"/"+id, {state: true});
     }
 
-    //(mediaType==="self"&&selfAlone)&&console.log("check is this self is alone and correct:", title)
     return (
         <div ref={ref} onClick={handlePostBoxClick} className={styles.postContainer} data-testid={"postBox"}>
             <div className={styles.actionContainer}>
@@ -74,10 +79,11 @@ const PostBox = forwardRef((props, ref) => {
 
                 </div>
                 <MediaContainer containerType = "postBox"
+                                deviceData={deviceData}
                                 title = {title}
                                 styles = {styles}
                                 mediaType = {mediaType}
-                                imgSrc = {imgSrc}
+                                imgResolutions = {imgResolutions}
                                 media = {media} 
                                 video={video}
                                 isGallery = {isGallery} 

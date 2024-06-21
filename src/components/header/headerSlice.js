@@ -4,7 +4,8 @@ const headerSlice = createSlice({
     name: "inputField",
     initialState: {
         inputValue: "",
-        filterValue: ""
+        filterValue: "",
+        showHeader: true
     },
     reducers: {
         setFilterValue(state, action) {
@@ -18,12 +19,16 @@ const headerSlice = createSlice({
         },
         clearInputValue(state) {
             state.inputValue = "";
+        },
+        switchHeaderVisibility(state, action){
+            state.showHeader = action.payload;
         }
+
 
     }
 })
 
 export const getInputValue = (state) => state.inputField.inputValue;
-export const { setFilterValue, clearFilterValue, setInputValue, clearInputValue } = headerSlice.actions;
+export const { setFilterValue, clearFilterValue, setInputValue, clearInputValue, switchHeaderVisibility } = headerSlice.actions;
 
 export default headerSlice.reducer;

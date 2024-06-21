@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import { useParams, useNavigate, useLocation } from "react-router-dom";
 import { useSelector, useDispatch } from 'react-redux';
 import { fetchingPostData } from "./postAreaSlice";
+import { switchHeaderVisibility }  from "../header/headerSlice"
 import styles from "./postArea.module.css"
 import { timeDecoder } from "../../helperFuncs/helperFuncs";
 import CommentsArea from "../commentsArea/CommentsArea.jsx";
@@ -12,10 +13,10 @@ import MediaContainer from "../mediaContainer/MediaContainer.jsx";
 import LikesCounter from "../likesCounter/LikesCounter.jsx";
 import { v4 as uuidv4 } from 'uuid';
 import 'react-loading-skeleton/dist/skeleton.css';
+import UAParser from "ua-parser-js";
+
 
 function PostArea() {
-
-
 
     const dispatch = useDispatch();
     const navigate = useNavigate();
@@ -27,12 +28,16 @@ function PostArea() {
     const location = useLocation();
     //refs for parsed data 
 
+    //getting user's device data
+    const UAresults = new UAParser();
+    const deviceData = UAresults.getDevice();
 
 
     useEffect(() => {
         if (!postData) {
             dispatch(fetchingPostData(postId));
         }
+        dispatch(switchHeaderVisibility(false))
     }, [dispatch, postData, postId])
     
     //defining all required data for post
@@ -41,7 +46,7 @@ function PostArea() {
         author: postDetails?.author,
         title: postDetails?.title,
         score: postDetails?.score,
-        imageSrc: postDetails?.preview?.images[0].source.url,
+        imgResolutions: postDetails?.preview?.images[0],
         media: postDetails?.url,
         time: postDetails?.created_utc,
         mediaType: postDetails?.post_hint,
@@ -67,11 +72,6 @@ function PostArea() {
         followers: postDetails?.sr_detail.subscribers
     }
 
-    console.log(postProps.imageSrc)
-
-
-
-
     //getting alternative subreddit icon url
     const searchParamStart = postProps.iconUrlWithSearchParam ? postProps.iconUrlWithSearchParam.indexOf("?") : null;
     const iconUrl = searchParamStart ? postProps.iconUrlWithSearchParam.slice(0, searchParamStart) : postProps.iconUrlWithSearchParam;
@@ -84,7 +84,6 @@ function PostArea() {
     const handleBacklick = () => {
         navigate(-1);
     }
-
 
     //getting time posted ago
     const timeAgo = timeDecoder(postProps.time);
@@ -114,10 +113,11 @@ function PostArea() {
                             <p className={styles.subredditDescription}>{postProps.subredditDescription || <span style={{ fontStyle: 'italic' }}>No info avaliable yet</span>}</p>
                         </details>
                         <MediaContainer containerType="postArea"
+                            deviceData={deviceData}
                             galleryInfo={postProps.galleryInfo}
                             title={postProps.title}
                             styles={styles}
-                            imgSrc={postProps.imageSrc}
+                            imgResolutions={postProps.imgResolutions}
                             mediaType={postProps.mediaType}
                             media={postProps.media}
                             video={postProps.video}

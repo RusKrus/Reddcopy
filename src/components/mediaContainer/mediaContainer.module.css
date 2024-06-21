@@ -176,6 +176,7 @@ th{
     margin: 0 auto;
     cursor: zoom-in;
     transition: 0.4s;
+    margin-bottom:-4px;
 
 }
 
@@ -241,17 +242,11 @@ th{
 /*syles for image*/
 .postBoxMediaPhoto{
     display: inline-block;
-    max-height:520px;
-    max-width:100%;
-    margin: 0 auto;
-    transition: 0.4s;
-
-}
-.postBoxMediaPhoto{
-    display: inline-block;
     max-height:512px;
     max-width:100%;
     margin: 0 auto;
+    margin-bottom: -4px;
+    transition: 0.4s;
 }
 
 /*nsfw*/
@@ -340,18 +335,3 @@ th{
     }
 }
 
-
-@media only screen and (max-width: 1360px){
-    .postAreaMediaPhoto{
-
-    } 
-    .postMediaVideoJS{
-
-    } 
-    .postBoxMediaPhoto{
-
-    } 
-    .postMediaVideoJS{
-        
-    }
-}
