@@ -63,8 +63,6 @@
     text-decoration:none;
 }
 
-
-
 @media only screen and (max-width: 1024px){
     .contentFilter{
         position: absolute;
@@ -74,9 +72,6 @@
         width: 15%;
         padding: 1rem;
     }
-
-
-
 
     .paramButton{
         margin: .5rem 0;
@@ -111,7 +106,6 @@
         height:100%;
     }
 
-    
     .filterSelector{
         height:100%;
         border-radius: 6px;
@@ -124,16 +118,12 @@
         color: blue;
     }
     
-
-
     .filterSelector:focus-visible{
         outline: 1px solid blue;
     }
 
-
-
     .optionParam{
-        font-size: 1.1rem 
+        font-size: .8rem 
     }
 
     

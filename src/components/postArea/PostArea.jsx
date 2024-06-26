@@ -11,7 +11,6 @@ import UpBtn from "../upBtn/UpButton.jsx";
 import FailedToLoad from "../failedToLoad/FailedToLoad.jsx";
 import MediaContainer from "../mediaContainer/MediaContainer.jsx";
 import LikesCounter from "../likesCounter/LikesCounter.jsx";
-import { v4 as uuidv4 } from 'uuid';
 import 'react-loading-skeleton/dist/skeleton.css';
 import UAParser from "ua-parser-js";
 
@@ -26,7 +25,6 @@ function PostArea() {
     const postComments = postData?.postComments;
     const status = useSelector(state => state.postArea.status);
     const location = useLocation();
-    //refs for parsed data 
 
     //getting user's device data
     const UAresults = new UAParser();
@@ -39,7 +37,7 @@ function PostArea() {
         }
         dispatch(switchHeaderVisibility(false))
     }, [dispatch, postData, postId])
-    
+
     //defining all required data for post
     const postProps = {  
         subredditName: postDetails?.subreddit,
@@ -71,7 +69,6 @@ function PostArea() {
         subredditDescription: postDetails?.sr_detail.public_description,
         followers: postDetails?.sr_detail.subscribers
     }
-
     //getting alternative subreddit icon url
     const searchParamStart = postProps.iconUrlWithSearchParam ? postProps.iconUrlWithSearchParam.indexOf("?") : null;
     const iconUrl = searchParamStart ? postProps.iconUrlWithSearchParam.slice(0, searchParamStart) : postProps.iconUrlWithSearchParam;
@@ -84,6 +81,7 @@ function PostArea() {
     const handleBacklick = () => {
         navigate(-1);
     }
+    
 
     //getting time posted ago
     const timeAgo = timeDecoder(postProps.time);
@@ -136,7 +134,7 @@ function PostArea() {
                     <div className={styles.commentsArea}>
                         <h3 className={styles.commentsCounter}>{postProps.numComments} comments</h3>
                         <hr className={styles.hrComments} />
-                        {postComments && postComments.length > 0 ? postComments.filter(comment => comment.kind === "t1").map(comment => <CommentsArea comment={comment} key={uuidv4()} />) : <h2>Nobody left a comment yet :(</h2>}
+                        {postComments && postComments.length > 0 ? postComments.filter(comment => comment.kind === "t1").map((comment, num) => <CommentsArea comment={comment} key={num} />) : <h2>Nobody left a comment yet :(</h2>}
                     </div>
                 </div>
 
@@ -157,10 +155,6 @@ function PostArea() {
             <FailedToLoad reloadAction={fetchingPostData} actionParam={postId} />
         )
     }
-
 }
-
-
-
 
 export default PostArea;

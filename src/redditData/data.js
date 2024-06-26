@@ -56,18 +56,15 @@ export const serverRequests = {
             response = await fetch(URL);  
         }
         const posts = await response.json();
-        console.log(posts)
         return (posts);
     },
 
     getPostInfo: async function (postId) {
-        const url = `https://www.reddit.com/comments/${postId}.json?sr_detail=true`;
-        const response = await fetch(url);
+        const getCommentsUrl = `https://www.reddit.com/comments/${postId}.json?sr_detail=true&showedits=true&showmedia=true&showmore=true&showtitle=true`;
+        const response = await fetch(getCommentsUrl);
         const responseJson = await response.json();
         return responseJson;
-    }
-
-
+    },
 
 }
 

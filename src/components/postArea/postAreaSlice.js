@@ -11,11 +11,13 @@ export const fetchingPostData = createAsyncThunk(
 )
 
 
+
+
+
 const postAreaSlice = createSlice({
     name: "post",
     initialState:{
         postData:{},
-        
     },
     reducers:{
         clearPostData(state){
@@ -34,7 +36,6 @@ const postAreaSlice = createSlice({
                     state.postData[action.payload.postId].postInfo=action.payload.answer[0].data.children;
                     state.postData[action.payload.postId].postComments=action.payload.answer[1].data.children;
                 }
-                
             })
             .addCase(fetchingPostData.rejected, (state, action)=>{
                 state.status = "rejected";

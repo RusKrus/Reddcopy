@@ -1,10 +1,9 @@
 import React, { useEffect, useRef, useState } from "react";
 import VideoJS from '../../videojs/VideoJS.jsx';
-import {iframeElementObtainer, selfTextElementObtainer, imageGalleryPrepared, imageDefiner, correctResolutionsDefiner} from "../../helperFuncs/helperFuncs.js" ;
+import {iframeElementObtainer, selfTextElementObtainer, imageGalleryPrepared, imageDefiner, srcsetMaker} from "../../helperFuncs/helperFuncs.js" ;
 import styles from "./mediaContainer.module.css";
 import "react-image-gallery/styles/css/image-gallery.css";
 import ImageGallery from "react-image-gallery";
-import he from 'he';
 
 
 
@@ -64,8 +63,8 @@ const MediaContainer = function MediaContainer({containerType, deviceData, galle
     const isAppleMobileDevice = (deviceData.type==="mobile"||deviceData.type==="tablet")&&deviceData.vendor==="Apple"?true:false;
 
     //image size defining and decoding
-    const imgSrc = imgResolutions?correctResolutionsDefiner(imgResolutions, deviceData):null;
-    const imgSrcDecoded = imgSrc?he.decode(imgSrc):null;
+    
+    const imgSrcDecoded = imgResolutions?srcsetMaker(imgResolutions):null ;
 
     //setting up video JS
     const playerRef = useRef(null);
@@ -117,7 +116,7 @@ const MediaContainer = function MediaContainer({containerType, deviceData, galle
                         <p style={flairTextStyle}>{flairText}</p>
                         {selfTextHTML&&<div className={styles.selfTextWithFogContainer} ref={selfTextRef} ></div>}
                         <div className={styles.postMediaPhotoContainer}>
-                            <img  onClick={containerType==="postArea"?handleZoomClick:null} src={imgSrcDecoded} className={containerType==="postArea"?isShowNsfwClicked?styles.postAreaMediaPhoto:styles.postAreaNsfwPhoto:isShowNsfwClicked?styles.postBoxMediaPhoto:styles.postBoxNsfwPhoto} alt="Post media" />
+                            <img  height={containerType==="postArea"?"600px":"512px"} onClick={containerType==="postArea"?handleZoomClick:null}  srcSet ={imgSrcDecoded} sizes="70vw" className={containerType==="postArea"?isShowNsfwClicked?styles.postAreaMediaPhoto:styles.postAreaNsfwPhoto:isShowNsfwClicked?styles.postBoxMediaPhoto:styles.postBoxNsfwPhoto} alt="Post media" />
                             {isNsfw&&
                                 <div className={styles.nsfw_fog} onClick={handleSeeNsfwClickDiv}>
                                     <span className={styles.seePostButton} onClick={handleSeeNsfwClickSpan}>See the post</span>
@@ -138,7 +137,6 @@ const MediaContainer = function MediaContainer({containerType, deviceData, galle
                 )   
                 
         case "rich:video":
-
             return (
                 <div className={styles.defaultPostContainer}> 
                     {isNsfw&&<p className={styles.nsfwWarning}>NSFW content warning!</p>}
@@ -263,6 +261,7 @@ const MediaContainer = function MediaContainer({containerType, deviceData, galle
                     )
                 }
             }
+
             else{
                 return (
                     <div className={styles.defaultPostContainer}> 
@@ -282,9 +281,7 @@ const MediaContainer = function MediaContainer({containerType, deviceData, galle
                             <a href={imgSrcDecoded ?imgSrcDecoded :media} target="_blank" rel="noreferrer" className={styles.link}>{media.substring(0, 26)}...</a>:null}
                     </div>
                 );
-
-            }
-            
+            }   
     }
 }
 

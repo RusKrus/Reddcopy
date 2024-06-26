@@ -12,13 +12,11 @@ function CommentsArea({comment}){
     const rawText=comment.data.body_html;
     const score=comment.data.score;
     const replies=comment.data.replies?.data?.children;
-
     //parsing and inputing html text
     const textBoxRef = useRef(null);
     
     const textHTML = domElementObtainer(rawText);
     textHTML.className = styles.textBox;
-   
     //useEffect is used here because first time page loaded - no elementToReplace is created and textHTML(text of a comment) is not generated
     useEffect(()=>{
         if (textBoxRef.current){
@@ -41,6 +39,5 @@ function CommentsArea({comment}){
         </div>
     )
 }
-
 
 export default CommentsArea;

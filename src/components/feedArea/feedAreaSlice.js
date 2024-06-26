@@ -12,9 +12,6 @@ export const fetchingData = createAsyncThunk(
     }
 )
 
-
-
-
 const feedAreaSlice = createSlice({
     name: "homeThreads",
     initialState: {

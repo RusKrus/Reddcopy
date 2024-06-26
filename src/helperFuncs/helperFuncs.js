@@ -94,7 +94,6 @@ export const selfTextElementObtainer = (htmlString, styles, selfTextRef, mediaBo
     return selfText;
 }
 
-
 export const timeDecoder = time => {
     const timePostedUtcUnix = new Date(time * 1000);
     const timeNowUtc = new Date();
@@ -158,9 +157,6 @@ export const timeDecoder = time => {
 
 }
 
-
-
-
 export const searchFilter = (searchValue, postInfo) => {
     const postData = postInfo.data;
     const valueToCheck = searchValue.toLowerCase();
@@ -170,12 +166,6 @@ export const searchFilter = (searchValue, postInfo) => {
         postData.title.toLowerCase().includes(valueToCheck) ||
         postData.selftext.toLowerCase().includes(valueToCheck))
 }
-
-
-
-
-
-
 
 export const imageDefiner = (url) =>{
     const imageExtensionArray = ["jpg", "jpeg", "png", "gif", "webp", "avif"];
@@ -194,11 +184,10 @@ export const imageDefiner = (url) =>{
 }
 
 
-export const correctResolutionsDefiner = (imgResolutions, deviceData)=>{
-    if(imgResolutions.resolutions.length < 4){
-        return imgResolutions.source.url;
+export const srcsetMaker = (imgResolutions)=>{
+    let srcset = `${he.decode(imgResolutions.source.url)} ${imgResolutions.source.width}w` 
+    for (const resolution of imgResolutions.resolutions){
+        srcset = `${srcset}, ${he.decode(resolution.url)} ${resolution.width}w`
     }
-    else if(imgResolutions.resolutions.length >= 4){
-        return imgResolutions.resolutions.at(-1).url;
-    }
+    return srcset;
 }
