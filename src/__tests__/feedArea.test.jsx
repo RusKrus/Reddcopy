@@ -1,5 +1,5 @@
 import FeedArea from '../components/feedArea/FeedArea';
-import { screen, fireEvent, act, waitFor } from '@testing-library/react';
+import { screen, act } from '@testing-library/react';
 import { testingTools } from "../helperFuncs/testingTools";
 import { serverRequests } from "../redditData/data.js";
 import { mockedPostsServerAnswer } from "../helperFuncs/testingTools.js";

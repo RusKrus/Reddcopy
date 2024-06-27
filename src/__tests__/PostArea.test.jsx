@@ -1,4 +1,4 @@
-import { screen, waitFor, act } from '@testing-library/react';
+import { screen, act } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import PostArea from "../components/postArea/PostArea";
 import { testingTools, mockedPostServerAnswer } from "../helperFuncs/testingTools"
@@ -7,7 +7,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 
 
 
-jest.mock("../redditData/data.js"); //inside of it block if .getPostInfo manually mocked with resolved value - this function always returns undefined, but in other blocks of code the function returns correct value. I can not find an issue. 
+jest.mock("../redditData/data.js"); //inside of it block if .getPostInfo manually mocked with resolved value - this function always returns undefined, but in other blocks of code the function returns correct value. I can not find the issue. 
 jest.mock("react-router-dom", ()=>({
     ...jest.requireActual('react-router-dom'),
     useLocation: jest.fn(),

@@ -30,7 +30,7 @@ export const testingTools = {
                 </Provider>
             </MemoryRouter>
         )
-        return renderedComponent;
+        return {renderedComponent, store};
     }
 }
 

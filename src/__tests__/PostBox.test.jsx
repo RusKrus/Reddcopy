@@ -1,4 +1,4 @@
-import { screen, act } from '@testing-library/react';
+import { screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import Postbox from "../components/postBox/PostBox.jsx";
 import { testingTools, mockedPostServerAnswer } from "../helperFuncs/testingTools"
@@ -16,6 +16,7 @@ describe("post box behaviour", ()=>{
         const mockedNavigate = jest.fn();
         useNavigate.mockReturnValue(mockedNavigate);
         testingTools.renderWithReduxRouter(<Postbox 
+                                            deviceData = {{type:"desktop"}}
                                             subredditName={postData.subreddit}
                                             author={postData.author}
                                             title={postData.title}
@@ -49,6 +50,7 @@ describe("post box behaviour", ()=>{
         const resolvedValue = mockedPostServerAnswer({iconUrl:null, iconUrlSpare:"http://spareiconurl/"});
         const postData = resolvedValue[0].data.children[0].data;
         testingTools.renderWithReduxRouter(<Postbox 
+                                            deviceData = {{type:"desktop"}}
                                             subredditName={postData.subreddit}
                                             author={postData.author}
                                             title={postData.title}
@@ -79,6 +81,7 @@ describe("post box behaviour", ()=>{
         const resolvedValue = mockedPostServerAnswer({iconUrl:"http://mainiconurl/", iconUrlSpare:null});
         const postData = resolvedValue[0].data.children[0].data;
         testingTools.renderWithReduxRouter(<Postbox 
+                                            deviceData = {{type:"desktop"}}
                                             subredditName={postData.subreddit}
                                             author={postData.author}
                                             title={postData.title}
@@ -110,7 +113,8 @@ describe("post box behaviour", ()=>{
         //selfAlone example
         let resolvedValue = mockedPostServerAnswer({postHint: "self", isSelf: true, selfText: null});
         let postData = resolvedValue[0].data.children[0].data;
-        const {rerender} = testingTools.renderWithReduxRouter(<Postbox 
+        const {renderedComponent} = testingTools.renderWithReduxRouter(<Postbox 
+                                                                deviceData = {{type:"desktop"}}
                                                                 subredditName={postData.subreddit}
                                                                 author={postData.author}
                                                                 title={postData.title}
@@ -138,7 +142,8 @@ describe("post box behaviour", ()=>{
         //not self text alone example
         resolvedValue = mockedPostServerAnswer({postHint: "image", isSelf: false, selfText: null});
         postData = resolvedValue[0].data.children[0].data;
-        rerender(<Postbox 
+        renderedComponent.rerender(<Postbox 
+                        deviceData = {{type:"desktop"}}
                         subredditName={postData.subreddit}
                         author={postData.author}
                         title={postData.title}
@@ -169,7 +174,8 @@ describe("post box behaviour", ()=>{
     it("must show correct comments counter work", async ()=>{
         let resolvedValue = mockedPostServerAnswer({numComments:999});
         let postData = resolvedValue[0].data.children[0].data;
-        const {rerender} = testingTools.renderWithReduxRouter(<Postbox 
+        const {renderedComponent} = testingTools.renderWithReduxRouter(<Postbox 
+                                                                deviceData = {{type:"desktop"}}
                                                                 subredditName={postData.subreddit}
                                                                 author={postData.author}
                                                                 title={postData.title}
@@ -196,7 +202,8 @@ describe("post box behaviour", ()=>{
         expect(commentsCounter).toBeInTheDocument();
         resolvedValue = mockedPostServerAnswer({numComments:1000});
         postData = resolvedValue[0].data.children[0].data;
-        rerender(<Postbox 
+        renderedComponent.rerender(<Postbox 
+                    deviceData = {{type:"desktop"}}
                     subredditName={postData.subreddit}
                     author={postData.author}
                     title={postData.title}
@@ -219,7 +226,7 @@ describe("post box behaviour", ()=>{
                     flairBackgroundColor={postData.link_flair_background_color}
                     id={postData.id}
                     />)
-        commentsCounter = await screen.getByText("1.0k");
+        commentsCounter = screen.getByText("1.0k");
         expect(commentsCounter).toBeInTheDocument();
 
         //unmountComponentAtNode(container);

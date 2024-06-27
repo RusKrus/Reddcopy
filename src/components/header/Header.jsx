@@ -29,7 +29,7 @@ function Header(){
    
 
     return (
-        <section className={styles.header} >
+        <section className={styles.header} role="banner">
             <Link to="/" className={styles.logoContainer}>
                 <img className={styles.logo} src="/redditIcon.png" alt="Site logo"/>
                 <span className={styles.siteName}>Reddcopy</span>
