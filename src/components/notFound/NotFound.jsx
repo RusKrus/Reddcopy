@@ -13,7 +13,7 @@ function NotFound({text}){
 
 
     return(
-    <div className={styles.notFounded}>
+    <div className={styles.notFound } data-testid = "not-found-button">
         <h1 className={styles.notFoundedInfo}>{text}</h1>
         <button onClick={handleBackClick} className={styles.goBackBtn}>Go back</button>
     </div>

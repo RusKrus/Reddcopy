@@ -34,9 +34,7 @@ function FeedArea() {
         if(postsInfo.posts[activeParam].length===0){
             dispatch(fetchingData({ searchParam: activeParam }));
         }
-        dispatch(switchHeaderVisibility(true))
-        
-        
+        dispatch(switchHeaderVisibility(true));        
     }, [activeParam, dispatch, postsInfo.posts])
 
     useEffect(()=>{
@@ -54,12 +52,6 @@ function FeedArea() {
             observerLoader.current.observe(itemToLoadContent.current);
         }
     }, [after, dispatch, activeParam])
-
-
-
-
-
-    
 
     const filteredPosts = postsInfo.posts[activeParam].filter(postInfo => searchFilter(filterValue, postInfo))
     

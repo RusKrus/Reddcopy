@@ -40,14 +40,16 @@ describe("Header behaviour", () => {
     const {store} = testingTools.renderWithReduxRouter(<Header/>)
     let headerVisibility = store.getState().header.showHeader;
     expect(headerVisibility).toBeTruthy();
-    const input = screen.getByRole("searchbox");
+    const input = screen.getByRole("textbox");
     expect(input).toBeInTheDocument();
     expect(input).toBeEnabled();
     const handleChange = jest.fn();
     input.onchange = handleChange;
     fireEvent.change(input);
     expect(handleChange).toHaveBeenCalledTimes(1);
-    store.dispatch(switchHeaderVisibility(false));
+    act(()=>{
+        store.dispatch(switchHeaderVisibility(false));
+    })
     headerVisibility = store.getState().header.showHeader;
     expect(headerVisibility).toBeFalsy();
     testingTools.renderWithReduxRouter(<Header/>)
@@ -63,7 +65,7 @@ describe("Header behaviour", () => {
     it("must show clear button and button should work correct", async () => {
     expect.assertions(2)
     testingTools.renderWithReduxRouter(<Header/>)
-    const input = screen.getByRole("searchbox");
+    const input = screen.getByRole("textbox");
     await act(async ()=>{
         userEvent.type(input, "Something");
     })

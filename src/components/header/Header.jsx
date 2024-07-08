@@ -36,7 +36,7 @@ function Header(){
             </Link>
 
             <form className={styles.form} onSubmit={handleSubmit} data-testid="form">
-                <input  disabled={headeVisibility?false:true} autoComplete="off" className={styles.input} type="search" name="find"  placeholder="Type to search..." value={inputValue} onChange={handleChange}/>
+                <input  disabled={headeVisibility?false:true} autoComplete="off" className={styles.input} type="text" name="find"  placeholder="Type to search..." value={inputValue} onChange={handleChange}/>
                 {inputValue&&<button type="button" onClick={handleClick} className={styles.clearButton} data-testid="clear-button">x</button>}
                 <button type="submit" className={styles.submitButton} >
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className={styles.findIcon}>

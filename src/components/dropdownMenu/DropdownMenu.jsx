@@ -12,7 +12,7 @@ const DropdownMenu = () =>{
     const optionsCloser = (e) =>{
         if((e.target!==optionsBtn.current&&e.target!==showBugWindowBtn.current&&!modalWindowBackground.current.contains(e.target))||e.target.innerHTML==="X"){
             setShowOptions(false);
-            setShowModal(false)
+            setShowModal(false);
         }
     }
     const showOptionsSetter = () =>{
@@ -22,8 +22,9 @@ const DropdownMenu = () =>{
         setShowModal(true)
     }
     const submitBugReportHandler = (e)=>{
-        console.log ("gay")
-        e.preventDefault()
+        e.preventDefault();
+        window.location.reload();
+
     }
 
     window.onclick = optionsCloser;
@@ -31,9 +32,9 @@ const DropdownMenu = () =>{
     return(
         <div className={styles.dropdown}>
         <button style={showOptions?{'color': 'yellow', 'backgroundColor': 'hsl(230, 50%, 70%)'}:{}} className={styles.dropbtn} onClick={showOptionsSetter}  ref = {optionsBtn}>···</button>
-        <div className={styles.dropdownOptions} style={{"display":showOptions?"inline-block":"none"}}>
+        <div data-testid="dropdown-options" className={styles.dropdownOptions} style={{"display":showOptions?"inline-block":"none"}}>
             <button ref={showBugWindowBtn} className={styles.reportBugButton} onClick={showBugModalWindow}>Report a bug</button>
-            <div className={styles.modalWindowBackground} style={{"display":showModal?"inline-block":"none"}} ref={modalWindowBackground}>
+            <div className={styles.modalWindowBackground} style={{"display":showModal?"inline-block":"none"}} ref={modalWindowBackground} data-testid="modal-window-background">
                 <div className={styles.modalBugsWindowContent}> 
                     <div className={styles.reportBugModalRunningTitle}>
                         <h2 className={styles.reportBugModalWindowHeader}>Report bug</h2>
