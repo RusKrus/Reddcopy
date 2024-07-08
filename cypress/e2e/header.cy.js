@@ -18,7 +18,8 @@ describe('header work', () => {
       cy.getByRole('banner').children().eq(1).find("input").should('exist').and('have.attr', 'placeholder', "Type to search...")
       .type("Some text not possible to find here {enter}").focus();
       cy.getByData("not-found-button").should("exist");
-      cy.getByRole('banner').find("form")
+      cy.getByData("postBox").should('not.exist');
+      cy.getByRole('banner').find("form");
       cy.getByData("clear-button").should("be.visible").click({force:true});
       cy.getByData("not-found-button").should("not.exist");
     })
