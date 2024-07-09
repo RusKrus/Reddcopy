@@ -20,7 +20,8 @@ describe('feed area work', () => {
       cy.location('pathname').should('contain', 'rising');
     })
   })
-  it.only('must display posts correctly', ()=>{
+  it('must display posts correctly', ()=>{
     cy.getByData("postBox").should('have.length', 25).eq(22).scrollIntoView({ duration: 2000 }).parent().find('[data-testid=postBox]').should("have.length", 50);
+    
   })
 })
