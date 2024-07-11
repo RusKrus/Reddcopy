@@ -32,5 +32,12 @@ Cypress.Commands.add('getByRole', (selector) => {
 
 Cypress.Commands.add('getByType', (selector) => { 
     return cy.get(`[type=${selector}]`)})
+
+Cypress.Commands.add('getByClassSubstring', (selector) => { 
+    return cy.get(`[class*=${selector}]`)})
+
+    
+
+
     
 

@@ -128,7 +128,7 @@ function PostArea() {
                         />
                         <div className={styles.postInfoContainer}>
                             <LikesCounter score={postProps.score} containerType={"postArea"} />
-                            <p className={styles.postDescription} >Posted by <span>{postProps.author}</span> <span className={styles.timeAgo}>{timeAgo}</span></p>
+                            <p className={styles.postDescription} >Posted by <span >{postProps.author}</span> <span className={styles.timeAgo}>{timeAgo}</span></p>
                         </div>
                     </div>
                     <div className={styles.commentsArea}>
