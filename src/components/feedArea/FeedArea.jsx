@@ -2,7 +2,7 @@ import React, { useEffect, useRef } from "react";
 import styles from "./feedArea.module.css";
 import PostBox from "../postBox/PostBox";
 import LoadingBox from "../postBox/LoadingBox";
-import UpBtn from "../upBtn/UpButton.jsx";
+import UpBtn from "../upBtn/UpButton.tsx";
 import ContentFilter from "../contentFilter/ContentFilter.jsx"
 import ContentFilterMobile from "../contentFilter/ContentFilterMobile.jsx"
 import NotFound from "../notFound/NotFound.jsx";

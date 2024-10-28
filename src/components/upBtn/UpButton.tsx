@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from "react";
 import styles from "./upBtn.module.css"
 
-function UpBtn(){
+function UpBtn():React.JSX.Element{
 
-    const [isScrolledEnough, setIsScrolledEnough] = useState(false)
+    const [isScrolledEnough, setIsScrolledEnough] = useState<boolean>(false)
 
-    const handleScroll = () =>{
-        if(document.documentElement.scrollTop>2*document.documentElement.clientHeight){
+    const handleScroll: ()=>void = () =>{
+        const heightToTop: number = document.documentElement.scrollTop;
+        if(heightToTop>2*document.documentElement.clientHeight){
             setIsScrolledEnough(true)
         }
         else{

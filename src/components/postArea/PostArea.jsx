@@ -7,7 +7,7 @@ import styles from "./postArea.module.css"
 import { timeDecoder } from "../../helperFuncs/helperFuncs";
 import CommentsArea from "../commentsArea/CommentsArea.jsx";
 import PostAreaLoading from "./PostAreaLoading.jsx";
-import UpBtn from "../upBtn/UpButton.jsx";
+import UpBtn from "../upBtn/UpButton";
 import FailedToLoad from "../failedToLoad/FailedToLoad.jsx";
 import MediaContainer from "../mediaContainer/MediaContainer.jsx";
 import LikesCounter from "../likesCounter/LikesCounter.jsx";
