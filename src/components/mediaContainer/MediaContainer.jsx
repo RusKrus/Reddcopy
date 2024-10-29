@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import VideoJS from '../../videojs/VideoJS.jsx';
-import {iframeElementObtainer, selfTextElementObtainer, imageGalleryPrepared, imageDefiner, srcsetMaker} from "../../helperFuncs/helperFuncs.js" ;
+import {iframeElementObtainer, selfTextElementObtainer, imageGalleryPrepared, imageDefiner, srcsetMaker} from "../../helperFuncs/helperFuncs" ;
 import styles from "./mediaContainer.module.css";
 import "react-image-gallery/styles/css/image-gallery.css";
 import ImageGallery from "react-image-gallery";

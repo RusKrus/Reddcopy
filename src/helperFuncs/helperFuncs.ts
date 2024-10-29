@@ -26,12 +26,13 @@ export const imageGalleryPrepared = (galleryInfo) => {
 }
 
 //getting HTML element from coded string
-export const domElementObtainer = (htmlString) => {
-    const decodedHtml = he.decode(htmlString);
-    const parser = new DOMParser();
-    const doc = parser.parseFromString(decodedHtml, "text/html");
-    const domElement = doc.body.firstChild; 
-    return domElement;
+export const domElementObtainer = (htmlString:string): ChildNode | null=> {
+    const decodedHtml: string = he.decode(htmlString);
+    const parser: DOMParser = new DOMParser();
+    const doc: Document = parser.parseFromString(decodedHtml, "text/html");
+    const domElement: ChildNode | null = doc.body.firstChild; 
+    
+    return domElement ;
 }
 
 export const iframeElementObtainer = (htmlString, iframeRef) =>{
@@ -94,10 +95,11 @@ export const selfTextElementObtainer = (htmlString, styles, selfTextRef, mediaBo
     return selfText;
 }
 
-export const timeDecoder = time => {
-    const timePostedUtcUnix = new Date(time * 1000);
-    const timeNowUtc = new Date();
-    const timeNowUtcUnix = timeNowUtc.getTime();
+export const timeDecoder: (time: number)=> string = time => {
+    const timePostedUtc: Date = new Date(time * 1000);
+    const timePostedUtcUnix: number = timePostedUtc.getTime();
+    const timeNowUtc: Date = new Date();
+    const timeNowUtcUnix: number = timeNowUtc.getTime();
     const seconds = Math.floor((timeNowUtcUnix - timePostedUtcUnix) / 1000)
     const minutes = Math.floor(seconds / 60);
     const hours = Math.floor(minutes / 60);
@@ -152,6 +154,9 @@ export const timeDecoder = time => {
         else {
             return `${seconds} seconds ago`
         }
+    }
+    else{
+        return `Some time ago`
     }
 
 

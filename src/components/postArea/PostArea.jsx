@@ -5,7 +5,7 @@ import { fetchingPostData } from "./postAreaSlice";
 import { switchHeaderVisibility }  from "../header/headerSlice"
 import styles from "./postArea.module.css"
 import { timeDecoder } from "../../helperFuncs/helperFuncs";
-import CommentsArea from "../commentsArea/CommentsArea.jsx";
+import CommentsArea from "../commentsArea/CommentsArea";
 import PostAreaLoading from "./PostAreaLoading.jsx";
 import UpBtn from "../upBtn/UpButton";
 import FailedToLoad from "../failedToLoad/FailedToLoad.jsx";

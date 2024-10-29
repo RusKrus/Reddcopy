@@ -9,7 +9,7 @@ import NotFound from "../notFound/NotFound.jsx";
 import FailedToLoad from "../failedToLoad/FailedToLoad.jsx";
 import { useSelector, useDispatch } from 'react-redux';
 import { fetchingData } from "../feedArea/feedAreaSlice.js";
-import { searchFilter } from "../../helperFuncs/helperFuncs.js";
+import { searchFilter } from "../../helperFuncs/helperFuncs";
 import {useParams} from "react-router-dom"; 
 import UAParser from "ua-parser-js";
 import { switchHeaderVisibility }  from "../header/headerSlice"
