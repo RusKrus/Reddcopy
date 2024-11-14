@@ -1,12 +1,14 @@
 import React from "react";
 import styles from "./failedToLoad.module.css";
-import { useDispatch } from "react-redux";
+import { useAppDispatch } from '../../helperData/customHooks';
+import { FailedToLoadProps } from "../../helperData/types";
 
 
 
-function FailedToLoad({reloadAction, actionParam}){
-    const dispatch = useDispatch();
-    const handleClick = () =>{
+function FailedToLoad(props: FailedToLoadProps){
+    const {reloadAction, actionParam} = props
+    const dispatch = useAppDispatch();
+    const handleClick = (): void =>{
         dispatch(reloadAction(actionParam));
     }
 

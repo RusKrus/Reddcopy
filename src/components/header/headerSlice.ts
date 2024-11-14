@@ -1,34 +1,35 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { headerSliceState } from "../../helperData/types";
 
-const headerSlice = createSlice({
-    name: "inputField",
-    initialState: {
+
+const initialState: headerSliceState = {
         inputValue: "",
         filterValue: "",
         showHeader: true
-    },
+}
+
+const headerSlice = createSlice({
+    name: "inputField",
+    initialState,
     reducers: {
-        setFilterValue(state, action) {
+        setFilterValue(state, action: PayloadAction<string>) {
             state.filterValue = action.payload;
         },
         clearFilterValue(state) {
             state.filterValue = "";
         },
-        setInputValue(state, action) {
+        setInputValue(state, action: PayloadAction<string>) {
             state.inputValue = action.payload;
         },
         clearInputValue(state) {
             state.inputValue = "";
         },
-        switchHeaderVisibility(state, action){
+        switchHeaderVisibility(state, action: PayloadAction<boolean>){
             state.showHeader = action.payload;
         }
-
-
     }
 })
 
-export const getInputValue = (state) => state.inputField.inputValue;
 export const { setFilterValue, clearFilterValue, setInputValue, clearInputValue, switchHeaderVisibility } = headerSlice.actions;
 
 export default headerSlice.reducer;

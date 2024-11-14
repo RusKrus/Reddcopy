@@ -8,17 +8,17 @@ function ContentFilterMobile() {
 
     const navigate = useNavigate();
     const location = useLocation()
-    const formSelectRef = useRef(null)
+    const formSelectRef = useRef<HTMLSelectElement>(null)
 
     useEffect(() => {
         if (formSelectRef.current) {
-            const filterParam = location.pathname.substring(1);
+            const filterParam: string = location.pathname.substring(1);
             formSelectRef.current.value = filterParam || "top";
         }
     }, [location.pathname]);
 
-    const handleChange = e => {
-        navigate(`/${e.target.value}`)
+    const handleChange = (e: React.FormEvent<HTMLFormElement>): void => {
+        navigate(`/${e.currentTarget.value}`)
     };
 
     return (

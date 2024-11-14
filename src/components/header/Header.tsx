@@ -1,29 +1,29 @@
-import React from "react"
-import styles from "./header.module.css"
-import {  useDispatch, useSelector } from 'react-redux';
-import { setFilterValue, clearFilterValue, setInputValue, clearInputValue }  from "./headerSlice"
+import React from "react";
+import styles from "./header.module.css";
+import { useAppSelector, useAppDispatch } from '../../helperData/customHooks';
+import { setFilterValue, clearFilterValue, setInputValue, clearInputValue }  from "./headerSlice";
 import { Link } from "react-router-dom";
 import DropdownMenu from "../dropdownMenu/DropdownMenu";
 
 
 function Header(){
 
-    const dispatch=useDispatch();
-    const inputValue = useSelector(state=>state.header.inputValue);
-    const headeVisibility = useSelector(state=>state.header.showHeader)
+    const dispatch = useAppDispatch();
+    const inputValue = useAppSelector(state=>state.header.inputValue);
+    const headeVisibility = useAppSelector(state=>state.header.showHeader)
     
     
-    const handleSubmit = (e) =>{
+    const handleSubmit = (e: React.FormEvent<HTMLFormElement>):void =>{
         e.preventDefault();
         dispatch(setFilterValue(inputValue));
         window.scrollTo({top:0});
     }
-    const handleClick = () =>{
+    const handleClick = ():void =>{
         dispatch(clearFilterValue());
         dispatch(clearInputValue())
     }
-    const handleChange = (e) =>{
-        dispatch(setInputValue(e.target.value));
+    const handleChange = (e: React.FormEvent<HTMLInputElement>) =>{
+        dispatch(setInputValue(e.currentTarget.value));
     }
 
    

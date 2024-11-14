@@ -1,12 +1,14 @@
 import React from "react";
 import styles from "./notFound.module.css";
 import { clearFilterValue, clearInputValue }  from "../header/headerSlice"
-import {  useDispatch } from 'react-redux';
+import { useAppDispatch } from '../../helperData/customHooks';
+import { NotFoundProps } from "../../helperData/types";
 
-function NotFound({text}){
-    const dispatch = useDispatch();
+function NotFound(props: NotFoundProps){
+    const { text } = props
+    const dispatch = useAppDispatch();
 
-    const handleBackClick = () =>{
+    const handleBackClick = (): void =>{
         dispatch(clearFilterValue());
         dispatch(clearInputValue());
     }

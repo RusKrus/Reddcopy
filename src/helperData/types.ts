@@ -128,10 +128,18 @@ export type CommentProps = {
 }
 
 export type LikesCounterProps = {
-    score: number,
+    score?: number,
     containerType: string
 }
 
+export type FailedToLoadProps = {
+    reloadAction: Function
+    actionParam?: string
+}
+
+export type NotFoundProps = {
+    text: string;
+}
 
 //server answer types
 export interface PostData {
@@ -211,6 +219,12 @@ export type PostAreaState = {
     }, 
     status: "idle" | "loading" | "loaded" | "rejected"
 };
+
+export type headerSliceState = {
+        inputValue: string,
+        filterValue: string,
+        showHeader: boolean
+}
 
 //Payload types
 export type feedAreaPayload = {

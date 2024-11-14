@@ -2,7 +2,7 @@ import React from "react";
 import Skeleton from 'react-loading-skeleton';
 import 'react-loading-skeleton/dist/skeleton.css';
 import styles from "./postAreaLoading.module.css";
-import LoadingCommentsArea from "../commentsArea/LoadingCommentsArea.jsx";
+import LoadingCommentsArea from "../commentsArea/LoadingCommentsArea";
 
 
 

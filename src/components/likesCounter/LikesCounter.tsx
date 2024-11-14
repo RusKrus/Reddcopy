@@ -5,7 +5,7 @@ import { LikesCounterProps } from "../../helperData/types";
 
 
 function LikesCounter(props: LikesCounterProps){
-    const {score, containerType} = props;
+    const {score=0, containerType} = props;
     //working on score logic
     const [changedScore, setChangedScore] = useState<number>(0);
     const [isLikeClicked, setIsLikeClicked] = useState<boolean>(false);
@@ -18,7 +18,7 @@ function LikesCounter(props: LikesCounterProps){
         setChangedScore(score);
     }, [score])
 
-    const onLikeClick = (e:React.MouseEvent<SVGElement>): void => {
+    const onLikeClick = (e: React.MouseEvent<SVGElement>): void => {
         e.stopPropagation();
         setIsLikeClicked(!isLikeClicked);
         setIsDislikeClicked(false);
@@ -33,7 +33,7 @@ function LikesCounter(props: LikesCounterProps){
         }
     }
 
-    const onDislikeClick = (e) => {
+    const onDislikeClick = (e: React.MouseEvent<SVGElement>): void => {
         e.stopPropagation()
         setIsDislikeClicked(!isDislikeClicked);
         setIsLikeClicked(false);
@@ -103,6 +103,7 @@ function LikesCounter(props: LikesCounterProps){
             )
         default: 
             console.log("It is not possible to define container type for likes counter");
+            return <div> Broken, check the console </div>
     }
 }
 

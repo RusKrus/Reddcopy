@@ -307,6 +307,7 @@ const MediaContainer = function MediaContainer(props: MediaContainerProps){
                     </div>
                 );
             }   
+            return <div>Not possible to return any type of container</div>
     }
 }
 

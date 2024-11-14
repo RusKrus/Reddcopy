@@ -3,25 +3,25 @@ import styles from "./dropdownMenu.module.css"
 
 
 const DropdownMenu = () =>{
-    const [ showOptions, setShowOptions ] = useState(false);
-    const [ showModal, setShowModal ] = useState(false);
-    const optionsBtn = useRef(null);
-    const showBugWindowBtn = useRef(null)
-    const modalWindowBackground = useRef(null);
+    const [ showOptions, setShowOptions ] = useState<boolean>(false);
+    const [ showModal, setShowModal ] = useState<boolean>(false);
+    const optionsBtn = useRef<HTMLButtonElement>(null);
+    const showBugWindowBtn = useRef<HTMLButtonElement>(null)
+    const modalWindowBackground = useRef<HTMLDivElement>(null);
 
-    const optionsCloser = (e) =>{
-        if((e.target!==optionsBtn.current&&e.target!==showBugWindowBtn.current&&!modalWindowBackground.current.contains(e.target))||e.target.innerHTML==="X"){
+    const optionsCloser = (e: MouseEvent) =>{
+        if(e.target instanceof HTMLButtonElement&&e.target.innerHTML==="X"){
             setShowOptions(false);
             setShowModal(false);
         }
     }
-    const showOptionsSetter = () =>{
+    const showOptionsSetter = (): void =>{
         setShowOptions(!showOptions);
     }
-    const showBugModalWindow = () =>{
+    const showBugModalWindow = (): void =>{
         setShowModal(true)
     }
-    const submitBugReportHandler = (e)=>{
+    const submitBugReportHandler = (e: React.FormEvent): void => {
         e.preventDefault();
         window.location.reload();
 

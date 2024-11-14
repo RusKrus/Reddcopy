@@ -150,7 +150,7 @@ function PostArea() {
             </div>
         )
     }
-    else if (status === "rejected") {
+    else {
         return (
             <FailedToLoad reloadAction={fetchingPostData} actionParam={postId} />
         )

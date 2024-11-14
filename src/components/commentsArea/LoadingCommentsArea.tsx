@@ -7,7 +7,7 @@ function LoadingCommentsArea(){
     return(
     <div className={styles.loadingCommentBox}>
         <Skeleton width="20%"/>
-        <Skeleton count="2"/>
+        <Skeleton count={2}/>
         <Skeleton width="10%"/>
     </div>
     )

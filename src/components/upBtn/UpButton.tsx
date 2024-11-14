@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
 import styles from "./upBtn.module.css"
 
-function UpBtn():React.JSX.Element{
+function UpBtn(){
 
     const [isScrolledEnough, setIsScrolledEnough] = useState<boolean>(false)
 
-    const handleScroll: () => void = () => {
+    const handleScroll = (): void => {
         const heightToTop: number = document.documentElement.scrollTop;
         const clientMonitorHeight: number = document.documentElement.clientHeight;
         if(heightToTop>2*clientMonitorHeight){
@@ -16,7 +16,7 @@ function UpBtn():React.JSX.Element{
         }
     };
 
-    const handleClick: () => void = () => {
+    const handleClick = (): void => {
         window.scrollTo({top:0, behavior:"smooth"})
     }
 
