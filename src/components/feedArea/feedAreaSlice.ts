@@ -1,33 +1,42 @@
-import {serverRequests} from "../../redditData/data.js";
-import { createAsyncThunk, createSlice }  from "@reduxjs/toolkit";
+import {serverRequests} from "../../redditData/data";
+import { createAsyncThunk, createSlice, PayloadAction }  from "@reduxjs/toolkit";
+import { initialFeedAreatState, feedAreaPayload } from "../../helperData/types" 
+
 
 
 
 export const fetchingData = createAsyncThunk(
     'homeThreads/fetchData',
-    async (searchParamsObject) => {
+    async (searchParamsObject: {searchParam: string, after?: string}) => {
         const {searchParam, after} = searchParamsObject;
         const data = await serverRequests.getPosts(searchParam, after);
         return {data, searchParam};
     }
 )
 
+
+const initialState: initialFeedAreatState = {
+    after: "",
+    status:"",
+    posts: {
+        top: [],
+        hot:[],
+        new:[],
+        rising: []
+    }
+}
+
 const feedAreaSlice = createSlice({
     name: "homeThreads",
-    initialState: {
-        after: "",
-        status:"",
-        posts: {
-            top:[],
-            hot:[],
-            new:[],
-            rising: []
-        }
-
-    },
+    initialState, 
     reducers: {
         clearPosts(state){
-            state.posts = {};
+            state.posts = { 
+                top: [],
+                hot:[],
+                new:[],
+                rising: []
+            };
         }
     },
     extraReducers: (builder)=>{
@@ -35,7 +44,7 @@ const feedAreaSlice = createSlice({
                 .addCase(fetchingData.pending, (state) =>{
                     state.status="loading";
                 })
-                .addCase(fetchingData.fulfilled, (state, action) => {
+                .addCase(fetchingData.fulfilled, (state, action: PayloadAction<feedAreaPayload>) => {
                     if (action.payload.searchParam==="top"){
                         state.status="loaded";
                         state.after = action.payload.data.data.after;
@@ -67,5 +76,4 @@ const feedAreaSlice = createSlice({
 })
 
 export const {clearPosts} = feedAreaSlice.actions;
-
 export default feedAreaSlice.reducer;

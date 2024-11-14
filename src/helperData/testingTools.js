@@ -3,8 +3,8 @@ import { MemoryRouter } from "react-router-dom";
 import { configureStore } from "@reduxjs/toolkit";
 import { Provider } from "react-redux";
 import feedAreaReducer from "../components/feedArea/feedAreaSlice";
-import postAreaReducer from "../components//postArea/postAreaSlice";
-import headerReducer from "../components//header/headerSlice";
+import postAreaReducer from "../components/postArea/postAreaSlice";
+import headerReducer from "../components/header/headerSlice";
 
 
 

@@ -1,29 +1,30 @@
 import React, { useEffect } from "react";
 import { useParams, useNavigate, useLocation } from "react-router-dom";
-import { useSelector, useDispatch } from 'react-redux';
+import { useAppSelector, useAppDispatch } from '../../helperData/customHooks';
 import { fetchingPostData } from "./postAreaSlice";
 import { switchHeaderVisibility }  from "../header/headerSlice"
 import styles from "./postArea.module.css"
-import { timeDecoder } from "../../helperFuncs/helperFuncs";
+import { timeDecoder } from "../../helperData/helperFuncs";
 import CommentsArea from "../commentsArea/CommentsArea";
-import PostAreaLoading from "./PostAreaLoading.jsx";
+import PostAreaLoading from "./PostAreaLoading";
 import UpBtn from "../upBtn/UpButton";
-import FailedToLoad from "../failedToLoad/FailedToLoad.jsx";
-import MediaContainer from "../mediaContainer/MediaContainer.jsx";
-import LikesCounter from "../likesCounter/LikesCounter.jsx";
+import FailedToLoad from "../failedToLoad/FailedToLoad";
+import MediaContainer from "../mediaContainer/MediaContainer";
+import LikesCounter from "../likesCounter/LikesCounter";
 import 'react-loading-skeleton/dist/skeleton.css';
 import UAParser from "ua-parser-js";
 
 
 function PostArea() {
-
-    const dispatch = useDispatch();
     const navigate = useNavigate();
     const { postId } = useParams();
-    const postData = useSelector(state => state.postArea.postData[postId]);
-    const postDetails = postData?.postInfo[0].data;
+
+    const dispatch = useAppDispatch();
+    const postData = useAppSelector(state => state.postArea.postData[postId!]);
+    const status = useAppSelector(state => state.postArea.status);
+
+    const postDetails = postData?.postInfo![0].data;
     const postComments = postData?.postComments;
-    const status = useSelector(state => state.postArea.status);
     const location = useLocation();
 
     //getting user's device data
@@ -33,7 +34,7 @@ function PostArea() {
 
     useEffect(() => {
         if (!postData) {
-            dispatch(fetchingPostData(postId));
+            dispatch(fetchingPostData(postId!));
         }
         dispatch(switchHeaderVisibility(false))
     }, [dispatch, postData, postId])
@@ -114,7 +115,6 @@ function PostArea() {
                             deviceData={deviceData}
                             galleryInfo={postProps.galleryInfo}
                             title={postProps.title}
-                            styles={styles}
                             imgResolutions={postProps.imgResolutions}
                             mediaType={postProps.mediaType}
                             media={postProps.media}

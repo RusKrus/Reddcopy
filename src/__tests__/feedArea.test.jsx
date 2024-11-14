@@ -1,8 +1,8 @@
 import FeedArea from '../components/feedArea/FeedArea';
 import { screen, act } from '@testing-library/react';
-import { testingTools } from "../helperFuncs/testingTools";
+import { testingTools } from "../helperData/testingTools";
 import { serverRequests } from "../redditData/data.js";
-import { mockedPostsServerAnswer } from "../helperFuncs/testingTools.js";
+import { mockedPostsServerAnswer } from "../helperData/testingTools.js";
 
 jest.mock("../redditData/data.js");
  

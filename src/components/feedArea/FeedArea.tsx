@@ -2,58 +2,65 @@ import React, { useEffect, useRef } from "react";
 import styles from "./feedArea.module.css";
 import PostBox from "../postBox/PostBox";
 import LoadingBox from "../postBox/LoadingBox";
-import UpBtn from "../upBtn/UpButton.tsx";
-import ContentFilter from "../contentFilter/ContentFilter.jsx"
-import ContentFilterMobile from "../contentFilter/ContentFilterMobile.jsx"
-import NotFound from "../notFound/NotFound.jsx";
-import FailedToLoad from "../failedToLoad/FailedToLoad.jsx";
-import { useSelector, useDispatch } from 'react-redux';
-import { fetchingData } from "../feedArea/feedAreaSlice.js";
-import { searchFilter } from "../../helperFuncs/helperFuncs";
+import UpBtn from "../upBtn/UpButton";
+import ContentFilter from "../contentFilter/ContentFilter"
+import ContentFilterMobile from "../contentFilter/ContentFilterMobile"
+import NotFound from "../notFound/NotFound";
+import FailedToLoad from "../failedToLoad/FailedToLoad";
+import { useAppSelector, useAppDispatch } from '../../helperData/customHooks';
+import { fetchingData } from "./feedAreaSlice";
+import { searchFilter } from "../../helperData/helperFuncs";
 import {useParams} from "react-router-dom"; 
 import UAParser from "ua-parser-js";
-import { switchHeaderVisibility }  from "../header/headerSlice"
+import { switchHeaderVisibility }  from "../header/headerSlice";
+import { ObserverEntryType, ParserResult, DeviceData, initialFeedAreatState, Post } from "../../helperData/types"
+
 
 function FeedArea() {
 
-    const filterValue = useSelector(state => state.header.filterValue);
-    const itemToLoadContent = useRef(null);
-    const observerLoader = useRef(null);
+    const itemToLoadContent = useRef<HTMLDivElement>(null);
+    const observerLoader = useRef <IntersectionObserver| null >  (null);
     const {postFilterParam} = useParams();
-    const activeParam = postFilterParam||"top";
-    const postsInfo = useSelector(state => state.feedArea);
-    const dispatch = useDispatch();
-    const after = postsInfo.after;
-    const status = postsInfo.status;
+    const dispatch = useAppDispatch();
+    const appState = useAppSelector(state => state);
+    
+    const filterValue: string = appState.header.filterValue;
+    const postsInfo: initialFeedAreatState = appState.feedArea;
+    const after: string = postsInfo.after;
+    const status: string = postsInfo.status;
+    const activeParam: string = postFilterParam||"top";
+
 
     //getting user's device data
-    const UAresults = new UAParser();
-    const deviceData = UAresults.getDevice();
+    const UAresults: ParserResult = new UAParser();
+
+    const deviceData: DeviceData = UAresults.getDevice();
 
     useEffect(() => {
-        if(postsInfo.posts[activeParam].length===0){
+        if( postsInfo.posts[activeParam].length===0){  
             dispatch(fetchingData({ searchParam: activeParam }));
         }
         dispatch(switchHeaderVisibility(true));        
     }, [activeParam, dispatch, postsInfo.posts])
 
+
     useEffect(()=>{
-        const newPostsLoader=(entries)=>{
+        const newPostsLoader=(entries: ObserverEntryType[]): void=>{
             if (entries[0].isIntersecting){
                 dispatch(fetchingData({searchParam: activeParam, after}));
             };
         }
 
-        if(observerLoader.current){
+        if(observerLoader.current instanceof IntersectionObserver){
             observerLoader.current.disconnect();
         }
         observerLoader.current = new IntersectionObserver(newPostsLoader);
-        if(itemToLoadContent.current){
+        if(itemToLoadContent.current instanceof HTMLDivElement){
             observerLoader.current.observe(itemToLoadContent.current);
         }
     }, [after, dispatch, activeParam])
 
-    const filteredPosts = postsInfo.posts[activeParam].filter(postInfo => searchFilter(filterValue, postInfo))
+    const filteredPosts = postsInfo.posts[activeParam].filter((postInfo: Post) => searchFilter(filterValue, postInfo))
     
     return (
         <main className={styles.feedArea}>

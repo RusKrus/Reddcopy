@@ -1,28 +1,45 @@
 import React, { useEffect, useRef, useState } from "react";
-import VideoJS from '../../videojs/VideoJS.jsx';
-import {iframeElementObtainer, selfTextElementObtainer, imageGalleryPrepared, imageDefiner, srcsetMaker} from "../../helperFuncs/helperFuncs" ;
+import VideoJS from '../../videojs/VideoJS';
+import {iframeElementObtainer, selfTextElementObtainer, imageGalleryPrepared, imageDefiner, srcsetMaker} from "../../helperData/helperFuncs" ;
 import styles from "./mediaContainer.module.css";
 import "react-image-gallery/styles/css/image-gallery.css";
 import ImageGallery from "react-image-gallery";
+import { Player } from "../../videojs/VideoJS";
+import { MediaContainerProps } from "../../helperData/types"
 
 
 
-const MediaContainer = function MediaContainer({containerType, deviceData, galleryInfo, title, mediaType, imgResolutions, media, video, isGallery, thumbnail, isNsfw, isSelf, htmlDataForParseSelfText, flairProps}){
+const MediaContainer = function MediaContainer(props: MediaContainerProps){
+    const {
+            containerType, 
+            deviceData, 
+            galleryInfo, 
+            title,
+            mediaType, 
+            imgResolutions, 
+            media, 
+            video, 
+            isGallery, 
+            thumbnail, 
+            isNsfw, 
+            isSelf, 
+            htmlDataForParseSelfText, 
+            flairProps} = props;
 
     //getting data from props
     const {selfTextHTML, htmlStringIframe} = htmlDataForParseSelfText;
     const {flairText, flairTextColor, flairBackgroundColor} = flairProps
     //setting up refs for element obtainer funcs
-    const iframeRef = useRef(null);
+    const iframeDivRef = useRef<HTMLDivElement>(null);
     const selfTextRef = useRef(null);
     
     useEffect(()=>{
-        htmlStringIframe&&iframeElementObtainer(htmlStringIframe, iframeRef);
-        selfTextHTML&&selfTextElementObtainer(selfTextHTML, styles, selfTextRef, containerType);
-    }, [htmlStringIframe, iframeRef, selfTextHTML, containerType])
+        htmlStringIframe&&iframeElementObtainer(htmlStringIframe, iframeDivRef.current);
+        selfTextHTML&&selfTextElementObtainer(selfTextHTML, styles, selfTextRef.current, containerType);
+    }, [htmlStringIframe, iframeDivRef, selfTextHTML, containerType])
     
 
-    const flairTextStyle={
+    const flairTextStyle: React.CSSProperties = {
         width: 'fit-content',
         backgroundColor: flairBackgroundColor, 
         color: flairTextColor==="light"?"white":"black", 
@@ -32,43 +49,51 @@ const MediaContainer = function MediaContainer({containerType, deviceData, galle
     }
 
     //photo click inside post area handler 
-    const handleZoomClick=e=>{
+    const handleZoomClick = (e: React.MouseEvent<HTMLImageElement>): void =>{
         if(document.fullscreenElement ){
             document.exitFullscreen() 
         }
         else{
-            e.target.requestFullscreen();
+            e.currentTarget.requestFullscreen();
         }
     }
     
     //show nsfw button handler 
-    const [isShowNsfwClicked, setIsShowNsfwClicked] = useState(!isNsfw);
-    const handleSeeNsfwClickDiv =e=>{
+    const [isShowNsfwClicked, setIsShowNsfwClicked] = useState<boolean>(!isNsfw);
+    const handleSeeNsfwClickDiv = (e:React.MouseEvent<HTMLDivElement>):void =>{
         e.stopPropagation();
-        e.target.remove();
+        e.currentTarget.remove();
         setIsShowNsfwClicked(true);
     }
 
-    const handleSeeNsfwClickSpan =e=>{
+    const handleSeeNsfwClickSpan = (e:React.MouseEvent<HTMLDivElement>):void =>{
         e.stopPropagation();
-        e.target.parentNode.remove();
+        if(e.currentTarget.parentNode instanceof HTMLDivElement){
+            e.currentTarget.parentNode.remove();
+        }
         setIsShowNsfwClicked(true);
     }
 
     
     //for gallery
-    const preparedImageGalleryProperty = imageGalleryPrepared(galleryInfo, styles);
+    
+    const preparedImageGalleryProperty: {
+        original: string,
+        thumbnail: string,
+        originalAlt: string,
+        thumbnailAlt: string
+    }[] | null = galleryInfo?imageGalleryPrepared(galleryInfo):null;
 
     //defining apple mobile device 
-    const isAppleMobileDevice = (deviceData.type==="mobile"||deviceData.type==="tablet")&&deviceData.vendor==="Apple"?true:false;
+    const isAppleMobileDevice: boolean = (deviceData.type==="mobile"||deviceData.type==="tablet")&&deviceData.vendor==="Apple"?true:false;
 
     //image size defining and decoding
     
-    const imgSrcDecoded = imgResolutions?srcsetMaker(imgResolutions):null ;
+    const imgSrcDecoded: string | null = imgResolutions?srcsetMaker(imgResolutions):null ;
 
-    //setting up video JS
-    const playerRef = useRef(null);
-    const handlePlayerReady = (player) => {
+    //setting up video JS   
+    const playerRef = useRef<Player| null>(null);
+    const handlePlayerReady = (player: Player ): void => {
         playerRef.current = player;
     }
     
@@ -91,7 +116,7 @@ const MediaContainer = function MediaContainer({containerType, deviceData, galle
                         <div className={styles.linkPostTextInfoContainer}>
                             <h3 className={styles.title}>{title}</h3>
                             <p style={flairTextStyle}>{flairText}</p>
-                            {selfTextHTML&&<div className={containerType==="postArea"?null:styles.selfTextWithFogContainer} ref={selfTextRef}></div>}
+                            {selfTextHTML&&<div  ref={selfTextRef}></div>}
                             <a href={media} rel="noreferrer" target="_blank" className={styles.link}>{media.substring(0, 26)}...
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className={styles.linkIcon}>
                                     <path strokeLinecap="round" strokeLinejoin="round" d="M13.19 8.688a4.5 4.5 0 0 1 1.242 7.244l-4.5 4.5a4.5 4.5 0 0 1-6.364-6.364l1.757-1.757m13.35-.622 1.757-1.757a4.5 4.5 0 0 0-6.364-6.364l-4.5 4.5a4.5 4.5 0 0 0 1.242 7.244" />
@@ -114,9 +139,9 @@ const MediaContainer = function MediaContainer({containerType, deviceData, galle
                         {isNsfw&&<p className={styles.nsfwWarning}>NSFW content warning!</p>}
                         <h3 className={styles.title}>{title}</h3>
                         <p style={flairTextStyle}>{flairText}</p>
-                        {selfTextHTML&&<div className={styles.selfTextWithFogContainer} ref={selfTextRef} ></div>}
+                        {selfTextHTML&&<div  ref={selfTextRef} ></div>}
                         <div className={styles.postMediaPhotoContainer}>
-                            <img  height={containerType==="postArea"?"600px":"512px"} onClick={containerType==="postArea"?handleZoomClick:null}  srcSet ={imgSrcDecoded} sizes="70vw" className={containerType==="postArea"?isShowNsfwClicked?styles.postAreaMediaPhoto:styles.postAreaNsfwPhoto:isShowNsfwClicked?styles.postBoxMediaPhoto:styles.postBoxNsfwPhoto} alt="Post media" />
+                            <img  height={containerType==="postArea"?"600px":"512px"} onClick={containerType==="postArea"?handleZoomClick: () => null}  srcSet ={imgSrcDecoded?imgSrcDecoded: ""} sizes="70vw" className={containerType==="postArea"?isShowNsfwClicked?styles.postAreaMediaPhoto:styles.postAreaNsfwPhoto:isShowNsfwClicked?styles.postBoxMediaPhoto:styles.postBoxNsfwPhoto} alt="Post media" />
                             {isNsfw&&
                                 <div className={styles.nsfw_fog} onClick={handleSeeNsfwClickDiv}>
                                     <span className={styles.seePostButton} onClick={handleSeeNsfwClickSpan}>See the post</span>
@@ -132,7 +157,7 @@ const MediaContainer = function MediaContainer({containerType, deviceData, galle
                         {isNsfw&&<p className={styles.nsfwWarning}>NSFW content warning!</p>}
                         <h3 className={styles.title}>{title} </h3>
                         <p style={flairTextStyle}>{flairText}</p>
-                        {selfTextHTML&&<div className={containerType==="postArea"?null:styles.selfTextWithFogContainer} ref={selfTextRef}></div>}
+                        {selfTextHTML&&<div ref={selfTextRef}></div>}
                     </div>
                 )   
                 
@@ -143,7 +168,7 @@ const MediaContainer = function MediaContainer({containerType, deviceData, galle
                     <h3 className={styles.title}>{title}</h3>
                     <p style={flairTextStyle}>{flairText}</p>
                     {selfTextHTML&&<div ref={selfTextRef} className={styles.videoAndFogContainer}></div>}
-                    <div  className={styles.iframeContainer} ref={iframeRef} ></div>
+                    <div  className={styles.iframeContainer} ref={iframeDivRef} ></div>
                 </div>
             )
         case "hosted:video":
@@ -192,7 +217,7 @@ const MediaContainer = function MediaContainer({containerType, deviceData, galle
                                 <div className={styles.titleAndFlairFlexPostBox}>
                                     <h3 className={styles.title}>{title}</h3>
                                     <p style={flairTextStyle}>{flairText}</p>
-                                    {selfTextHTML&&<div className={styles.selfTextWithFogContainer} ref={selfTextRef}></div>}
+                                    {selfTextHTML&&<div ref={selfTextRef}></div>}
                                 </div>
                                 <img src={thumbnail} className={styles.thumbnailGalleryPostBox} alt="gallery thumnail"/>
                             </div>
@@ -204,7 +229,7 @@ const MediaContainer = function MediaContainer({containerType, deviceData, galle
                                 {isNsfw&&<p className={styles.nsfwWarning}>NSFW content warning!</p>}
                                 <h3 className={styles.title}>{title}</h3>
                                 <p style={flairTextStyle}>{flairText}</p>
-                                {selfTextHTML&&<div ref={selfTextRef} className={styles.selfTextWithFogContainer}></div>}
+                                {selfTextHTML&&<div ref={selfTextRef}></div>}
                             </div>
                         )
                     }
@@ -214,7 +239,7 @@ const MediaContainer = function MediaContainer({containerType, deviceData, galle
                                 {isNsfw&&<p className={styles.nsfwWarning}>NSFW content warning!</p>}
                                 <h3 className={styles.title}>{title}</h3>
                                 <p style={flairTextStyle}>{flairText}</p>
-                                {selfTextHTML&&<div className={styles.selfTextWithFogContainer} ref={selfTextRef}></div>}
+                                {selfTextHTML&&<div ref={selfTextRef}></div>}
                                 <a href={imgSrcDecoded ?imgSrcDecoded :media} className={styles.link} rel="noreferrer" target="_blank">{media.substring(0, 26)}...</a>
                             </div>
                         )
@@ -230,7 +255,7 @@ const MediaContainer = function MediaContainer({containerType, deviceData, galle
                             {isNsfw&&<p className={styles.nsfwWarning}>NSFW content warning!</p>}
                             <h3 className={styles.title}>{title} </h3>
                             <p style={flairTextStyle}>{flairText}</p>
-                            {selfTextHTML&&<div className={containerType==="postArea"?null:styles.selfTextWithFogContainer} ref={selfTextRef}></div>}
+                            {selfTextHTML&&<div ref={selfTextRef}></div>}
                         </div>
                     )   
                 }
@@ -271,7 +296,7 @@ const MediaContainer = function MediaContainer({containerType, deviceData, galle
                         {selfTextHTML&&<div ref={selfTextRef}></div>}
                         {media?imageDefiner(media)?
                             <div className={styles.postMediaPhotoContainer}>
-                                <img  onClick={containerType==="postArea"?handleZoomClick:null} src={media} className={containerType==="postArea"?isShowNsfwClicked?styles.postAreaMediaPhoto:styles.postAreaNsfwPhoto:isShowNsfwClicked?styles.postBoxMediaPhoto:styles.postBoxNsfwPhoto} alt="Post media" />
+                                <img  onClick={containerType==="postArea"?handleZoomClick:()=>null} src={media} className={containerType==="postArea"?isShowNsfwClicked?styles.postAreaMediaPhoto:styles.postAreaNsfwPhoto:isShowNsfwClicked?styles.postBoxMediaPhoto:styles.postBoxNsfwPhoto} alt="Post media" />
                                 {isNsfw&&
                                     <div className={styles.nsfw_fog} onClick={handleSeeNsfwClickDiv}>
                                         <span className={styles.seePostButton} onClick={handleSeeNsfwClickSpan}>See the post</span>

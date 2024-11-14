@@ -1,18 +1,24 @@
 import he from 'he';
+import { Post, GalleryInfoType, ImageGalleryProp, imgResolutions } from "./types"
+
+
+
+
 //fucntion for preparing data for ImageGallery 
-export const imageGalleryPrepared = (galleryInfo) => {
-    const urlArrayToDecode = [];
+export const imageGalleryPrepared = (galleryInfo: GalleryInfoType): ImageGalleryProp[] => {
+    const urlArrayToDecode: string[] = [];
     for (const imageKey in galleryInfo){
         urlArrayToDecode.push(galleryInfo[imageKey].s.u)
     }
 
-    const decodedArray = [];
+    const decodedArray: string[] = [];
     for(const url of urlArrayToDecode){
-        const decodedUrl = he.decode(url);
+        const decodedUrl: string = he.decode(url);
         decodedArray.push(decodedUrl);
     }
     
-    const imageGalleryProps = [];
+    const imageGalleryProps: ImageGalleryProp[] = [];
+
     for (const decodedUrl of decodedArray){
         imageGalleryProps.push({
             original:decodedUrl,
@@ -35,62 +41,64 @@ export const domElementObtainer = (htmlString:string): ChildNode | null=> {
     return domElement ;
 }
 
-export const iframeElementObtainer = (htmlString, iframeRef) =>{
-    const iframe = domElementObtainer(htmlString);
-    iframe.width="100%";
-    iframe.height="500px";
-    iframe.style.position="relative";
-    if(iframeRef.current&&iframeRef.current.children.length<1){
-        iframeRef.current.appendChild(iframe);
+export const iframeElementObtainer= (htmlString: string, iframeDivRefValue: HTMLDivElement | null): void =>{
+    const iframe: ChildNode | null = domElementObtainer(htmlString);
+    if(iframe instanceof HTMLIFrameElement){
+        iframe.width="100%";
+        iframe.height="500px";
+        iframe.style.position="relative";
+        if(iframeDivRefValue instanceof HTMLDivElement&&iframeDivRefValue.children.length<1){
+            iframeDivRefValue.appendChild(iframe);
+        }
     }
+    
 }
 
-export const aToImgLinkReplacer = (selfText) => {
-    
-    const elementChilds = selfText.children;
-    const anchorParagraphsArray = [];
+export const aToImgLinkReplacer = (selfText: HTMLDivElement): void => {
+    const elementChilds: HTMLCollection = selfText.children;
+    const anchorParagraphsArray: Element[] = [];
     for(const child of elementChilds){
-        if (child.querySelector('a')){
+        if (child.querySelector('a') instanceof HTMLAnchorElement){
             anchorParagraphsArray.push(child);
         }
     }
 
     for(const child of anchorParagraphsArray){
         const anchorElement = child.querySelector('a');
-        if(anchorElement.href.includes(".jpg")||anchorElement.href.includes("png")){
-            const tempRefContainer = anchorElement.href;
-            const imgElement = document.createElement("img");
+        if(anchorElement instanceof HTMLAnchorElement && (anchorElement.href.includes(".jpg")|| anchorElement.href.includes("png"))){
+            const tempRefContainer: string = anchorElement.href;
+            const imgElement: HTMLImageElement = document.createElement("img");
             imgElement.src = tempRefContainer;
-            imgElement.style.maxWidth = "100%"
-            child.replaceChild(imgElement, anchorElement)
+            imgElement.style.maxWidth = "100%";
+            child.replaceChild(imgElement, anchorElement);
         }
     }
 }
 
 //creating decoded HTML for post area or post box (with fog or without)
-export const selfTextElementObtainer = (htmlString, styles, selfTextRef, mediaBoxType) => {
-    const selfText = domElementObtainer(htmlString);
-    aToImgLinkReplacer(selfText)
-    if(selfTextRef.current&&selfTextRef.current.children.length===0){
+export const selfTextElementObtainer = (htmlString: string, styles: { [className: string]: string }, selfTextRefValue: HTMLDivElement | null, mediaBoxType: string) => {
+    const selfText: ChildNode | null = domElementObtainer(htmlString);
+    if(selfText instanceof HTMLDivElement){
+        aToImgLinkReplacer(selfText);
+    }
+    if(selfTextRefValue&&selfTextRefValue.children.length===0&&selfText instanceof HTMLElement){
         if(mediaBoxType==="postArea"){
-            selfText.className = styles.selfTextForPostArea;
-            selfTextRef.current.appendChild(selfText);
+            selfTextRefValue.className = styles.selfTextForPostArea;
+            selfTextRefValue.appendChild(selfText);
         }
         else{
             if(htmlString.length>500){
-                selfText.className = styles.selfTextForPostBox;
-                const fogDiv = document.createElement("div");
+                selfTextRefValue.className = styles.selfTextForPostBox;
+                const fogDiv: HTMLDivElement = document.createElement("div");
                 fogDiv.className = styles.fogEffectContainer;
-                selfTextRef.current.appendChild(selfText);
-                selfTextRef.current.appendChild(fogDiv);
+                selfTextRefValue.appendChild(selfText);
+                selfTextRefValue.appendChild(fogDiv);
             }
             else{
-                selfText.className = styles.selfTextForPostBox;
-                selfTextRef.current.appendChild(selfText);
+                selfTextRefValue.className = styles.selfTextForPostBox;
+                selfTextRefValue.appendChild(selfText);
             }
-            
         }
-        
     }
     return selfText;
 }
@@ -162,9 +170,9 @@ export const timeDecoder: (time: number)=> string = time => {
 
 }
 
-export const searchFilter = (searchValue, postInfo) => {
+export const searchFilter = (searchValue: string, postInfo: Post) => {
     const postData = postInfo.data;
-    const valueToCheck = searchValue.toLowerCase();
+    const valueToCheck: string = searchValue.toLowerCase();
     return (
         postData.subreddit_name_prefixed.toLowerCase().includes(valueToCheck) ||
         postData.author.toLowerCase().includes(valueToCheck) ||
@@ -172,8 +180,8 @@ export const searchFilter = (searchValue, postInfo) => {
         postData.selftext.toLowerCase().includes(valueToCheck))
 }
 
-export const imageDefiner = (url) =>{
-    const imageExtensionArray = ["jpg", "jpeg", "png", "gif", "webp", "avif"];
+export const imageDefiner = (url: string): boolean =>{
+    const imageExtensionArray: string[] = ["jpg", "jpeg", "png", "gif", "webp", "avif"];
 
     if (typeof url !== "string"){
         return false;
@@ -189,8 +197,8 @@ export const imageDefiner = (url) =>{
 }
 
 
-export const srcsetMaker = (imgResolutions)=>{
-    let srcset = `${he.decode(imgResolutions.source.url)} ${imgResolutions.source.width}w` 
+export const srcsetMaker = (imgResolutions: imgResolutions): string=>{
+    let srcset: string = `${he.decode(imgResolutions.source.url)} ${imgResolutions.source.width}w` 
     for (const resolution of imgResolutions.resolutions){
         srcset = `${srcset}, ${he.decode(resolution.url)} ${resolution.width}w`
     }

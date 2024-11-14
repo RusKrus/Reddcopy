@@ -1,9 +1,9 @@
 import { render, screen, act } from '@testing-library/react';
 import CommentsArea from "../components/commentsArea/CommentsArea";
 import React from "react";
-import { timeDecoder, domElementObtainer } from '../helperFuncs/helperFuncs';
+import { timeDecoder, domElementObtainer } from '../helperData/helperFuncs';
 import { v4 as uuidv4 } from 'uuid';
-import { mockedPostServerAnswer } from "../helperFuncs/testingTools"
+import { mockedPostServerAnswer } from "../helperData/testingTools"
 
 const serverRequest = mockedPostServerAnswer();
 const commentsProp = serverRequest[1].data.children[0];

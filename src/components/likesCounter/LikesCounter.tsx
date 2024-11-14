@@ -1,13 +1,15 @@
 import React, {useState, useEffect} from "react";
-import styles from "./likesCounter.module.css"
-import Skeleton from 'react-loading-skeleton'
+import styles from "./likesCounter.module.css";
+import Skeleton from 'react-loading-skeleton';
+import { LikesCounterProps } from "../../helperData/types";
 
 
-function LikesCounter({score, containerType}){
+function LikesCounter(props: LikesCounterProps){
+    const {score, containerType} = props;
     //working on score logic
-    const [changedScore, setChangedScore] = useState(null);
-    const [isLikeClicked, setIsLikeClicked] = useState(false);
-    const [isDislikeClicked, setIsDislikeClicked] = useState(false);
+    const [changedScore, setChangedScore] = useState<number>(0);
+    const [isLikeClicked, setIsLikeClicked] = useState<boolean>(false);
+    const [isDislikeClicked, setIsDislikeClicked] = useState<boolean>(false);
 
 
 
@@ -16,8 +18,8 @@ function LikesCounter({score, containerType}){
         setChangedScore(score);
     }, [score])
 
-    const onLikeClick = (e) => {
-        e.stopPropagation()
+    const onLikeClick = (e:React.MouseEvent<SVGElement>): void => {
+        e.stopPropagation();
         setIsLikeClicked(!isLikeClicked);
         setIsDislikeClicked(false);
         if (changedScore === score) {
@@ -99,7 +101,8 @@ function LikesCounter({score, containerType}){
                     </svg>
                 </div>
             )
-            // no default
+        default: 
+            console.log("It is not possible to define container type for likes counter");
     }
 }
 

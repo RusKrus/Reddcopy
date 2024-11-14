@@ -1,26 +1,9 @@
 import { useEffect, useRef} from "react";
 import styles from "./commentsArea.module.css"
-import { timeDecoder, domElementObtainer } from "../../helperFuncs/helperFuncs";
-import LikesCounter from "../likesCounter/LikesCounter.jsx";
+import { timeDecoder, domElementObtainer } from "../../helperData/helperFuncs";
+import LikesCounter from "../likesCounter/LikesCounter";
 import { v4 as uuidv4 } from 'uuid';
-
-
-
-type Comment = {
-        kind: string, 
-        data:{
-            author: string,
-            created_utc: number,
-            body_html: string,
-            score: number,
-            replies: Comment,
-            [otherPorps: string]: any
-    }
-} 
-
-type CommentProps = {
-    comment: Comment
-}
+import { CommentProps, Comment } from "../../helperData/types"
 
 
 function CommentsArea({comment}: CommentProps){
@@ -31,7 +14,7 @@ function CommentsArea({comment}: CommentProps){
     const score=comment.data.score;
     const replies=comment.data.replies?.data?.children;
     //parsing and inputing html text
-    const textBoxRef = useRef(null);
+    const textBoxRef = useRef<HTMLDivElement>(null);
     
     const textHTML: ChildNode | null = domElementObtainer(rawText);
     if (textHTML instanceof HTMLDivElement){
@@ -39,9 +22,9 @@ function CommentsArea({comment}: CommentProps){
     }
     //useEffect is used here because first time page loaded - no elementToReplace is created and textHTML(text of a comment) is not generated
     useEffect(()=>{
-        if (textBoxRef.current){
+        if (textBoxRef.current instanceof HTMLDivElement){
             const elementToReplace: HTMLDivElement | null = textBoxRef.current.querySelector(".toReplace");
-            if(elementToReplace){
+            if(elementToReplace instanceof HTMLElement  && textHTML instanceof HTMLDivElement ){
                 textBoxRef.current.replaceChild(textHTML, elementToReplace);
             }
         }
@@ -53,7 +36,7 @@ function CommentsArea({comment}: CommentProps){
             <p className="toReplace" data-testid="toReplace"></p>
             <LikesCounter score={score} containerType={"comments"}/>
             <div className={styles.reply} >
-                {replies&&replies.filter(comment=>comment.kind==="t1").map(reply=><CommentsArea comment={reply} key={uuidv4()}  />)}
+                {replies&&replies.filter((comment: Comment)=>comment.kind==="t1").map((reply: Comment)=><CommentsArea comment={reply} key={uuidv4()}  />)}
             </div>
             
         </div>

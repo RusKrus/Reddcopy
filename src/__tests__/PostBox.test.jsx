@@ -1,7 +1,7 @@
 import { screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import Postbox from "../components/postBox/PostBox.jsx";
-import { testingTools, mockedPostServerAnswer } from "../helperFuncs/testingTools"
+import { testingTools, mockedPostServerAnswer } from "../helperData/testingTools.js"
 import { useNavigate } from "react-router-dom";
 
 jest.mock("react-router-dom", ()=>({

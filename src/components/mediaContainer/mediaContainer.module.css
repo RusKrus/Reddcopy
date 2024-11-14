@@ -124,10 +124,6 @@
 }
 
 /*styles for self*/
-.selfTextWithFogContainer{
-    position:relative;
-
-}
 
 table{
     border-collapse:collapse;
@@ -269,6 +265,7 @@ th{
     text-align:left;
     max-height:200px;
     overflow:hidden;
+    position: relative;
 }
 
 .fogEffectContainer{

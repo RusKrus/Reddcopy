@@ -2,7 +2,7 @@ import React from "react";
 import Skeleton from 'react-loading-skeleton'
 import 'react-loading-skeleton/dist/skeleton.css'
 import styles from "./loadingBox.module.css";
-import LikesCounter from "../likesCounter/LikesCounter.jsx";
+import LikesCounter from "../likesCounter/LikesCounter";
 
 const LoadingBox = () => {
     return(

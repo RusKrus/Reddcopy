@@ -3,8 +3,10 @@ declare module '*.module.css' {
     export default classes;
   }
 
-declare module 'uuid' {
-  export function v4(): string;
-}
+declare module 'uuid';
 
-declare module 'he'
+declare module 'he';
+
+declare module "ua-parser-js";
+
+declare module "react-image-gallery";

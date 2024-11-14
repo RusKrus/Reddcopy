@@ -1,7 +1,7 @@
 import { screen, fireEvent, act } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import Header from "../components/header/Header";
-import { testingTools } from "../helperFuncs/testingTools"
+import { testingTools } from "../helperData/testingTools"
 import { switchHeaderVisibility } from "../components/header/headerSlice";
 
 

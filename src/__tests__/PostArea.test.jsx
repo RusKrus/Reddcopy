@@ -1,7 +1,7 @@
 import { screen, act } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import PostArea from "../components/postArea/PostArea";
-import { testingTools, mockedPostServerAnswer } from "../helperFuncs/testingTools"
+import { testingTools, mockedPostServerAnswer } from "../helperData/testingTools"
 import { serverRequests } from "../redditData/data.js";
 import { useLocation, useNavigate } from "react-router-dom";
 
