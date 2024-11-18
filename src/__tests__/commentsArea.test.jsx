@@ -1,4 +1,4 @@
-import { render, screen, act } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import CommentsArea from "../components/commentsArea/CommentsArea";
 import React from "react";
 import { timeDecoder, domElementObtainer } from '../helperData/helperFuncs';
@@ -7,6 +7,7 @@ import { mockedPostServerAnswer } from "../helperData/testingTools"
 
 const serverRequest = mockedPostServerAnswer();
 const commentsProp = serverRequest[1].data.children[0];
+console.log(commentsProp)
 
 
  
@@ -30,7 +31,7 @@ describe("comments area behaviour", ()=>{
     })
 
     it("must render first comment correctly", ()=>{
-            render(<CommentsArea comment={commentsProp} key={uuidv4()}/>);
+        render(<CommentsArea comment={commentsProp} key={uuidv4()}/>);
         const authorNameElement = screen.getByText(commentsProp.data.author);
         expect(authorNameElement).toBeInTheDocument();
         const correctTime = timeDecoder(commentsProp.data.created_utc);

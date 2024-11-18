@@ -11,13 +11,11 @@ export const fetchingPostData = createAsyncThunk(
 )
 
 
-//CODE
+
 const initialState: PostAreaState = {
     postData:{}, 
     status: "idle"
 }
-
-
 
 const postAreaSlice = createSlice({
     name: "post",

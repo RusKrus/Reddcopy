@@ -5,7 +5,7 @@ import styles from "./mediaContainer.module.css";
 import "react-image-gallery/styles/css/image-gallery.css";
 import ImageGallery from "react-image-gallery";
 import { Player } from "../../videojs/VideoJS";
-import { MediaContainerProps } from "../../helperData/types"
+import { MediaContainerProps, ImageGalleryPhoto } from "../../helperData/types"
 
 
 
@@ -77,12 +77,7 @@ const MediaContainer = function MediaContainer(props: MediaContainerProps){
     
     //for gallery
     
-    const preparedImageGalleryProperty: {
-        original: string,
-        thumbnail: string,
-        originalAlt: string,
-        thumbnailAlt: string
-    }[] | null = galleryInfo?imageGalleryPrepared(galleryInfo):null;
+    const preparedImageGalleryProperty: ImageGalleryPhoto[] | null = galleryInfo?imageGalleryPrepared(galleryInfo): null;
 
     //defining apple mobile device 
     const isAppleMobileDevice: boolean = (deviceData.type==="mobile"||deviceData.type==="tablet")&&deviceData.vendor==="Apple"?true:false;
@@ -193,19 +188,21 @@ const MediaContainer = function MediaContainer(props: MediaContainerProps){
             if (isGallery) {
                 if(containerType==="postArea"){
                     return(
-                        <div className={styles.defaultPostContainer}>
+                         <div className={styles.defaultPostContainer}>
                             {isNsfw&&<p className={styles.nsfwWarning}>NSFW content warning!</p>}
                             <h3 className={styles.title}>{title}</h3>
                             <p style={flairTextStyle}>{flairText}</p>
                             {selfTextHTML&&<div ref={selfTextRef}></div>}
-                            <ImageGallery
-                            items={preparedImageGalleryProperty}
-                            infinite={false}
-                            showPlayButton={false}
-                            showThumbnails={false}
-                            slideDuration={200}
-                            showBullets={true}
-                            />
+                            {
+                                preparedImageGalleryProperty&&<ImageGallery
+                                items={preparedImageGalleryProperty}
+                                infinite={false}
+                                showPlayButton={false}
+                                showThumbnails={false}
+                                slideDuration={200}
+                                showBullets={true}
+                                />
+                            }
                         </div>
                     )
                 }

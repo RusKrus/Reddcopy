@@ -1,14 +1,9 @@
 {
   "name": "reddcopy",
-  "version": "0.1.0",
+  "version": "0.8.0",
   "private": true,
   "dependencies": {
-    "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
     "@reduxjs/toolkit": "^2.0.1",
-    "@testing-library/jest-dom": "^5.17.0",
-    "@testing-library/react": "^13.4.0",
-    "@testing-library/user-event": "^13.5.0",
-    "@types/react-redux": "^7.1.34",
     "he": "^1.2.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
@@ -16,7 +11,6 @@
     "react-loading-skeleton": "^3.3.1",
     "react-redux": "^9.0.1",
     "react-router-dom": "^6.20.1",
-    "react-scripts": "5.0.1",
     "react-select": "^5.8.0",
     "redux": "^5.0.0",
     "ua-parser-js": "^1.0.38",
@@ -49,12 +43,20 @@
     ]
   },
   "devDependencies": {
+    "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
+    "@testing-library/jest-dom": "^5.17.0",
+    "@testing-library/react": "^13.4.0",
+    "@testing-library/user-event": "^13.5.0",
     "@types/jest": "^29.5.14",
     "@types/node": "^22.8.1",
     "@types/react": "^18.3.12",
     "@types/react-dom": "^18.3.1",
+    "@types/react-redux": "^7.1.34",
+    "@types/testing-library__jest-dom": "^5.14.9",
     "@types/video.js": "^7.3.58",
     "cypress": "^13.12.0",
+    "react-scripts": "5.0.1",
+    "ts-jest": "^29.2.5",
     "typescript": "^4.9.5"
   }
 }

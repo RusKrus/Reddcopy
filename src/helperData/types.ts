@@ -19,11 +19,6 @@ export type ObserverEntryType = {
 };
 
 
-export type Post = {
-    kind: string,
-    data: PostData
-};
-
 export type GalleryInfoType = {
     [key:string]:{
         s: {
@@ -53,6 +48,13 @@ export type imgResolutions = {
         width: number, 
         url: string
     }[]
+}
+
+export type ImageGalleryPhoto = {
+    original: string,
+    thumbnail: string,
+    originalAlt: string,
+    thumbnailAlt: string
 }
 
 //component props types
@@ -183,10 +185,38 @@ export interface PostData {
     [otherData: string]: any
 };
 
+export type ReceivedPostsData = {
+    kind: string,
+    data: {
+        after: string,
+        children: Post[]
+    }
+}
+
 export interface PostAreaData extends PostData {
     followers: number,
     media_metadata?: GalleryInfoType
 };
+
+export type ReceivedSinglePostData = [
+    {
+        kind: string,
+        data: {
+            children: {
+                kind: string,
+                data: PostAreaData
+            }[],
+            [otherPorps: string]: any
+        }
+    },
+    {
+        kind: string,
+        data: {
+            children: Comment[],
+            [otherPorps: string]: any
+        }
+    }
+]
 
 export type Comment = {
     kind: string, 
@@ -202,6 +232,12 @@ export type Comment = {
 
 
 //slices types
+export type Post = {
+    kind: string,
+    data: PostData
+};
+
+
 export interface initialFeedAreatState {
     after: string,
     status: string,
@@ -240,24 +276,65 @@ export type feedAreaPayload = {
 
 export type ServerAnswerPostArea = {
     postId: string,
-    data: [
-        {
-            kind: string,
-            data: {
-                children: {
-                    kind: string,
-                    data: PostAreaData
-                }[],
-                [otherPorps: string]: any
-            }
-        },
-        {
-            kind: string,
-            data: {
-                children: Comment[],
-                [otherPorps: string]: any
-            }
-        }
-    ]
+    data: ReceivedSinglePostData
 };
 
+//server request types 
+        
+export type Headers= {
+    'User-Agent': string;
+    Authorization: string;
+    'Content-Type': string;
+};
+
+//testing types 
+export type MockedCommentsData = {   
+    kind: string,
+    data:{
+        author: string,
+        created_utc: number,
+        body_html: string,
+        score: number,
+        replies: {
+            kind: string,
+            data:{
+                children:[
+                    {
+                        kind: string,
+                        data:
+                        {
+                            author: string,
+                            created_utc: number,
+                            body_html: string,
+                            score: number,
+                            replies: {}
+                        }
+                    },
+                    {
+                        kind: string,
+                        data:
+                        {
+                            author: string,
+                            created_utc: number,
+                            body_html: string,
+                            score: number,
+                            replies: {}
+                        }
+                    }
+                ]
+            }
+        }
+    }
+}[];
+
+
+/*export type MockedPostDataCreator = ({
+    publicDescription?: string,
+    comments?: MockedCommentsData,
+    iconUrl?: null,
+    iconUrlSpare?: string,
+    numComments?: number,
+    postHint?: null,
+    isSelf?: boolean,
+    selfText?: null,
+}?) => any */

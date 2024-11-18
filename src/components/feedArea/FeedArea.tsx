@@ -22,10 +22,9 @@ function FeedArea() {
     const observerLoader = useRef <IntersectionObserver| null >  (null);
     const {postFilterParam} = useParams();
     const dispatch = useAppDispatch();
-    const appState = useAppSelector(state => state);
     
-    const filterValue: string = appState.header.filterValue;
-    const postsInfo: initialFeedAreatState = appState.feedArea;
+    const filterValue: string = useAppSelector(state => state.header.filterValue);
+    const postsInfo: initialFeedAreatState = useAppSelector(state => state.feedArea);
     const after: string = postsInfo.after;
     const status: string = postsInfo.status;
     const activeParam: string = postFilterParam||"top";

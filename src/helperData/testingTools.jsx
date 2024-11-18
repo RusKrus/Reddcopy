@@ -1,3 +1,4 @@
+
 import { render } from "@testing-library/react";
 import { MemoryRouter } from "react-router-dom";
 import { configureStore } from "@reduxjs/toolkit";
@@ -5,12 +6,12 @@ import { Provider } from "react-redux";
 import feedAreaReducer from "../components/feedArea/feedAreaSlice";
 import postAreaReducer from "../components/postArea/postAreaSlice";
 import headerReducer from "../components/header/headerSlice";
+import { MockedCommentsData } from "./types";
 
 
 
 
-
-export const testingTools = {
+export const testingTools: {createMockStore: Function, renderWithReduxRouter: Function} = {
     createMockStore(){
         const store = configureStore({
             reducer:{
@@ -22,7 +23,7 @@ export const testingTools = {
 
         return store;
     },
-    renderWithReduxRouter(component, store=this.createMockStore(), previousPages=["/","/top"]){
+    renderWithReduxRouter(this: typeof testingTools, component: React.JSX.Element, store= this.createMockStore(), previousPages=["/","/top"]){
         const renderedComponent = render(
             <MemoryRouter initialEntries={previousPages}> 
                 <Provider store={store}>
@@ -34,7 +35,7 @@ export const testingTools = {
     }
 }
 
-const commentsData = 
+const commentsData: MockedCommentsData = 
 [{   
     kind: "t1",
     data:{

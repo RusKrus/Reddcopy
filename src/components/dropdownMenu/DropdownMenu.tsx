@@ -1,4 +1,4 @@
-import React, {useState, useRef} from "react"
+import React, { useState, useRef, useEffect } from "react"
 import styles from "./dropdownMenu.module.css"
 
 
@@ -27,7 +27,10 @@ const DropdownMenu = () =>{
 
     }
 
-    window.onclick = optionsCloser;
+    useEffect(()=>{
+        window.addEventListener('click', optionsCloser);
+        return window.removeEventListener('click', optionsCloser);
+    }, [])
 
     return(
         <div className={styles.dropdown}>

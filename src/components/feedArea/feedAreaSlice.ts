@@ -4,7 +4,6 @@ import { initialFeedAreatState, feedAreaPayload } from "../../helperData/types"
 
 
 
-
 export const fetchingData = createAsyncThunk(
     'homeThreads/fetchData',
     async (searchParamsObject: {searchParam: string, after?: string}) => {
