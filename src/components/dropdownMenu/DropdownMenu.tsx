@@ -10,7 +10,7 @@ const DropdownMenu = () =>{
     const modalWindowBackground = useRef<HTMLDivElement>(null);
 
     const optionsCloser = (e: MouseEvent) =>{
-        if(e.target instanceof HTMLButtonElement&&e.target.innerHTML==="X"){
+        if(e.target instanceof HTMLButtonElement && e.target.innerHTML==="X"){
             setShowOptions(false);
             setShowModal(false);
         }
@@ -29,7 +29,7 @@ const DropdownMenu = () =>{
 
     useEffect(()=>{
         window.addEventListener('click', optionsCloser);
-        return window.removeEventListener('click', optionsCloser);
+        return () => window.removeEventListener('click', optionsCloser);
     }, [])
 
     return(

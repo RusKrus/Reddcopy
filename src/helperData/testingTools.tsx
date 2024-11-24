@@ -1,4 +1,3 @@
-
 import { render } from "@testing-library/react";
 import { MemoryRouter } from "react-router-dom";
 import { configureStore } from "@reduxjs/toolkit";
@@ -6,37 +5,13 @@ import { Provider } from "react-redux";
 import feedAreaReducer from "../components/feedArea/feedAreaSlice";
 import postAreaReducer from "../components/postArea/postAreaSlice";
 import headerReducer from "../components/header/headerSlice";
-import { MockedCommentsData } from "./types";
+import { MockedPostServerAnswerParams, Comment, ReceivedSinglePostData } from "./types";
 
-
-
-
-export const testingTools: {createMockStore: Function, renderWithReduxRouter: Function} = {
-    createMockStore(){
-        const store = configureStore({
-            reducer:{
-                feedArea: feedAreaReducer,
-                postArea: postAreaReducer,
-                header: headerReducer
-            }
-        })
-
-        return store;
-    },
-    renderWithReduxRouter(this: typeof testingTools, component: React.JSX.Element, store= this.createMockStore(), previousPages=["/","/top"]){
-        const renderedComponent = render(
-            <MemoryRouter initialEntries={previousPages}> 
-                <Provider store={store}>
-                    {component}
-                </Provider>
-            </MemoryRouter>
-        )
-        return {renderedComponent, store};
-    }
-}
-
-const commentsData: MockedCommentsData = 
-[{   
+//setup data for tests
+//DO NOT USE "NO DATA" AS AUTHOR NAME/ BODY_HTML TEXT, IN PURPOSE OF TYPING TESTS FILES, THIS STRING IN MOST CASES IS USED IF REPLIES IS EMPTY STRING, NOT OBJECT WITH ANOTHER COMMENT. THIS IS HOW I HANDLE MISTAKE WHEN COMMENTSDATA.DATA.REPLIES.CHILDREN... WHEN REPLIES ARE EMPTY STRING WILL CAUSE ERROR IN TYPES WHEN TESTING.
+//LOOKING BY TEXT FOR THIS STRING SHOULD ALWAYS RETURN NOTHING
+const commentsData: Comment = 
+{   
     kind: "t1",
     data:{
         author: "John Weak",
@@ -55,7 +30,7 @@ const commentsData: MockedCommentsData =
                             created_utc: 1712672507,
                             body_html: `&lt;div class="md"&gt;&lt;p&gt;Won’t appear on Leo’s Hinge anymore.&lt;/p&gt; &lt;/div&gt;`,
                             score: 25,
-                            replies: {}
+                            replies: ""
                         }
                     },
                     {
@@ -63,32 +38,71 @@ const commentsData: MockedCommentsData =
                         data:
                         {
                             author: "John Weak 3",
-                            created_utc: 1700000000,
+                            created_utc: 1600000000,
                             body_html: `&lt;div class="md"&gt;&lt;p&gt;I am should not be rendered.&lt;/p&gt; &lt;/div&gt;`,
                             score: 28,
-                            replies: {}
+                            replies: ""
                         }
                     }
                 ]
             }
         }
     }
-}]
+}
+
+//setup functions for test
+// no typing due to redux library description 
+export const createMockStore = () => {
+    const store = configureStore({
+        reducer:{
+            feedArea: feedAreaReducer,
+            postArea: postAreaReducer,
+            header: headerReducer
+        }
+    })
+
+    return store;
+};
+
+export const renderWithReduxRouter = ( component: React.JSX.Element, store = createMockStore(), previousPages: string[] = ["/","/top"]) => {
+    const renderedComponent = render (
+        <MemoryRouter initialEntries={previousPages}> 
+            <Provider store={store}>
+                {component}
+            </Provider>
+        </MemoryRouter>
+    )
+
+    const rerender = (component: React.JSX.Element) => {
+        renderedComponent.rerender(
+            <MemoryRouter initialEntries={previousPages}> 
+                <Provider store={store}>
+                    {component}
+                </Provider>
+            </MemoryRouter>
+            )
+    } 
+
+    return { renderedComponent, store, rerender };
+}
 
 export const mockedPostServerAnswer = ({publicDescription = "you, me, us, irl, reddit style", 
-                                        comments=commentsData, 
-                                        iconUrl=null, 
+                                        comments=[commentsData], 
+                                        iconUrl="https://b.thumbs.redditmedia.com/4ADRnu2cwKIkpQt0N-g36-iq6EfTNFVV1RComMcEZiU.png", 
                                         iconUrlSpare="https://b.thumbs.redditmedia.com/4ADRnu2cwKIkpQt0N-g36-iq6EfTNFVV1RComMcEZiU.png",
                                         numComments=555,
-                                        postHint=null,
+                                        media,
+                                        postHint,
                                         isSelf=true,
-                                        selfText=null}={}) =>{
+                                        selfText}: MockedPostServerAnswerParams = {}): ReceivedSinglePostData =>{
     return [
             //post data
-            {
+            {   
+                kind: "Listing",
                 data:{
                     children:[
                         {
+                            kind: "Listing",
                             data:{
                                 subreddit_name_prefixed:"r/meirl", //for feed area
                                 subreddit: "meirl",
@@ -105,17 +119,18 @@ export const mockedPostServerAnswer = ({publicDescription = "you, me, us, irl, r
                                 is_self: isSelf,
                                 over_18: false,
                                 media_metadata: undefined,
-                                media: null,
-                                link_flair_text: null,
-                                ink_flair_text_color: null,
-                                link_flair_background_color: null,
+                                media: media, 
+                                link_flair_text: "",
+                                link_flair_text_color: "",
+                                link_flair_background_color: "",
                                 sr_detail: {
                                     community_icon:iconUrl,
                                     icon_img: iconUrlSpare,
                                     public_description: publicDescription,
                                     subscribers: 2732296
                                 },
-                                id: 12345
+                                id: "12345",
+                                followers: 123
                             }
                         }
                     ]
@@ -130,9 +145,9 @@ export const mockedPostServerAnswer = ({publicDescription = "you, me, us, irl, r
             }
         ]
     
-}
+};
 
-export const mockedPostsServerAnswer = ({}={}) =>{
+export const mockedPostsServerAnswer = () =>{
     const post = mockedPostServerAnswer();
     const posts = Array(25).fill(post[0].data.children[0]);
     return{
@@ -142,4 +157,8 @@ export const mockedPostsServerAnswer = ({}={}) =>{
             children: posts
         }
     }
-}
+};
+
+
+
+

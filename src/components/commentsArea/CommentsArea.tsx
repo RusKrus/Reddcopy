@@ -12,7 +12,7 @@ function CommentsArea({comment}: CommentProps){
     const postedAgo: string=timeDecoder(comment.data.created_utc);
     const rawText=comment.data.body_html;
     const score=comment.data.score;
-    const replies=comment.data.replies?.data?.children;
+    const replies=comment.data.replies !== ""?comment.data.replies?.data.children: null;
     //parsing and inputing html text
     const textBoxRef = useRef<HTMLDivElement>(null);
     

@@ -1,6 +1,6 @@
 import {serverRequests} from "../../redditData/data";
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { PostAreaState, ServerAnswerPostArea } from "../../helperData/types";
+import { PostAreaState, PostAreaPayload } from "../../helperData/types";
 
 export const fetchingPostData = createAsyncThunk(
     'post/fetchingData',
@@ -29,7 +29,7 @@ const postAreaSlice = createSlice({
             .addCase(fetchingPostData.pending, (state)=>{
                 state.status = "loading";
             })
-            .addCase(fetchingPostData.fulfilled,(state, action: PayloadAction<ServerAnswerPostArea>)=>{
+            .addCase(fetchingPostData.fulfilled,(state, action: PayloadAction<PostAreaPayload>)=>{
                 state.status = "loaded";
                 if (!state.postData[action.payload.postId]){
                     state.postData[action.payload.postId] = {

@@ -225,10 +225,17 @@ export type Comment = {
         created_utc: number,
         body_html: string,
         score: number,
-        replies: Comment,
+        replies: {
+            kind: string,
+            data: {
+                children: Comment[],
+                [otherPorps: string]: any
+            },
+            
+        } | "",
         [otherPorps: string]: any
     }
-} ;
+};
 
 
 //slices types
@@ -274,7 +281,7 @@ export type feedAreaPayload = {
     searchParam: string
 };
 
-export type ServerAnswerPostArea = {
+export type PostAreaPayload = {
     postId: string,
     data: ReceivedSinglePostData
 };
@@ -288,53 +295,25 @@ export type Headers= {
 };
 
 //testing types 
-export type MockedCommentsData = {   
-    kind: string,
-    data:{
-        author: string,
-        created_utc: number,
-        body_html: string,
-        score: number,
-        replies: {
-            kind: string,
-            data:{
-                children:[
-                    {
-                        kind: string,
-                        data:
-                        {
-                            author: string,
-                            created_utc: number,
-                            body_html: string,
-                            score: number,
-                            replies: {}
-                        }
-                    },
-                    {
-                        kind: string,
-                        data:
-                        {
-                            author: string,
-                            created_utc: number,
-                            body_html: string,
-                            score: number,
-                            replies: {}
-                        }
-                    }
-                ]
-            }
-        }
-    }
-}[];
-
-
-/*export type MockedPostDataCreator = ({
+export type MockedPostServerAnswerParams = ({
     publicDescription?: string,
-    comments?: MockedCommentsData,
-    iconUrl?: null,
+    comments?: Comment[],
+    iconUrl?: string,
     iconUrlSpare?: string,
     numComments?: number,
-    postHint?: null,
+    media?:{
+        reddit_video?:{
+            hls_url: string,
+            [otherData: string]: any
+        }, 
+        oembed?:{
+            html: string,
+            [otherData: string]: any
+        },
+        [otherData: string]: any
+    },
+    postHint?: string,
     isSelf?: boolean,
-    selfText?: null,
-}?) => any */
+    selfText?: string,
+});
+
