@@ -24,6 +24,18 @@
 // -- This will overwrite an existing command --
 // Cypress.Commands.overwrite('visit', (originalFn, url, options) => { ... })
 
+export {}
+declare global {
+    namespace Cypress {
+        interface Chainable {
+            getByData(selector: string): Chainable<JQuery<HTMLElement>>,
+            getByRole(selector: string): Chainable<JQuery<HTMLElement>>,
+            getByType(selector: string): Chainable<JQuery<HTMLElement>>,
+            getByClassSubstring(selector: string): Chainable<JQuery<HTMLElement>>,
+        }
+    }
+}
+
 Cypress.Commands.add('getByData', (selector) => { 
     return cy.get(`[data-testid=${selector}]`)})
 

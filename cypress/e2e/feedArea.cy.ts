@@ -18,10 +18,11 @@ describe('feed area work', () => {
       cy.location('pathname').should('contain', 'new');
       cy.wrap(el).children().eq(3).click().should('have.css', 'color').and('eq','rgb(0, 0, 255)');
       cy.location('pathname').should('contain', 'rising');
+      
     })
   })
   it('must display posts correctly', ()=>{
-    cy.getByData("postBox").should('have.length', 25).eq(22).scrollIntoView({ duration: 2000 }).parent().find('[data-testid=postBox]').should("have.length", 50);
+    cy.getByData("postBox").should('have.length', 25).eq(23).scrollIntoView({ duration: 2000 }).parent().find('[data-testid=postBox]').should("have.length", 50);
     
   })
 })

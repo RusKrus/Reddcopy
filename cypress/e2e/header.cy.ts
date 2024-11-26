@@ -16,7 +16,7 @@ describe('header work', () => {
     })
     it('must show correct input behaviour', ()=>{
       cy.getByRole('banner').children().eq(1).find("input").should('exist').and('have.attr', 'placeholder', "Type to search...")
-      .type("Some text not possible to find here {enter}").focus();
+      .type("Some text which is not possible to find here {enter}").focus();
       cy.getByData("not-found-button").should("exist");
       cy.getByData("postBox").should('not.exist');
       cy.getByRole('banner').find("form");
