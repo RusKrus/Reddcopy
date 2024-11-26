@@ -3,7 +3,7 @@ import { screen } from '@testing-library/react';
 import { renderWithReduxRouter, mockedPostsServerAnswer } from "../helperData/testingTools";
 import { serverRequests } from "../redditData/data";
 
-
+//mockedPostServerAnswer from testing tools here is not required
 jest.mock("../redditData/data");
 const mockedServerRequest = jest.mocked(serverRequests)
 

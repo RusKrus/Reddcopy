@@ -194,7 +194,13 @@ export type ReceivedPostsData = {
 }
 
 export interface PostAreaData extends PostData {
-    followers: number,
+    sr_detail: {
+        community_icon: string,
+        icon_img: string,
+        followers: number,
+        [otherData: string]: any
+    },
+    
     media_metadata?: GalleryInfoType
 };
 

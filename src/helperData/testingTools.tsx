@@ -5,13 +5,12 @@ import { Provider } from "react-redux";
 import feedAreaReducer from "../components/feedArea/feedAreaSlice";
 import postAreaReducer from "../components/postArea/postAreaSlice";
 import headerReducer from "../components/header/headerSlice";
-import { MockedPostServerAnswerParams, Comment, ReceivedSinglePostData } from "./types";
+import { MockedPostServerAnswerParams, Comment, ReceivedSinglePostData, PostBoxProps } from "./types";
 
 //setup data for tests
 //DO NOT USE "NO DATA" AS AUTHOR NAME/ BODY_HTML TEXT, IN PURPOSE OF TYPING TESTS FILES, THIS STRING IN MOST CASES IS USED IF REPLIES IS EMPTY STRING, NOT OBJECT WITH ANOTHER COMMENT. THIS IS HOW I HANDLE MISTAKE WHEN COMMENTSDATA.DATA.REPLIES.CHILDREN... WHEN REPLIES ARE EMPTY STRING WILL CAUSE ERROR IN TYPES WHEN TESTING.
 //LOOKING BY TEXT FOR THIS STRING SHOULD ALWAYS RETURN NOTHING
-const commentsData: Comment = 
-{   
+const commentsData: Comment = {   
     kind: "t1",
     data:{
         author: "John Weak",
@@ -51,7 +50,7 @@ const commentsData: Comment =
 }
 
 //setup functions for test
-// no typing due to redux library description 
+
 export const createMockStore = () => {
     const store = configureStore({
         reducer:{
@@ -84,8 +83,16 @@ export const renderWithReduxRouter = ( component: React.JSX.Element, store = cre
     } 
 
     return { renderedComponent, store, rerender };
-}
+};
 
+
+export function isHTMLImageElement(value: Element): asserts value is HTMLImageElement {
+    if (!(value instanceof HTMLImageElement)) {
+        throw new Error("Element is not an HTMLImageElement");
+    }
+};
+
+//for postArea
 export const mockedPostServerAnswer = ({publicDescription = "you, me, us, irl, reddit style", 
                                         comments=[commentsData], 
                                         iconUrl="https://b.thumbs.redditmedia.com/4ADRnu2cwKIkpQt0N-g36-iq6EfTNFVV1RComMcEZiU.png", 
@@ -127,10 +134,9 @@ export const mockedPostServerAnswer = ({publicDescription = "you, me, us, irl, r
                                     community_icon:iconUrl,
                                     icon_img: iconUrlSpare,
                                     public_description: publicDescription,
-                                    subscribers: 2732296
+                                    followers: 2732296
                                 },
                                 id: "12345",
-                                followers: 123
                             }
                         }
                     ]
@@ -146,7 +152,7 @@ export const mockedPostServerAnswer = ({publicDescription = "you, me, us, irl, r
         ]
     
 };
-
+//for feedArea
 export const mockedPostsServerAnswer = () =>{
     const post = mockedPostServerAnswer();
     const posts = Array(25).fill(post[0].data.children[0]);
@@ -158,6 +164,58 @@ export const mockedPostsServerAnswer = () =>{
         }
     }
 };
+
+//for postBox
+export const postBoxData= ({  
+                                    publicDescription = "you, me, us, irl, reddit style", 
+                                    comments=[commentsData], 
+                                    iconUrl="https://b.thumbs.redditmedia.com/4ADRnu2cwKIkpQt0N-g36-iq6EfTNFVV1RComMcEZiU.png", 
+                                    iconUrlSpare="https://b.thumbs.redditmedia.com/4ADRnu2cwKIkpQt0N-g36-iq6EfTNFVV1RComMcEZiU.png",
+                                    numComments=555,
+                                    media,
+                                    postHint,
+                                    isSelf=true,
+                                    selfText}: MockedPostServerAnswerParams = {}): PostBoxProps => {
+    
+    const resolvedValue = mockedPostServerAnswer({
+        publicDescription, 
+        comments, 
+        iconUrl, 
+        iconUrlSpare,
+        numComments,
+        media,
+        postHint,
+        isSelf,
+        selfText
+    });
+
+    const postData = resolvedValue[0].data.children[0].data;
+
+    return {
+        deviceData: { type: "desktop" },
+        subredditName: postData.subreddit,
+        author: postData.author,
+        title: postData.title,
+        score: postData.score,
+        media: postData.url,
+        time: postData.created_utc,
+        video: postData.media?.reddit_video?.hls_url,
+        mediaType: postData.post_hint,
+        iconUrlWithSearchParam: postData.sr_detail.community_icon,
+        reserverIconUrl: postData.sr_detail.icon_img,
+        selfTextHTML: postData.selftext_html,
+        numComments: postData.num_comments,
+        isGallery: postData.is_gallery,
+        thumbnail: postData.thumbnail,
+        isNsfw: postData.over_18,
+        isSelf: postData.is_self,
+        htmlStringIframe: postData?.media?.oembed?.html,
+        flairText: postData.link_flair_text,
+        flairTextColor: postData.link_flair_text_color,
+        flairBackgroundColor: postData.link_flair_background_color,
+        id: postData.id
+    };
+} 
 
 
 

@@ -72,12 +72,13 @@ describe("Header behaviour", () => {
     renderWithReduxRouter(<Header/>)
 
     const input: HTMLElement = screen.getByRole("textbox");
-    const clearButton: HTMLElement | null= screen.queryByText("x");
     userEvent.type(input, "Something");
-    clearButton&&userEvent.click(clearButton);
+    const clearButton: HTMLElement | null= screen.queryByText("x");
+    
     
     expect(clearButton).toBeInTheDocument();
-    expect(input).not.toHaveText();
+    clearButton&&userEvent.click(clearButton);
+    expect(input).toHaveTextContent("");
     expect.assertions(2);
     })
 })

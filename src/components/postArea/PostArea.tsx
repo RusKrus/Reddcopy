@@ -38,10 +38,10 @@ function PostArea() {
         }
         dispatch(switchHeaderVisibility(false))
     }, [dispatch, postData, postId])
-
+    console.log(postDetails)
     //defining all required data for post
     const postProps = {  
-        subredditName: postDetails?.subreddit,
+        subredditName: postDetails?.subreddit_name_prefixed,
         author: postDetails?.author,
         title: postDetails?.title,
         score: postDetails?.score,
@@ -69,7 +69,7 @@ function PostArea() {
         reserveIconUrl: postDetails?.sr_detail.icon_img,
         subredditDescription: postDetails?.sr_detail.public_description,
         followers: postDetails?.sr_detail.subscribers
-    }
+    };
     //getting alternative subreddit icon url
     const searchParamStart = postProps.iconUrlWithSearchParam ? postProps.iconUrlWithSearchParam.indexOf("?") : null;
     const iconUrl = searchParamStart ? postProps.iconUrlWithSearchParam.slice(0, searchParamStart) : postProps.iconUrlWithSearchParam;
