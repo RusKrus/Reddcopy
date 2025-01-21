@@ -17,7 +17,7 @@ const PostBox = forwardRef<HTMLDivElement, PostBoxProps>((props, ref) => {
             title, 
             score, 
             imgResolutions,
-            media, 
+            url, 
             time, 
             video, 
             mediaType, 
@@ -79,7 +79,7 @@ const PostBox = forwardRef<HTMLDivElement, PostBoxProps>((props, ref) => {
                                 title = {title}
                                 mediaType = {mediaType}
                                 imgResolutions = {imgResolutions}
-                                media = {media} 
+                                url = {url} 
                                 video={video}
                                 isGallery = {isGallery} 
                                 thumbnail = {thumbnail}

@@ -1,6 +1,6 @@
 import {serverRequests} from "../../redditData/data";
 import { createAsyncThunk, createSlice, PayloadAction }  from "@reduxjs/toolkit";
-import { initialFeedAreatState, feedAreaPayload } from "../../helperData/types" 
+import { initialFeedAreatState, feedAreaPayload } from "../../helperData/types";
 
 
 
@@ -12,7 +12,6 @@ export const fetchingData = createAsyncThunk(
         return {data, searchParam};
     }
 )
-
 
 const initialState: initialFeedAreatState = {
     after: "",

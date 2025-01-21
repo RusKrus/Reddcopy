@@ -13,7 +13,7 @@ export const fetchingPostData = createAsyncThunk(
 
 
 const initialState: PostAreaState = {
-    postData:{}, 
+    postsData:{}, 
     status: "idle"
 }
 
@@ -22,7 +22,7 @@ const postAreaSlice = createSlice({
     initialState,
     reducers:{
         clearPostData(state){
-            state.postData = {}; 
+            state.postsData = {}; 
     }},
     extraReducers: (builder) =>{
         builder
@@ -31,13 +31,13 @@ const postAreaSlice = createSlice({
             })
             .addCase(fetchingPostData.fulfilled,(state, action: PayloadAction<PostAreaPayload>)=>{
                 state.status = "loaded";
-                if (!state.postData[action.payload.postId]){
-                    state.postData[action.payload.postId] = {
+                if (!state.postsData[action.payload.postId]){
+                    state.postsData[action.payload.postId] = {
                         postInfo: null,
                         postComments: null
                     }
-                    state.postData[action.payload.postId].postInfo=action.payload.data[0].data.children;
-                    state.postData[action.payload.postId].postComments=action.payload.data[1].data.children;
+                    state.postsData[action.payload.postId].postInfo=action.payload.data[0].data.children;
+                    state.postsData[action.payload.postId].postComments=action.payload.data[1].data.children;
                 }
             })
             .addCase(fetchingPostData.rejected, (state)=>{

@@ -1,16 +1,6 @@
 import { Player } from "../videojs/VideoJS";
 
 //common types
-export type DeviceData = {
-    model?: string,
-    type?: string,
-    vendor?: string
-};
-
-export type ParserResult = {
-    getDevice: ()=>DeviceData,
-    [otherData: string]: any
-};
 
 export type ObserverEntryType = {
     isIntersecting: boolean,
@@ -57,7 +47,7 @@ export type ImageGalleryPhoto = {
     thumbnailAlt: string
 }
 
-//component props types
+//component types
 export type MediaContainerProps = {
     containerType: string,
     deviceData: DeviceData,
@@ -65,7 +55,7 @@ export type MediaContainerProps = {
     title: string,
     mediaType?: string,
     imgResolutions?: imgResolutions,
-    media: string,
+    url: string,
     video?: string,
     isGallery?: boolean,
     thumbnail: string,
@@ -105,7 +95,7 @@ export type PostBoxProps = {
     author: string,
     title: string, 
     score: number,
-    media: string,
+    url: string,
     imgResolutions?: imgResolutions,
     time: number,
     video?: string
@@ -143,6 +133,7 @@ export type NotFoundProps = {
     text: string;
 }
 
+
 //server answer types
 export interface PostData {
     subreddit_name_prefixed: string,
@@ -170,6 +161,7 @@ export interface PostData {
     sr_detail: {
         community_icon: string,
         icon_img: string,
+        public_description: string
         [otherData: string]: any
     },
     selftext_html?: string,
@@ -197,7 +189,8 @@ export interface PostAreaData extends PostData {
     sr_detail: {
         community_icon: string,
         icon_img: string,
-        followers: number,
+        subscribers: number,
+        public_description: string
         [otherData: string]: any
     },
     
@@ -243,6 +236,11 @@ export type Comment = {
     }
 };
 
+export type PostDataAndComments = {
+    postInfo: {kind: string, data: PostAreaData}[] | null,
+    postComments: Comment[] | null
+}
+
 
 //slices types
 export type Post = {
@@ -260,11 +258,8 @@ export interface initialFeedAreatState {
 };
 
 export type PostAreaState = {
-    postData: { 
-        [postId: string]: {
-            postInfo: {kind: string, data: PostAreaData}[] | null,
-            postComments: Comment[] | null
-        }
+    postsData: { 
+        [postId: string]: PostDataAndComments
     }, 
     status: "idle" | "loading" | "loaded" | "rejected"
 };
@@ -322,4 +317,23 @@ export type MockedPostServerAnswerParams = ({
     isSelf?: boolean,
     selfText?: string,
 });
+
+//libraries 
+
+export type DeviceData = {
+    model?: string,
+    type?: string,
+    vendor?: string
+};
+
+export type ParserResult = {
+    getDevice: ()=>DeviceData,
+    getEngine: Function,
+    getOS: Function,
+    getResult: Function,
+    getUA: Function,
+    setUA: Function,
+    getBrowser: Function,
+    getCPU: Function,
+};
 

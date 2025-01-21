@@ -17,7 +17,7 @@ const MediaContainer = function MediaContainer(props: MediaContainerProps){
             title,
             mediaType, 
             imgResolutions, 
-            media, 
+            url, 
             video, 
             isGallery, 
             thumbnail, 
@@ -112,13 +112,13 @@ const MediaContainer = function MediaContainer(props: MediaContainerProps){
                             <h3 className={styles.title}>{title}</h3>
                             <p style={flairTextStyle}>{flairText}</p>
                             {selfTextHTML&&<div  ref={selfTextRef}></div>}
-                            <a href={media} rel="noreferrer" target="_blank" className={styles.link}>{media.substring(0, 26)}...
+                            <a href={url} rel="noreferrer" target="_blank" className={styles.link}>{url.substring(0, 26)}...
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className={styles.linkIcon}>
                                     <path strokeLinecap="round" strokeLinejoin="round" d="M13.19 8.688a4.5 4.5 0 0 1 1.242 7.244l-4.5 4.5a4.5 4.5 0 0 1-6.364-6.364l1.757-1.757m13.35-.622 1.757-1.757a4.5 4.5 0 0 0-6.364-6.364l-4.5 4.5a4.5 4.5 0 0 0 1.242 7.244" />
                                 </svg>
                             </a>
                         </div>
-                        <a href={media} rel="noreferrer" target="_blank" className={styles.anchorForImg}>
+                        <a href={url} rel="noreferrer" target="_blank" className={styles.anchorForImg}>
                             {thumbnail!=="default"?<img src={thumbnail} className={styles.linkImg} alt="limk preview"/>:
                             <div className={styles.linkImg}>
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className={styles.defaultImage}>
@@ -237,7 +237,7 @@ const MediaContainer = function MediaContainer(props: MediaContainerProps){
                                 <h3 className={styles.title}>{title}</h3>
                                 <p style={flairTextStyle}>{flairText}</p>
                                 {selfTextHTML&&<div ref={selfTextRef}></div>}
-                                <a href={imgSrcDecoded ?imgSrcDecoded :media} className={styles.link} rel="noreferrer" target="_blank">{media.substring(0, 26)}...</a>
+                                <a href={imgSrcDecoded ?imgSrcDecoded :url} className={styles.link} rel="noreferrer" target="_blank">{url.substring(0, 26)}...</a>
                             </div>
                         )
                     }
@@ -274,7 +274,7 @@ const MediaContainer = function MediaContainer(props: MediaContainerProps){
                             <h3 className={styles.title}>{title}</h3>
                             <p style={flairTextStyle}>{flairText}</p>
                             {selfTextHTML&&<div ref={selfTextRef} className={styles.selfWithPhotoPostArea}></div>}
-                            <a href={thumbnail} rel="noreferrer" target="_blank" className={styles.link}>{media.substring(0, 26)}...
+                            <a href={thumbnail} rel="noreferrer" target="_blank" className={styles.link}>{url.substring(0, 26)}...
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className={styles.linkIcon}>
                                     <path strokeLinecap="round" strokeLinejoin="round" d="M13.19 8.688a4.5 4.5 0 0 1 1.242 7.244l-4.5 4.5a4.5 4.5 0 0 1-6.364-6.364l1.757-1.757m13.35-.622 1.757-1.757a4.5 4.5 0 0 0-6.364-6.364l-4.5 4.5a4.5 4.5 0 0 0 1.242 7.244" />
                                 </svg>
@@ -291,16 +291,16 @@ const MediaContainer = function MediaContainer(props: MediaContainerProps){
                         <h3 className={styles.title}>{title}</h3>
                         <p style={flairTextStyle}>{flairText}</p>
                         {selfTextHTML&&<div ref={selfTextRef}></div>}
-                        {media?imageDefiner(media)?
+                        {url?imageDefiner(url)?
                             <div className={styles.postMediaPhotoContainer}>
-                                <img  onClick={containerType==="postArea"?handleZoomClick:()=>null} src={media} className={containerType==="postArea"?isShowNsfwClicked?styles.postAreaMediaPhoto:styles.postAreaNsfwPhoto:isShowNsfwClicked?styles.postBoxMediaPhoto:styles.postBoxNsfwPhoto} alt="Post media" />
+                                <img  onClick={containerType==="postArea"?handleZoomClick:()=>null} src={url} className={containerType==="postArea"?isShowNsfwClicked?styles.postAreaMediaPhoto:styles.postAreaNsfwPhoto:isShowNsfwClicked?styles.postBoxMediaPhoto:styles.postBoxNsfwPhoto} alt="Post media" />
                                 {isNsfw&&
                                     <div className={styles.nsfw_fog} onClick={handleSeeNsfwClickDiv}>
                                         <span className={styles.seePostButton} onClick={handleSeeNsfwClickSpan}>See the post</span>
                                     </div>
                                 }
                             </div>:
-                            <a href={imgSrcDecoded ?imgSrcDecoded :media} target="_blank" rel="noreferrer" className={styles.link}>{media.substring(0, 26)}...</a>:null}
+                            <a href={imgSrcDecoded ?imgSrcDecoded :url} target="_blank" rel="noreferrer" className={styles.link}>{url.substring(0, 26)}...</a>:null}
                     </div>
                 );
             }   

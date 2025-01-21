@@ -80,7 +80,7 @@ function FeedArea() {
                                 author={postData.author}
                                 title={postData.title}
                                 score={postData.score}
-                                media={postData.url}
+                                url={postData.url}
                                 imgResolutions={postData.preview?.images[0]} 
                                 time={postData.created_utc}
                                 video={postData.media?.reddit_video?.hls_url}

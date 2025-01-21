@@ -13,24 +13,25 @@ import MediaContainer from "../mediaContainer/MediaContainer";
 import LikesCounter from "../likesCounter/LikesCounter";
 import 'react-loading-skeleton/dist/skeleton.css';
 import UAParser from "ua-parser-js";
+import { ParserResult, DeviceData, PostDataAndComments, PostAreaData, Comment } from "../../helperData/types"
 
 
 function PostArea() {
     const navigate = useNavigate();
-    const { postId } = useParams();
+    const { postId } = useParams<{postId: string}>();
 
     const dispatch = useAppDispatch();
-    const postData = useAppSelector(state => state.postArea.postData[postId!]);
-    const status = useAppSelector(state => state.postArea.status);
+    const postData: PostDataAndComments = useAppSelector(state => state.postArea.postsData[postId!]);
+    const status: string = useAppSelector(state => state.postArea.status);
 
-    const postDetails = postData?.postInfo![0].data;
-    const postComments = postData?.postComments;
+    const postDetails: PostAreaData = postData?.postInfo![0].data;
+    const postComments: Comment[] | null = postData?.postComments;
     const location = useLocation();
 
     //getting user's device data
-    const UAresults = new UAParser();
-    const deviceData = UAresults.getDevice();
-
+    const UAresults: ParserResult = new UAParser();
+    const deviceData: DeviceData = UAresults.getDevice();
+    
 
     useEffect(() => {
         if (!postData) {
@@ -38,7 +39,6 @@ function PostArea() {
         }
         dispatch(switchHeaderVisibility(false))
     }, [dispatch, postData, postId])
-    console.log(postDetails)
     //defining all required data for post
     const postProps = {  
         subredditName: postDetails?.subreddit_name_prefixed,
@@ -46,7 +46,7 @@ function PostArea() {
         title: postDetails?.title,
         score: postDetails?.score,
         imgResolutions: postDetails?.preview?.images[0],
-        media: postDetails?.url,
+        url: postDetails?.url,
         time: postDetails?.created_utc,
         mediaType: postDetails?.post_hint,
         selfTextHTML: postDetails?.selftext_html,
@@ -70,22 +70,23 @@ function PostArea() {
         subredditDescription: postDetails?.sr_detail.public_description,
         followers: postDetails?.sr_detail.subscribers
     };
+
     //getting alternative subreddit icon url
-    const searchParamStart = postProps.iconUrlWithSearchParam ? postProps.iconUrlWithSearchParam.indexOf("?") : null;
-    const iconUrl = searchParamStart ? postProps.iconUrlWithSearchParam.slice(0, searchParamStart) : postProps.iconUrlWithSearchParam;
+    const searchParamStart: number | null = postProps.iconUrlWithSearchParam ? postProps.iconUrlWithSearchParam.indexOf("?") : null;
+    const iconUrl: string = searchParamStart ? postProps.iconUrlWithSearchParam.slice(0, searchParamStart) : postProps.iconUrlWithSearchParam;
 
     //to ensure that incase second load of the page scrol bar will be on the top
     useEffect(() => {
         window.scrollTo({ top: 0 });
     }, [])
 
-    const handleBacklick = () => {
+    const handleBacklick = (): void => {
         navigate(-1);
     }
     
 
     //getting time posted ago
-    const timeAgo = timeDecoder(postProps.time);
+    const timeAgo: string = timeDecoder(postProps.time);
 
     if (status === "loading") {
         return (
@@ -117,7 +118,7 @@ function PostArea() {
                             title={postProps.title}
                             imgResolutions={postProps.imgResolutions}
                             mediaType={postProps.mediaType}
-                            media={postProps.media}
+                            url={postProps.url}
                             video={postProps.video}
                             isGallery={postProps.isGallery}
                             thumbnail={postProps.thumbnail}

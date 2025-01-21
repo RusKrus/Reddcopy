@@ -134,7 +134,7 @@ export const mockedPostServerAnswer = ({publicDescription = "you, me, us, irl, r
                                     community_icon:iconUrl,
                                     icon_img: iconUrlSpare,
                                     public_description: publicDescription,
-                                    followers: 2732296
+                                    subscribers: 2732296
                                 },
                                 id: "12345",
                             }
@@ -197,7 +197,7 @@ export const postBoxData= ({
         author: postData.author,
         title: postData.title,
         score: postData.score,
-        media: postData.url,
+        url: postData.url,
         time: postData.created_utc,
         video: postData.media?.reddit_video?.hls_url,
         mediaType: postData.post_hint,
