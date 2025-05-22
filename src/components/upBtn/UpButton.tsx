@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import styles from "./upBtn.module.css"
 
 function UpBtn(){
@@ -17,7 +17,7 @@ function UpBtn(){
     };
 
     const handleClick = (): void => {
-        window.scrollTo({top:0, behavior:"smooth"})
+        window.scrollTo({top:0})
     }
 
     useEffect(()=>{

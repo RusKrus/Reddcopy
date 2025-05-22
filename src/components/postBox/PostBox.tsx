@@ -1,4 +1,4 @@
-import React, { forwardRef } from "react";
+import { memo } from "react";
 import { useNavigate } from "react-router-dom";
 import { timeDecoder } from "../../helperData/helperFuncs";
 import MediaContainer from "../mediaContainer/MediaContainer";
@@ -8,7 +8,8 @@ import { PostBoxProps } from "../../helperData/types";
 
 
 
-const PostBox = forwardRef<HTMLDivElement, PostBoxProps>((props, ref) => {
+
+const PostBox = memo((props: PostBoxProps): React.JSX.Element => {
     
     //getting props
     const { deviceData,
@@ -53,7 +54,7 @@ const PostBox = forwardRef<HTMLDivElement, PostBoxProps>((props, ref) => {
     }
 
     return (
-        <div ref={ref} onClick={handlePostBoxClick} className={styles.postContainer} data-testid={"postBox"}>
+        <div onClick={handlePostBoxClick} className={styles.postContainer} data-testid={"postBox"}>
             <div className={styles.actionContainer}>
                 <LikesCounter score={score} containerType={"postBox"}/>
                 <div className={styles.commentsContainer}>
