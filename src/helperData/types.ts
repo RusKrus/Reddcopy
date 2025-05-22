@@ -289,11 +289,6 @@ export type PostAreaPayload = {
 
 //server request types 
         
-export type Headers= {
-    'User-Agent': string;
-    Authorization: string;
-    'Content-Type': string;
-};
 
 //testing types 
 export type MockedPostServerAnswerParams = ({

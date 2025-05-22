@@ -7,8 +7,8 @@ import { useNavigate, useLocation } from "react-router-dom";
 function ContentFilterMobile() {
 
     const navigate = useNavigate();
-    const location = useLocation()
-    const formSelectRef = useRef<HTMLSelectElement>(null)
+    const location = useLocation();
+    const formSelectRef = useRef<HTMLSelectElement>(null);
 
     useEffect(() => {
         if (formSelectRef.current) {
@@ -18,7 +18,9 @@ function ContentFilterMobile() {
     }, [location.pathname]);
 
     const handleChange = (e: React.FormEvent<HTMLFormElement>): void => {
-        navigate(`/${e.currentTarget.value}`)
+        if(e.target instanceof HTMLSelectElement){
+            navigate(`/${e.target.value}`);
+        }
     };
 
     return (

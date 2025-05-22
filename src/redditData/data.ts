@@ -1,45 +1,46 @@
-import { /*Headers,*/ ReceivedPostsData, ReceivedSinglePostData } from "../helperData/types";
+import { ReceivedPostsData, ReceivedSinglePostData } from "../helperData/types";
 
 
-/*
-let userName: string;
-let password: string;
-let clientId: string;
-let secret: string;
-*/
+
+//going to be used later
+
+
+const clientId: string = '';
+const clientSecret: string = '';
+const username: string = '';
+const password: string = '';
+const credentials: string = btoa(`${clientId}:${clientSecret}`);
 
 export const serverRequests = {
-    //not used for now]
-    /*
-    api: async function () {
+    
+    getApiKey: async function () {
         const url = 'https://www.reddit.com/api/v1/access_token';
 
-        const requestBody: string = new URLSearchParams({
-            grant_type: "password",
-            username: userName,
-            password: password
-        }).toString();
-
-
-        const user: string = btoa(`${clientId}:${secret}`);
-
-        const headers: Headers = {
-            'User-Agent': 'Reddcopy/1.0 by userName',
-            'Authorization': `Basic ${user}`,
-            'Content-Type': 'application/x-www-form-urlencoded'
+        const headers = {
+            'Authorization': `Basic ${credentials}`,
+            'Content-Type': 'application/x-www-form-urlencoded',
+            'User-Agent': 'Reddcopy',
         };
+
+        const body = new URLSearchParams({
+            grant_type: 'password',
+            username,
+            password
+
+        });
+
         try {
             const response: Response = await fetch(url, {
                 method: 'POST',
                 headers: headers,
-                body: requestBody
-
+                body: body
             })
+
             if (response.ok) {
-                const jsonResponse = await response.json();
-                
+                const jsonResponse = await response.json(); 
                 return jsonResponse;
             }
+
             else {
                 throw new Error("Request failed")
             }
@@ -47,10 +48,11 @@ export const serverRequests = {
         }
         catch (e) {
             console.log(e);
+            throw new Error('Reuquest failed on client side');
         }
 
     },
-    */
+    
     getPosts: async function (searchParam: string = "top", after?: string): Promise<ReceivedPostsData> {
         let response: Response;
         if (!after) {
