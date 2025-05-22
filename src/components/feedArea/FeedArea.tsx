@@ -36,7 +36,7 @@ function FeedArea() {
     const deviceData: DeviceData = UAresults.getDevice();
 
     const endReachedCallback = () => {
-        if(status==='loading'){
+        if(status!=='loading'){
             dispatch(fetchingData({searchParam: activeParam, after}));
         }
         
